@@ -29,8 +29,7 @@ dev & build 时一定要有 MDF_ENV 变量
 内部使用该变量进行判断！！
 
 ### 开发模式
-ts-node 太慢，已经废弃
-使用 father-build 构建代码，直接运行 js
+使用 father-build 构建代码，通过 yarn link 到目标模块进行调试
 
 #### 构建
 两种方式全包构建（发布）和单模块构建（开发），不要改动 scripts 里面的脚本！
@@ -50,7 +49,7 @@ ts-node 太慢，已经废弃
 - yarn build / dev / create
 
 #### 发布流程
-注意开发完发布一定要整体 build 一次，因为不是所有的模块都使用了 cjs
+注意开发完发布一定要整体 build 一次，因为不是所有的模块都使用了 cjs，records 模块必须手动修改并且记录 release！！
 - yarn build
 - yarn pub
 
