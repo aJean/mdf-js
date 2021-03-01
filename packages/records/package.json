@@ -1,0 +1,16 @@
+{
+  "name": "@mdfjs/records",
+  "version": "0.1.8",
+  "description": "sync all packages",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "repository": "https://github.com/aJean/mdf-js.git",
+  "author": "qy",
+  "license": "MIT",
+  "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
+  "publishConfig": {
+    "access": "public"
+  }
+}

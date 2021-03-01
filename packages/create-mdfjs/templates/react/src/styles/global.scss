@@ -1,0 +1,23 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+#root {
+  height: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}

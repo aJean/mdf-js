@@ -1,0 +1,31 @@
+{
+  "name": "@mdfjs/plugins-lint",
+  "version": "0.1.8",
+  "description": "mdf lint and prettier",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "repository": "https://github.com/aJean/mdf-js.git",
+  "author": "qy",
+  "license": "MIT",
+  "dependencies": {
+    "@mdfjs/records": "^0.1.8",
+    "@mdfjs/types": "^0.1.8",
+    "@mdfjs/utils": "^0.1.8",
+    "@types/stylelint": "9.10.1",
+    "@typescript-eslint/eslint-plugin": "4.14.2",
+    "@typescript-eslint/parser": "4.14.2",
+    "eslint": "7.19.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-react": "7.22.0",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "stylelint": "13.8.0",
+    "stylelint-config-standard": "20.0.0"
+  },
+  "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
+  "publishConfig": {
+    "access": "public"
+  }
+}

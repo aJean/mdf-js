@@ -1,0 +1,29 @@
+{
+  "name": "@mdfjs/plugins-web",
+  "version": "0.1.8",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    ".npmrc"
+  ],
+  "repository": "https://github.com/aJean/mdf-js.git",
+  "author": "qy",
+  "license": "MIT",
+  "dependencies": {
+    "@mdfjs/records": "^0.1.8",
+    "@mdfjs/types": "^0.1.8",
+    "@mdfjs/utils": "^0.1.8",
+    "@medlinker/apitool": "0.1.13",
+    "@sentry/browser": "5.15.0",
+    "@sentry/cli": "1.61.0",
+    "@sentry/webpack-plugin": "1.14.0",
+    "axios": "0.21.0",
+    "postcss-pxtorem": "5.1.1",
+    "vconsole": "3.3.4"
+  },
+  "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@mdfjs/plugins",
+  "version": "0.1.8",
+  "description": "mdf plugins",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "repository": "https://github.com/aJean/mdf-js.git",
+  "author": "qy",
+  "license": "MIT",
+  "dependencies": {
+    "@mdfjs/bundler-webpack": "^0.1.8",
+    "@mdfjs/core": "^0.1.8",
+    "@mdfjs/records": "^0.1.8",
+    "@mdfjs/server": "^0.1.8",
+    "@mdfjs/types": "^0.1.8",
+    "@mdfjs/utils": "^0.1.8",
+    "boxen": "4.2.0",
+    "joi2types": "1.0.7",
+    "ora": "5.3.0"
+  },
+  "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
+  "publishConfig": {
+    "access": "public"
+  }
+}

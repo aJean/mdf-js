@@ -1,0 +1,15 @@
+/node_modules
+/packages/*/dist
+/packages/*/node_modules
+/coverage
+/.nyc_output
+/.changelog
+
+# production
+/dist
+
+.DS_Store
+.history
+
+npm-debug.log*
+yarn-error.log

@@ -1,0 +1,7 @@
+{
+  "enable": true,
+  "server": "https://med-one-qa.medlinker.com",
+  "paths": {
+    "/qy/yapi": "http://yapi.int.medlinker.com/mock/219/assistant/questionnaire/scale-submit-logs"
+  }
+}
