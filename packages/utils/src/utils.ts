@@ -100,3 +100,53 @@ export function getUserPkg(path: string, prop?: string) {
     return undefined;
   }
 }
+
+/**
+ * 根据 project type 适配文件路径，不允许工程模块私自修改
+ */
+export function genStaticPath(api: any) {
+  const { project } = api.getConfig();
+
+  switch (project.type) {
+    case 'hybrid':
+      return 'src/client';
+    case 'web':
+      return 'src';
+    default:
+      return 'src';
+  }
+}
+
+/**
+ * 路由目录 path
+ */
+export function genRoutesPath(api: any) {
+  return `${genStaticPath(api)}/pages`;
+}
+
+/**
+ * 数据目录 path
+ */
+export function genModelsPath(api: any) {
+  return `${genStaticPath(api)}/models`;
+}
+
+/**
+ * app config path
+ */
+export function genAppPath(api: any) {
+  return `${genStaticPath(api)}/app.ts`;
+}
+
+export function genServerPath(api: any) {
+  const { project } = api.getConfig();
+
+  switch (project.type) {
+    case 'hybrid':
+      return 'src/server';
+    case 'node':
+        return 'src';
+    default:
+      return 'src';
+  }
+}

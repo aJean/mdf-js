@@ -2,7 +2,7 @@ import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
 import ora from 'ora';
 import { DevServer, startWorkServer, restartWorkServer } from '@mdfjs/server';
-import { watch, chalkPrints } from '@mdfjs/utils';
+import { watch, chalkPrints, genAppPath } from '@mdfjs/utils';
 import { resolve as resolvePath } from 'path';
 
 /**
@@ -122,7 +122,7 @@ export default function(api: IApi) {
 
       // 变化比较快，没必要提示了
       const unwatchApp = watch({
-        path: resolvePath('./src/app.ts'),
+        path: resolvePath(genAppPath(api)),
         onChange: function() {
           generateCode(api);
         },

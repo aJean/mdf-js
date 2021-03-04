@@ -11,6 +11,11 @@ exports.compileErrorPrint = compileErrorPrint;
 exports.globFind = globFind;
 exports.registerRequire = registerRequire;
 exports.getUserPkg = getUserPkg;
+exports.genStaticPath = genStaticPath;
+exports.genRoutesPath = genRoutesPath;
+exports.genModelsPath = genModelsPath;
+exports.genAppPath = genAppPath;
+exports.genServerPath = genServerPath;
 
 var _prettier = _interopRequireDefault(require("prettier"));
 
@@ -133,5 +138,65 @@ function getUserPkg(path, prop) {
     return prop ? pkg[prop] : pkg;
   } catch (e) {
     return undefined;
+  }
+}
+/**
+ * 根据 project type 适配文件路径，不允许工程模块私自修改
+ */
+
+
+function genStaticPath(api) {
+  const _api$getConfig = api.getConfig(),
+        project = _api$getConfig.project;
+
+  switch (project.type) {
+    case 'hybrid':
+      return 'src/client';
+
+    case 'web':
+      return 'src';
+
+    default:
+      return 'src';
+  }
+}
+/**
+ * 路由目录 path
+ */
+
+
+function genRoutesPath(api) {
+  return `${genStaticPath(api)}/pages`;
+}
+/**
+ * 数据目录 path
+ */
+
+
+function genModelsPath(api) {
+  return `${genStaticPath(api)}/models`;
+}
+/**
+ * app config path
+ */
+
+
+function genAppPath(api) {
+  return `${genStaticPath(api)}/app.ts`;
+}
+
+function genServerPath(api) {
+  const _api$getConfig2 = api.getConfig(),
+        project = _api$getConfig2.project;
+
+  switch (project.type) {
+    case 'hybrid':
+      return 'src/server';
+
+    case 'node':
+      return 'src';
+
+    default:
+      return 'src';
   }
 }

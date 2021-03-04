@@ -133,7 +133,7 @@ function _default(api) {
         }); // 变化比较快，没必要提示了
 
         const unwatchApp = (0, _utils.watch)({
-          path: (0, _path.resolve)('./src/app.ts'),
+          path: (0, _path.resolve)((0, _utils.genAppPath)(api)),
           onChange: function onChange() {
             generateCode(api);
           }

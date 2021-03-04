@@ -29,3 +29,20 @@ export declare function registerRequire(Files: string[], basePath: string): void
  * 查找用户的 package.json
  */
 export declare function getUserPkg(path: string, prop?: string): any;
+/**
+ * 根据 project type 适配文件路径，不允许工程模块私自修改
+ */
+export declare function genStaticPath(api: any): "src/client" | "src";
+/**
+ * 路由目录 path
+ */
+export declare function genRoutesPath(api: any): string;
+/**
+ * 数据目录 path
+ */
+export declare function genModelsPath(api: any): string;
+/**
+ * app config path
+ */
+export declare function genAppPath(api: any): string;
+export declare function genServerPath(api: any): "src" | "src/server";
