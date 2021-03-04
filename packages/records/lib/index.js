@@ -14,6 +14,9 @@ const records = [{
 }, {
   version: '0.0.18',
   change: 'request 通过参数决定是否启用代理模式'
+}, {
+  version: '0.0.19',
+  change: '抽象 project 配置'
 }];
 var _default = records;
 exports.default = _default;
