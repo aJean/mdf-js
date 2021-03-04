@@ -1,6 +1,6 @@
 {
   "name": "mdfjs",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "mdf dev framework",
   "main": "index.js",
   "types": "types.d.ts",
@@ -17,14 +17,14 @@
     "mdf": "bin/bootstrap.js"
   },
   "dependencies": {
-    "@mdfjs/core": "^0.1.8",
-    "@mdfjs/plugins": "^0.1.8",
-    "@mdfjs/plugins-lint": "^0.1.8",
-    "@mdfjs/plugins-web": "^0.1.8",
-    "@mdfjs/records": "^0.1.8",
-    "@mdfjs/runtime": "^0.1.8",
-    "@mdfjs/types": "^0.1.8",
-    "@mdfjs/utils": "^0.1.8",
+    "@mdfjs/core": "^0.1.9",
+    "@mdfjs/plugins": "^0.1.9",
+    "@mdfjs/plugins-lint": "^0.1.9",
+    "@mdfjs/plugins-web": "^0.1.9",
+    "@mdfjs/records": "^0.1.9",
+    "@mdfjs/runtime": "^0.1.9",
+    "@mdfjs/types": "^0.1.9",
+    "@mdfjs/utils": "^0.1.9",
     "commander": "6.2.0"
   },
   "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
