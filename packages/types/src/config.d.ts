@@ -3,8 +3,11 @@
  */
 
 interface IConfig {
-  framework: {
-    type?: string;
+  project: {
+    type?: "web" | "node" | "hybrid";
+    framework?: "dva" | "fundamental" | "vue";
+    persist?: boolean;
+    [k: string]: any;
   };
   defines?: Object;
   publicPath?: string;

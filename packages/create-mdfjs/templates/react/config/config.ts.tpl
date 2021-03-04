@@ -10,10 +10,10 @@ export default defineConfig({
     APP_AUTHOR: 'qy',
   },
 
-  // fundamental | dva
-  framework: {
-    type: 'dva',
-    // persist: true, 持久化 redux
+  // 工程配置
+  project: {
+    type: 'web',
+    framework: 'dva',
   },
 
   history: {
