@@ -9,11 +9,11 @@ import { resolve as resolvePath } from 'path';
  * @file 本地开发，需要 watch
  */
 
-export default function(api: IApi) {
+export default function (api: IApi) {
   const { paths, PluginType } = api;
 
   // test: 修改用户配置
-  api.changeUserConfig(function(config) {
+  api.changeUserConfig(function (config) {
     // config.devServer.port = 9999;
     return config;
   });
@@ -22,18 +22,13 @@ export default function(api: IApi) {
     name: 'dev',
     async fn() {
       const config = api.getConfig();
-
-      const spinner = ora({
-        text: 'generate mdf\n',
-        spinner: 'dots',
-      }).start();
+      const spinner = ora({ text: 'generate mdf\n', spinner: 'dots' }).start();
 
       api.makeDir(paths.absTmpPath);
       await generateCode(api);
 
-      spinner.text = 'generate success';
       spinner.color = 'yellow';
-      spinner.succeed();
+      spinner.succeed('generate success');
 
       // instance
       config!.isDev = true;
@@ -83,10 +78,10 @@ export default function(api: IApi) {
 
           // workServer 只配置开关，读取 proxy 放在 server 内部处理
           if (config.workServer) {
-            startWorkServer(config.workServer, function() {
+            startWorkServer(config.workServer, function () {
               const unwatchProxy = watch({
                 path: resolvePath('./config/proxy.json'),
-                onChange: function() {
+                onChange: function () {
                   chalkPrints([[`restart: `, 'yellow'], ` workserver`]);
                   restartWorkServer();
                 },
@@ -105,7 +100,7 @@ export default function(api: IApi) {
       const unwatchConfig = watch({
         path: resolvePath('./config'),
         useMemo: true,
-        onChange: function(type, path) {
+        onChange: function (type, path) {
           // 代理服务会自己处理
           if (/proxy.json/.test(path)) {
             return;
@@ -123,7 +118,7 @@ export default function(api: IApi) {
       // 变化比较快，没必要提示了
       const unwatchApp = watch({
         path: resolvePath(genAppPath(api)),
-        onChange: function() {
+        onChange: function () {
           generateCode(api);
         },
       });

@@ -68,9 +68,8 @@ function _default(api) {
           type: PluginType.event
         });
         setTimeout(function () {
-          spinner.text = 'generate success';
           spinner.color = 'yellow';
-          spinner.succeed();
+          spinner.succeed('generate success');
           bundler.build().catch(e => (0, _utils.errorPrint)(e)).finally(() => {
             api.invokePlugin({
               key: 'processDone',

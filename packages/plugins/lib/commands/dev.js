@@ -44,9 +44,8 @@ function _default(api) {
         }).start();
         api.makeDir(paths.absTmpPath);
         yield generateCode(api);
-        spinner.text = 'generate success';
         spinner.color = 'yellow';
-        spinner.succeed(); // instance
+        spinner.succeed('generate success'); // instance
 
         config.isDev = true;
         const bundler = new _bundlerWebpack.default(config);

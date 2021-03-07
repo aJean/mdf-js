@@ -7,17 +7,14 @@ import ora from 'ora';
  * @file 构建 prod
  */
 
-export default function (api: IApi) {
+export default function(api: IApi) {
   const { paths, PluginType } = api;
 
   api.registerCommand({
     name: 'build',
     async fn() {
       const config = api.getConfig();
-      const spinner = ora({
-        text: 'generate mdf\n',
-        spinner: 'dots',
-      }).start();
+      const spinner = ora({ text: 'generate mdf\n', spinner: 'dots' }).start();
 
       api.makeDir(paths.absTmpPath);
       await generateCode(api);
@@ -56,18 +53,20 @@ export default function (api: IApi) {
         type: PluginType.event,
       });
 
-      setTimeout(function () {
-        spinner.text = 'generate success';
+      setTimeout(function() {
         spinner.color = 'yellow';
-        spinner.succeed();
+        spinner.succeed('generate success');
 
-        bundler.build().catch((e: any) => errorPrint(e)).finally(() => {
-          api.invokePlugin({
-            key: 'processDone',
-            type: PluginType.flush,
+        bundler
+          .build()
+          .catch((e: any) => errorPrint(e))
+          .finally(() => {
+            api.invokePlugin({
+              key: 'processDone',
+              type: PluginType.flush,
+            });
+            process.exit(0);
           });
-          process.exit(0);
-        });
       }, 1000);
     },
   });
