@@ -1,4 +1,3 @@
-/// <reference types="webpack-dev-server" />
 import webpack, { Configuration } from 'webpack';
 /**
  * @file 理论上可以对接不同的打包工具
