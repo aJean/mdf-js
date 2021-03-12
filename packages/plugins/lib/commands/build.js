@@ -9,8 +9,6 @@ var _bundlerWebpack = _interopRequireDefault(require("@mdfjs/bundler-webpack"));
 
 var _utils = require("@mdfjs/utils");
 
-var _ora = _interopRequireDefault(require("ora"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -29,7 +27,7 @@ function _default(api) {
     fn() {
       return _asyncToGenerator(function* () {
         const config = api.getConfig();
-        const spinner = (0, _ora.default)({
+        const spinner = new _utils.Spinner({
           text: 'generate mdf\n',
           spinner: 'dots'
         }).start();
@@ -68,8 +66,10 @@ function _default(api) {
           type: PluginType.event
         });
         setTimeout(function () {
-          spinner.color = 'yellow';
-          spinner.succeed('generate success');
+          spinner.succeed({
+            text: 'generate success',
+            color: 'yellow'
+          });
           bundler.build().catch(e => (0, _utils.errorPrint)(e)).finally(() => {
             api.invokePlugin({
               key: 'processDone',

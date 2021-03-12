@@ -19,7 +19,7 @@ const records = [{
   change: '抽象 project 配置'
 }, {
   version: '0.0.20',
-  change: '还没想好'
+  change: 'Spinner 类加入 utils'
 }];
 var _default = records;
 exports.default = _default;

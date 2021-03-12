@@ -1,7 +1,6 @@
 import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
-import { errorPrint } from '@mdfjs/utils';
-import ora from 'ora';
+import { errorPrint, Spinner } from '@mdfjs/utils';
 
 /**
  * @file 构建 prod
@@ -14,7 +13,7 @@ export default function(api: IApi) {
     name: 'build',
     async fn() {
       const config = api.getConfig();
-      const spinner = ora({ text: 'generate mdf\n', spinner: 'dots' }).start();
+      const spinner = new Spinner({ text: 'generate mdf\n', spinner: 'dots' }).start();
 
       api.makeDir(paths.absTmpPath);
       await generateCode(api);
@@ -54,8 +53,7 @@ export default function(api: IApi) {
       });
 
       setTimeout(function() {
-        spinner.color = 'yellow';
-        spinner.succeed('generate success');
+        spinner.succeed({ text: 'generate success', color: 'yellow' });
 
         bundler
           .build()

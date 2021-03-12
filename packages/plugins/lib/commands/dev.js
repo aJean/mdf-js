@@ -7,8 +7,6 @@ exports.default = _default;
 
 var _bundlerWebpack = _interopRequireDefault(require("@mdfjs/bundler-webpack"));
 
-var _ora = _interopRequireDefault(require("ora"));
-
 var _server = require("@mdfjs/server");
 
 var _utils = require("@mdfjs/utils");
@@ -38,14 +36,16 @@ function _default(api) {
     fn() {
       return _asyncToGenerator(function* () {
         const config = api.getConfig();
-        const spinner = (0, _ora.default)({
+        const spinner = new _utils.Spinner({
           text: 'generate mdf\n',
           spinner: 'dots'
         }).start();
         api.makeDir(paths.absTmpPath);
         yield generateCode(api);
-        spinner.color = 'yellow';
-        spinner.succeed('generate success'); // instance
+        spinner.succeed({
+          text: 'generate success',
+          color: 'yellow'
+        }); // instance
 
         config.isDev = true;
         const bundler = new _bundlerWebpack.default(config);

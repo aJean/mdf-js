@@ -1,8 +1,7 @@
 import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
-import ora from 'ora';
 import { DevServer, startWorkServer, restartWorkServer } from '@mdfjs/server';
-import { watch, chalkPrints, genAppPath } from '@mdfjs/utils';
+import { watch, chalkPrints, genAppPath, Spinner } from '@mdfjs/utils';
 import { resolve as resolvePath } from 'path';
 
 /**
@@ -22,13 +21,12 @@ export default function (api: IApi) {
     name: 'dev',
     async fn() {
       const config = api.getConfig();
-      const spinner = ora({ text: 'generate mdf\n', spinner: 'dots' }).start();
+      const spinner = new Spinner({ text: 'generate mdf\n', spinner: 'dots' }).start();
 
       api.makeDir(paths.absTmpPath);
       await generateCode(api);
 
-      spinner.color = 'yellow';
-      spinner.succeed('generate success');
+      spinner.succeed({ text: 'generate success', color: 'yellow' });
 
       // instance
       config!.isDev = true;
@@ -100,7 +98,7 @@ export default function (api: IApi) {
       const unwatchConfig = watch({
         path: resolvePath('./config'),
         useMemo: true,
-        onChange: function (type, path) {
+        onChange: function (type: any, path: string) {
           // 代理服务会自己处理
           if (/proxy.json/.test(path)) {
             return;

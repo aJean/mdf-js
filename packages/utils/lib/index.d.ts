@@ -3,3 +3,4 @@
  */
 export * from './utils';
 export * from './watch';
+export * from './spinner';
