@@ -4,7 +4,7 @@ import ora, { Options } from 'ora';
  */
 export declare class Spinner {
     ins: ora.Ora;
-    constructor(args: Options);
+    constructor(args?: Options);
     /**
      * 预设样式
      */

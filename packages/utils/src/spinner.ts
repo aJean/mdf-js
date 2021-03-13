@@ -7,7 +7,7 @@ import ora, { Options } from 'ora';
 export class Spinner {
   ins: ora.Ora;
 
-  constructor(args: Options) {
+  constructor(args?: Options) {
     this.ins = ora(args);
   }
 
