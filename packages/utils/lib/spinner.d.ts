@@ -1,26 +1,25 @@
-import ora, { Options } from 'ora';
+import ora from 'ora';
 /**
  * @file 封装 ora
  */
+export declare type SpinnerOptions = {
+    text?: string;
+    color?: any;
+    graph?: any;
+};
+export declare type SpinnerIns = ora.Ora;
 export declare class Spinner {
     ins: ora.Ora;
-    constructor(args?: Options);
+    constructor(opts?: SpinnerOptions);
     /**
      * 预设样式
      */
-    preset(params: SpinnerParams): void;
-    start(params?: SpinnerParams): this;
-    succeed(params?: SpinnerParams): this;
-    fail(params?: SpinnerParams): this;
-    info(params?: SpinnerParams): this;
-    warn(params?: SpinnerParams): this;
+    preset(opts: SpinnerOptions): void;
+    start(opts?: SpinnerOptions): this;
+    succeed(opts?: SpinnerOptions): this;
+    fail(opts?: SpinnerOptions): this;
+    info(opts?: SpinnerOptions): this;
+    warn(opts?: SpinnerOptions): this;
     stop(): this;
     clear(): this;
 }
-export declare type SpinnerParams = {
-    text?: string;
-    color?: string;
-    graph?: string;
-};
-export declare type SpinnerIns = ora.Ora;
-export declare type SpinnerOptions = Options;

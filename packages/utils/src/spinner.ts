@@ -1,62 +1,75 @@
-import ora, { Options } from 'ora';
+import ora from 'ora';
 
 /**
  * @file 封装 ora
  */
 
+export type SpinnerOptions = {
+  text?: string;
+  color?: any;
+  graph?: any;
+};
+
+export type SpinnerIns = ora.Ora;
+
 export class Spinner {
   ins: ora.Ora;
 
-  constructor(args?: Options) {
-    this.ins = ora(args);
+  constructor(opts?: SpinnerOptions) {
+    if (opts && opts.graph) {
+      opts['spinner'] = opts.graph;
+      delete opts.graph;
+    }
+
+    this.ins = ora(opts);
   }
 
   /**
    * 预设样式
    */
-  preset(params: SpinnerParams) {
+  preset(opts: SpinnerOptions) {
     const ins = this.ins;
 
-    if (params.color) {
-      ins.color = <any>params.color;
+    if (opts.color) {
+      ins.color = opts.color;
     }
 
-    if (params.graph) {
-      ins.spinner = <any>params.graph;
+    if (opts.graph) {
+      ins.spinner = opts.graph;
     }
   }
 
-  start(params: SpinnerParams = {}) {
-    this.preset(params);
-    this.ins.start(params.text);
+  start(opts: SpinnerOptions = {}) {
+    this.preset(opts);
+    this.ins.start(opts.text);
 
     return this;
   }
 
-  succeed(params: SpinnerParams = {}) {
-    this.preset(params);
-    this.ins.succeed(params.text);
+  succeed(opts: SpinnerOptions = {}) {
+    this.preset(opts);
+    this.ins.succeed(opts.text);
 
     return this;
   }
 
-  fail(params: SpinnerParams = {}) {
-    this.preset(params);
-    this.ins.fail(params.text);
+  fail(opts: SpinnerOptions = {}) {
+    this.preset(opts);
+    this.ins.fail(opts.text);
 
     return this;
   }
 
-  info(params: SpinnerParams = {}) {
-    this.preset(params);
-    this.ins.info(params.text);
+  info(opts: SpinnerOptions = {}) {
+    this.preset(opts);
+    this.ins.info(opts.text);
 
     return this;
   }
 
-  warn(params: SpinnerParams = {}) {
-    this.preset(params);
-    this.ins.warn(params.text);
+  warn(opts: SpinnerOptions = {}) {
+    this.preset(opts);
+    this.ins.warn(opts.text);
 
     return this;
   }
@@ -71,13 +84,3 @@ export class Spinner {
     return this;
   }
 }
-
-export type SpinnerParams = {
-  text?: string;
-  color?: string;
-  graph?: string;
-};
-
-export type SpinnerIns = ora.Ora;
-
-export type SpinnerOptions = Options;

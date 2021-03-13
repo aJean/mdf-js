@@ -9,57 +9,59 @@ var _ora = _interopRequireDefault(require("ora"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * @file 封装 ora
- */
 class Spinner {
-  constructor(args) {
-    this.ins = (0, _ora.default)(args);
+  constructor(opts) {
+    if (opts && opts.graph) {
+      opts['spinner'] = opts.graph;
+      delete opts.graph;
+    }
+
+    this.ins = (0, _ora.default)(opts);
   }
   /**
    * 预设样式
    */
 
 
-  preset(params) {
+  preset(opts) {
     const ins = this.ins;
 
-    if (params.color) {
-      ins.color = params.color;
+    if (opts.color) {
+      ins.color = opts.color;
     }
 
-    if (params.graph) {
-      ins.spinner = params.graph;
+    if (opts.graph) {
+      ins.spinner = opts.graph;
     }
   }
 
-  start(params = {}) {
-    this.preset(params);
-    this.ins.start(params.text);
+  start(opts = {}) {
+    this.preset(opts);
+    this.ins.start(opts.text);
     return this;
   }
 
-  succeed(params = {}) {
-    this.preset(params);
-    this.ins.succeed(params.text);
+  succeed(opts = {}) {
+    this.preset(opts);
+    this.ins.succeed(opts.text);
     return this;
   }
 
-  fail(params = {}) {
-    this.preset(params);
-    this.ins.fail(params.text);
+  fail(opts = {}) {
+    this.preset(opts);
+    this.ins.fail(opts.text);
     return this;
   }
 
-  info(params = {}) {
-    this.preset(params);
-    this.ins.info(params.text);
+  info(opts = {}) {
+    this.preset(opts);
+    this.ins.info(opts.text);
     return this;
   }
 
-  warn(params = {}) {
-    this.preset(params);
-    this.ins.warn(params.text);
+  warn(opts = {}) {
+    this.preset(opts);
+    this.ins.warn(opts.text);
     return this;
   }
 
