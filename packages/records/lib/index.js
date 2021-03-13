@@ -22,7 +22,7 @@ const records = [{
   change: 'Spinner 类加入 utils'
 }, {
   version: '0.1.11',
-  change: '还没想好'
+  change: 'Spinner 优化'
 }];
 var _default = records;
 exports.default = _default;

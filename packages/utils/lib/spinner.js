@@ -51,6 +51,18 @@ class Spinner {
     return this;
   }
 
+  info(params = {}) {
+    this.preset(params);
+    this.ins.info(params.text);
+    return this;
+  }
+
+  warn(params = {}) {
+    this.preset(params);
+    this.ins.warn(params.text);
+    return this;
+  }
+
   stop() {
     this.ins.stop();
     return this;

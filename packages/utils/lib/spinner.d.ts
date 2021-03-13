@@ -12,6 +12,8 @@ export declare class Spinner {
     start(params?: SpinnerParams): this;
     succeed(params?: SpinnerParams): this;
     fail(params?: SpinnerParams): this;
+    info(params?: SpinnerParams): this;
+    warn(params?: SpinnerParams): this;
     stop(): this;
     clear(): this;
 }
