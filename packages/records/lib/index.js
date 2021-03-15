@@ -23,6 +23,9 @@ const records = [{
 }, {
   version: '0.1.11',
   change: 'Spinner 优化'
+}, {
+  version: '0.1.12',
+  change: 'env 在 config 时进行初始化'
 }];
 var _default = records;
 exports.default = _default;
