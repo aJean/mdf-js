@@ -13,7 +13,7 @@ export default function(api: IApi) {
     name: 'build',
     async fn() {
       const config = api.getConfig();
-      const spinner = new Spinner({ text: 'generate mdf\n', spinner: 'dots' }).start();
+      const spinner = new Spinner({ text: 'generate mdf\n', graph: 'dots' }).start();
 
       api.makeDir(paths.absTmpPath);
       await generateCode(api);

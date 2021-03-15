@@ -5,17 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
-var _dotenv = require("dotenv");
-
-var _fs = require("fs");
-
 /**
  * @file 处理 env 变量和 define
  */
 const mdf_keys = ['MDF_VERSION', 'MDF_ENV'];
 
 function _default(opts) {
-  const envFiles = opts.envs;
+  const envs = opts.envs;
   const defines = opts.defines || {};
 
   if (!opts.MDF_ENV) {
@@ -25,11 +21,8 @@ function _default(opts) {
   mdf_keys.forEach(key => {
     defines[key] = opts[key];
   });
-  envFiles.forEach(path => {
-    const parsed = (0, _dotenv.parse)((0, _fs.readFileSync)(path, 'utf-8')) || {};
-    Object.keys(parsed).forEach(key => {
-      defines[key] = parsed[key];
-    });
+  Object.keys(envs).forEach(key => {
+    defines[key] = envs[key];
   });
   return defines;
 }

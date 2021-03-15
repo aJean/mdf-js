@@ -8,18 +8,17 @@ exports.default = getConfig;
 
 var _path = require("path");
 
-var _fs = require("fs");
-
 var _utils = require("@mdfjs/utils");
 
 var _utils2 = require("./utils");
+
+var _dotenv = require("dotenv");
 
 /**
  * @file 获取用户配置，env、rc
  */
 const MDF_ENV = process.env.MDF_ENV || 'dev';
-const CONFIG_FILES = getConfigFiles('config');
-const ENV_FILES = getConfigFiles('env');
+const CONFIG_FILES = genMultiFiles('config');
 /**
  * 用于插件: 获取用户配置
  */
@@ -89,24 +88,8 @@ function getConfig(service) {
         }
       });
     }
-  }); // 为了支持当下的泳道和上线部署
-
-  const DeployEnvPath = (0, _path.resolve)('.env');
-
-  if ((0, _fs.existsSync)(DeployEnvPath)) {
-    config.envs = [DeployEnvPath];
-  } else {
-    // env 文件放到 webpack-bundler 里面处理
-    config.envs = ENV_FILES.map(path => {
-      try {
-        const absPath = (0, _path.resolve)(path);
-        return (0, _fs.existsSync)(absPath) ? absPath : undefined;
-      } catch (error) {
-        return undefined;
-      }
-    }).filter(Boolean);
-  }
-
+  });
+  config.envs = genEnvs();
   return config;
 }
 /**
@@ -114,7 +97,7 @@ function getConfig(service) {
  */
 
 
-function getConfigFiles(name) {
+function genMultiFiles(name) {
   const ret = [];
 
   switch (name) {
@@ -132,4 +115,23 @@ function getConfigFiles(name) {
     default:
       return ret;
   }
+}
+/**
+ * 将多环境 .env 转化为对象
+ */
+
+
+function genEnvs() {
+  const ENV_FILES = genMultiFiles('env');
+  const envs = {};
+  ENV_FILES.forEach(path => {
+    try {
+      const absPath = (0, _path.resolve)(path);
+      const parsed = (0, _dotenv.parse)((0, _utils2.getFile)(absPath)) || {};
+      Object.keys(parsed).forEach(key => {
+        envs[key] = parsed[key];
+      });
+    } catch (error) {}
+  });
+  return envs;
 }

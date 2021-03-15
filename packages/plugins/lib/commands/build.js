@@ -29,7 +29,7 @@ function _default(api) {
         const config = api.getConfig();
         const spinner = new _utils.Spinner({
           text: 'generate mdf\n',
-          spinner: 'dots'
+          graph: 'dots'
         }).start();
         api.makeDir(paths.absTmpPath);
         yield generateCode(api); // instance
