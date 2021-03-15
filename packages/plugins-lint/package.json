@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/plugins-lint",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "mdf lint and prettier",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -11,9 +11,9 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/records": "^0.1.11",
-    "@mdfjs/types": "^0.1.11",
-    "@mdfjs/utils": "^0.1.11",
+    "@mdfjs/records": "^0.1.12",
+    "@mdfjs/types": "^0.1.12",
+    "@mdfjs/utils": "^0.1.12",
     "@types/stylelint": "9.10.1",
     "@typescript-eslint/eslint-plugin": "4.14.2",
     "@typescript-eslint/parser": "4.14.2",

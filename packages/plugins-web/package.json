@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/plugins-web",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -11,9 +11,9 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/records": "^0.1.11",
-    "@mdfjs/types": "^0.1.11",
-    "@mdfjs/utils": "^0.1.11",
+    "@mdfjs/records": "^0.1.12",
+    "@mdfjs/types": "^0.1.12",
+    "@mdfjs/utils": "^0.1.12",
     "@medlinker/apitool": "0.1.13",
     "@sentry/browser": "5.15.0",
     "@sentry/cli": "1.61.0",
