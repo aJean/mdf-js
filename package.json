@@ -17,7 +17,7 @@
     "typescript": "4.0.5"
   },
   "repository": "https://github.com/aJean/mdf-js.git",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "mdf js framework",
   "author": "qy",
   "license": "MIT"
