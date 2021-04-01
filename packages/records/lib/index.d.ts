@@ -5,4 +5,12 @@ declare const records: {
     version: string;
     change: string;
 }[];
+/**
+ * 取得所有发不过的版本
+ */
+export declare function getVersions(): string[];
+/**
+ * 取得特定版本的 release
+ */
+export declare function getRelease(vid: string): string | undefined;
 export default records;

@@ -3,6 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getVersions = getVersions;
+exports.getRelease = getRelease;
 exports.default = void 0;
 
 /**
@@ -26,6 +28,26 @@ const records = [{
 }, {
   version: '0.1.12',
   change: 'env 在 config 时进行初始化'
+}, {
+  version: '0.1.13',
+  change: 'mdf vue 发布'
 }];
+/**
+ * 取得所有发不过的版本
+ */
+
+function getVersions() {
+  return records.map(record => record.version);
+}
+/**
+ * 取得特定版本的 release
+ */
+
+
+function getRelease(vid) {
+  const data = records.find(record => record.version == vid);
+  return data ? data.change : undefined;
+}
+
 var _default = records;
 exports.default = _default;
