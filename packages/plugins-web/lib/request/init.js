@@ -19,7 +19,7 @@ function _default(api) {
     const config = api.getConfig();
     const tpl = api.getFile((0, _path.join)(__dirname, 'request.tpl'));
     const content = Mustache.render(tpl, {
-      toolPath: require.resolve('@medlinker/apitool/request'),
+      runtimePath: (0, _path.dirname)(require.resolve('@mdfjs/runtime/package.json')),
       useProxy: checkProxy(config)
     });
     api.writeFile(`${paths.absTmpPath}/request.ts`, (0, _utils.prettierFormat)(content));

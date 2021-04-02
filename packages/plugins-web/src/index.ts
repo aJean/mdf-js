@@ -132,7 +132,7 @@ export default function(api: IApi) {
     initGio(api, growingio);
   }
 
-  // request tools
+  // http tools
   initRequest(api);
 
   // sentry

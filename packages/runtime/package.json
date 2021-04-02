@@ -11,7 +11,8 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/records": "^0.1.12"
+    "@mdfjs/records": "^0.1.12",
+    "axios": "0.21.1"
   },
   "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
   "publishConfig": {

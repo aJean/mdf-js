@@ -32,7 +32,8 @@ class DevServer {
         clearTimeout(timeId);
         timeId = setTimeout(onFinish, 1000);
       }
-    });
+    }); // @ts-ignore
+
     this.httpServer = new _webpackDevServer.default(webpackCompiler, serverOpts);
   }
 

@@ -26,7 +26,7 @@ export default class DevServer {
     const { webpackCompiler, serverOpts, onFinish } = this.opts;
     let timeId: any;
     // 会执行两次，可能是 dev-server 影响的还不知道原因
-    webpackCompiler.hooks.done.tap('devDone', function(stats) {
+    webpackCompiler.hooks.done.tap('devDone', function(stats: any) {
       if (stats.hasErrors()) {
         console.log(stats.toString('errors-only'));
         process.exit(1);
@@ -38,6 +38,7 @@ export default class DevServer {
       }
     });
 
+    // @ts-ignore
     this.httpServer = new WebpackDevServer(webpackCompiler, serverOpts);
   }
 

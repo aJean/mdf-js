@@ -132,7 +132,7 @@ function _default(api) {
 
   if (isEnable(growingio)) {
     (0, _growingio.default)(api, growingio);
-  } // request tools
+  } // http tools
 
 
   (0, _init.default)(api); // sentry

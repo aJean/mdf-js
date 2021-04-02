@@ -15,7 +15,7 @@ import geBabelOpts from './babel';
  * @file create webpack config chain
  */
 
-export default function(userConfig: any) {
+export default function (userConfig: any) {
   const { isDev } = userConfig;
   const paths = resolvePaths(userConfig);
   const defines = resolveEnv(userConfig);
@@ -195,7 +195,7 @@ export default function(userConfig: any) {
           filename: 'css/style.[contenthash].css',
           chunkFilename: 'css/[name].[contenthash].css',
           ignoreOrder: true,
-        }),
+        }) as any,
       );
 
       // 输出 stats
