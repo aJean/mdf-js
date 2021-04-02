@@ -21,6 +21,6 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "father-build": "^1.19.3"
+    "father-build": "1.19.2"
   }
 }
