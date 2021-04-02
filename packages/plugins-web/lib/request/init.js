@@ -27,7 +27,7 @@ function _default(api) {
   api.addRuntimePlugin(() => require.resolve('../plugins/request'));
   api.addRuntimeExports(function () {
     return {
-      specifiers: ['request'],
+      specifiers: ['http'],
       source: `./request`
     };
   });

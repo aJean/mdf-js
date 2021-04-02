@@ -23,7 +23,7 @@ export default function (api: IApi) {
 
   api.addRuntimeExports(function () {
     return {
-      specifiers: ['request'],
+      specifiers: ['http'],
       source: `./request`,
     };
   });

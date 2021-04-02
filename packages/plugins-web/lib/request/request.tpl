@@ -17,4 +17,4 @@ http.create = function(config: any) {
   return originCreate.call(http, config);
 }
 
-export { http as request };
+export { http };
