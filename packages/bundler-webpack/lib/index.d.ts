@@ -1,4 +1,3 @@
-/// <reference types="webpack-dev-server" />
 /// <reference types="connect" />
 import { IBundler } from '@mdfjs/core';
 import webpack, { Configuration } from 'webpack';

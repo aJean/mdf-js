@@ -13,7 +13,7 @@ export default defineConfig({
   // 工程配置
   project: {
     type: 'web',
-    framework: 'dva',
+    framework: 'dva'
   },
 
   history: {
@@ -56,5 +56,21 @@ export default defineConfig({
     hashtag: true,
     // debug 模式
     debug: false,
+  },
+
+  // @todo pwa
+  serviceWorker: {
+    enable: false,
+  },
+
+  // @todo 启动屏
+  splash: {
+    enable: false,
+    autoClose: true,
+    style: '',
+    img: {
+      src: '/logo.png',
+      width: '50%',
+    },
   },
 });

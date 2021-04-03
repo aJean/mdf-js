@@ -25,7 +25,8 @@ function getBabelOpts(opts) {
     presets.push([require.resolve('@babel/preset-env'), {
       useBuiltIns: 'entry',
       corejs: 3,
-      modules: false
+      modules: false // 为 tree-shaking 保留 esmodule 的 import
+
     }]);
   }
 

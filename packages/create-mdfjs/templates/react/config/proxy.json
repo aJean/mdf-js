@@ -1,7 +1,8 @@
 {
   "enable": true,
-  "server": "https://med-one-qa.medlinker.com",
+  "server": "https://fe.ai101test.com",
   "paths": {
-    "/qy/yapi": "http://yapi.int.medlinker.com/mock/219/assistant/questionnaire/scale-submit-logs"
+    "/qy/yapi": "http://yapi.int.medlinker.com/mock/219/assistant/questionnaire/scale-submit-logs",
+    "/v1": "https://8.131.116.34"
   }
 }

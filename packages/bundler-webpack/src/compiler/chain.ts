@@ -195,7 +195,7 @@ export default function(userConfig: any) {
           filename: 'css/style.[contenthash].css',
           chunkFilename: 'css/[name].[contenthash].css',
           ignoreOrder: true,
-        }),
+        }) as any,
       );
 
       // 输出 stats

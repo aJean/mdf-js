@@ -8,7 +8,7 @@ import './normal.scss';
  * @path /
  */
 
-const mapStateToProps = ({ pay }: any) => pay;
+const mapStateToProps = ({ proxy }: any) => proxy;
 
 type Props = ReturnType<typeof mapStateToProps> & ConnectProps;
 
@@ -16,23 +16,20 @@ const Home = function (props: Props) {
   const { name, money, beauty, dispatch } = props;
 
   // 触发运行时插件的执行
-  useEffect(function() {
-    plugin.invoke({
-      key: 'mdfInfo',
-      type: PluginType.event,
-    });
+  useEffect(function () {
+    plugin.invoke({ key: 'mdfInfo', type: PluginType.event });
   }, []);
 
-  const changeMoneyHandle = () => {
-    dispatch({ type: 'pay/addMoney' });
+  const checkApp = () => {
+    dispatch({ type: 'proxy/checkApp' });
   };
 
-  const changeBeautyHandle = () => {
-    dispatch({ type: 'pay/addBeauty' });
+  const addWatchVideoLog = () => {
+    dispatch({ type: 'proxy/addWatchVideoLog' });
   };
 
-  const changeNameHandle = () => {
-    dispatch({ type: 'pay/changeName' });
+  const yapiRequest = () => {
+    dispatch({ type: 'proxy/yapiRequest' });
   };
 
   return (
@@ -40,12 +37,14 @@ const Home = function (props: Props) {
       <h2>mdf-react 测试代理</h2>
       <div>
         <Link to="/foo">跳转到 foo 页面</Link>
-        <p className={styles.link} onClick={changeNameHandle}>user-name: {name}</p>
-        <p className={styles.link} onClick={changeMoneyHandle}>
-          yapi 代理 --- user-model: {money}
+        <p className={styles.link} onClick={yapiRequest}>
+          完全匹配代理: {name}
         </p>
-        <p className={styles.link} onClick={changeBeautyHandle}>
-          server 代理 --- user-model: {beauty}
+        <p className={styles.link} onClick={checkApp}>
+          默认 server 代理 --- checkApp: {money}
+        </p>
+        <p className={styles.link} onClick={addWatchVideoLog}>
+          特定 path 代理 --- addWatchVideoLog: {beauty}
         </p>
       </div>
     </div>
