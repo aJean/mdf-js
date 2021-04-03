@@ -2,7 +2,7 @@ import { IApi, IJoi } from '@mdfjs/types';
 import SentryWebpackPlugin from '@sentry/webpack-plugin';
 import path from 'path';
 import initGio from './growingio';
-import initRequest from './request/init';
+import initHttp from './http/init';
 
 /**
  * @file 开发 web、H5 项目可能用到的功能
@@ -133,7 +133,7 @@ export default function(api: IApi) {
   }
 
   // http tools
-  initRequest(api);
+  initHttp(api);
 
   // sentry
   if (isEnable(sentry)) {

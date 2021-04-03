@@ -11,7 +11,7 @@ var _path = _interopRequireDefault(require("path"));
 
 var _growingio = _interopRequireDefault(require("./growingio"));
 
-var _init = _interopRequireDefault(require("./request/init"));
+var _init = _interopRequireDefault(require("./http/init"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
