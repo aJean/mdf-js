@@ -53,8 +53,9 @@ class WorkServer {
     const app = this.app;
     app.set('x-powered-by', false);
     app.use(function (req, res, next) {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Headers', 'x-mdf-proxy');
+      res.header('Access-Control-Allow-Origin', req.headers.origin);
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,X-Mdf-Proxy');
+      res.header('Access-Control-Allow-Credentials', 'true');
 
       if (req.method == 'OPTIONS') {
         res.sendStatus(200);
@@ -74,18 +75,31 @@ class WorkServer {
           server = _loadUserProxy.server,
           paths = _loadUserProxy.paths;
 
-    const proxyMiddleware = genProxyMiddleware(server); // 代理的策略是如果配置了，那么就都走代理，后面可能会改为 context + bypass 模式
+    const proxyMiddleware = genProxyMiddleware(server); // context + bypass 模式
 
     this.app.use(function (req, res, next) {
-      const path = req.path; // path 有对应的 yapi 就直接发过去
+      const requestPath = req.path; // 完整匹配
 
-      if (paths[path]) {
-        const contextMiddleware = genProxyMiddleware(path, paths[path]);
-        return contextMiddleware ? contextMiddleware(req, res, next) : next();
+      if (paths[requestPath]) {
+        const exactProxy = genProxyMiddleware(requestPath, paths[requestPath]);
+        return exactProxy ? exactProxy(req, res, next) : next();
+      } // 正则匹配
+
+
+      const proxyPaths = Object.keys(paths);
+
+      for (var _i = 0, _proxyPaths = proxyPaths; _i < _proxyPaths.length; _i++) {
+        let path = _proxyPaths[_i];
+        const address = paths[path];
+
+        if (new RegExp(path, 'i').test(requestPath)) {
+          const fuzzyProxy = genProxyMiddleware(address);
+          return fuzzyProxy(req, res, next);
+        }
       } // 返回的数据结构还需要 parse function
 
 
-      return proxyMiddleware(req, res, next);
+      return proxyMiddleware ? proxyMiddleware(req, res, next) : next();
     });
   }
 
@@ -108,9 +122,10 @@ class WorkServer {
 
 function genProxyMiddleware(...args) {
   if (args.length < 2) {
-    return (0, _httpProxyMiddleware.createProxyMiddleware)(genProxyConfig({
-      target: args[0]
-    }));
+    const server = args[0];
+    return server ? (0, _httpProxyMiddleware.createProxyMiddleware)(genProxyConfig({
+      target: server
+    })) : null;
   }
 
   const context = args[0];
@@ -148,7 +163,7 @@ function genProxyConfig(config) {
 
     onError(err, req, res) {
       console.log(err.message);
-      res.end('Something went wrong. Please contact the developer to resolve!');
+      res.end('Something went wrong. Please contact qy to resolve!');
     }
 
   };

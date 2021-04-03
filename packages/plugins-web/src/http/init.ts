@@ -19,7 +19,7 @@ export default function (api: IApi) {
     api.writeFile(`${paths.absTmpPath}/request.ts`, prettierFormat(content));
   });
 
-  api.addRuntimePlugin(() => require.resolve('../plugins/http'));
+  api.addRuntimePlugin(() => require.resolve('../plugins/trace'));
 
   // 导出到 mdf 命名空间
   api.addRuntimeExports(function () {

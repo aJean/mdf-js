@@ -11,7 +11,11 @@ exports.beforeRender = beforeRender;
 function beforeRender() {
   const http = require('mdf').http;
 
+  let spanId = 0;
   http.registerInterceptor('before', function (config) {
-    console.log(config);
+    console.log('trace start: ', config);
+  });
+  http.registerInterceptor('after', function (res) {
+    console.log('trace end: ', res);
   });
 }

@@ -109,6 +109,9 @@ function create(opts: HttpOpts): HttpInstance {
   });
 }
 
+/**
+ * 执行器
+ */
 function genActuator(list: Array<InterceptorPlugin>, type: string) {
   list = list.filter((plugin) => plugin.type === type);
 

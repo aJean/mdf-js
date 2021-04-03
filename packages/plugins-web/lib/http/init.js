@@ -24,7 +24,7 @@ function _default(api) {
     });
     api.writeFile(`${paths.absTmpPath}/request.ts`, (0, _utils.prettierFormat)(content));
   });
-  api.addRuntimePlugin(() => require.resolve('../plugins/http')); // 导出到 mdf 命名空间
+  api.addRuntimePlugin(() => require.resolve('../plugins/trace')); // 导出到 mdf 命名空间
 
   api.addRuntimeExports(function () {
     return {
