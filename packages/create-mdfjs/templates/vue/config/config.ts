@@ -20,4 +20,9 @@ export default defineConfig({
   devServer: {
     port: 3000,
   },
+
+  // 工作服务器以及需要加载的中间件
+  workServer: {
+    proxy: true,
+  },
 });

@@ -1,13 +1,13 @@
 {
-  "private": true,
-  "version": "1.0.0",
+  "name": "mdf-vue-project",
+  "version": "0.0.0",
   "description": "{{{ description }}}",
+  "main": "index.js",
   "scripts": {
-    "_mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
-    "dev": "MDF_ENV=dev mdf dev -c vue",
-    "build": "MDF_ENV=prod mdf build -c vue",
-    "build:qa": "MDF_ENV=qa mdf build -c vue",
-    "lint": "yarn mdf lint --es"
+    "mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
+    "build": "MDF_ENV=prod yarn mdf build",
+    "dev": "MDF_ENV=dev yarn mdf dev vue",
+    "react": "yarn mdf create"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -18,9 +18,16 @@
     "*.scss": ["yarn mdf lint --sass"],
     "*.less": ["yarn mdf lint --less"]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aJean/mdf-demo.git"
+  },
   "dependencies": {
     "@mdfjs/vue": "{{{ vue }}}",
-    "mdfjs": "{{{ mdfjs }}}"
+    "element3": "^0.0.35",
+    "typescript": "^4.1.3",
+    "vue": "^3.0.4",
+    "vue-router": "^4.0.1"
   },
   "devDependencies": {
     "@types/node": "14.14.7",

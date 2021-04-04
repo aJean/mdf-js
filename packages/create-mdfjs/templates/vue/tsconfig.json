@@ -25,6 +25,7 @@
     ".tmp/**/*",
     "src/**/*",
     "config/**/*",
+    "plugins/**/*",
     "typings.d.ts"
   ]
 }
