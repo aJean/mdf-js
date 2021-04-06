@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/plugins",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "mdf plugins",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -11,12 +11,12 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/bundler-webpack": "^0.1.13",
-    "@mdfjs/core": "^0.1.13",
-    "@mdfjs/records": "^0.1.13",
-    "@mdfjs/server": "^0.1.13",
-    "@mdfjs/types": "^0.1.13",
-    "@mdfjs/utils": "^0.1.13",
+    "@mdfjs/bundler-webpack": "^0.1.14",
+    "@mdfjs/core": "^0.1.14",
+    "@mdfjs/records": "^0.1.14",
+    "@mdfjs/server": "^0.1.14",
+    "@mdfjs/types": "^0.1.14",
+    "@mdfjs/utils": "^0.1.14",
     "boxen": "4.2.0",
     "joi2types": "1.0.7",
     "ora": "5.3.0"
