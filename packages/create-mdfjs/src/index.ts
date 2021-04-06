@@ -1,11 +1,12 @@
 import { join } from 'path';
+import { existsSync } from 'fs';
 import { chalkPrints, getUserPkg } from '@mdfjs/utils';
 import getUserInputs from './input';
 import copyAndRenderFiles from './generate';
-import { getVersions } from './version';
+import getVersions from './version';
 
 /**
- * @file 创建 mdf project，暂时仅支持 react
+ * @file 创建 mdf project，因为 install 可能会很慢，所以交给开发者自己选择时机执行
  */
 
 const yargs = require('yargs');
@@ -16,8 +17,12 @@ export default async function () {
   const opts = yargs.argv;
   const version = getUserPkg(join(__dirname, '../'), 'version');
 
+  if (existsSync(opts.p)) {
+    return chalkPrints([['error: ', 'red'], '无法创建已经存在的项目']);
+  }
+
   if (opts.v) {
-    return console.log(version);
+    return chalkPrints([[version, 'green']]);
   }
 
   // 信息输入

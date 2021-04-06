@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getVersions = getVersions;
+exports.default = getVersions;
 
 var _request = _interopRequireDefault(require("request"));
 

@@ -24,7 +24,7 @@ function copyAndRenderFiles(context) {
     dot: true,
     ignore: ['**/node_modules/**']
   });
-  const appDir = (0, _path.join)(process.cwd(), context.createPath);
+  const appRoot = genAppRoot(context.createPath);
   files.forEach(file => {
     const filePath = (0, _path.join)(sourceDir, file);
 
@@ -35,7 +35,7 @@ function copyAndRenderFiles(context) {
 
     if (file.endsWith('.tpl')) {
       (0, _utils.chalkPrints)([['write: ', 'magenta'], file.replace(/\.tpl$/, '')]);
-      const targetPath = (0, _path.join)(appDir, file.replace(/\.tpl$/, ''));
+      const targetPath = (0, _path.join)(appRoot, file.replace(/\.tpl$/, ''));
       renderTpl({
         path: filePath,
         target: targetPath,
@@ -43,7 +43,7 @@ function copyAndRenderFiles(context) {
       });
     } else {
       (0, _utils.chalkPrints)([['copy: ', 'green'], file]);
-      const targetPath = (0, _path.join)(appDir, file);
+      const targetPath = (0, _path.join)(appRoot, file);
 
       _mkdirp.default.sync((0, _path.dirname)(targetPath));
 
@@ -60,4 +60,16 @@ function renderTpl(opts) {
   _mkdirp.default.sync((0, _path.dirname)(opts.target));
 
   (0, _fs.writeFileSync)(opts.target, content, 'utf-8');
+}
+/**
+ * 项目创建的路径
+ */
+
+
+function genAppRoot(path) {
+  if (path.startsWith('/')) {
+    return path;
+  } else {
+    return (0, _path.join)(process.cwd(), path);
+  }
 }

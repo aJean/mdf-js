@@ -5,7 +5,7 @@ import { errorPrint } from '@mdfjs/utils';
  * @file 获取最新的框架版本，稳定后会固定下来
  */
 
-export function getVersions(needLibs: any) {
+export default function getVersions(needLibs: any) {
   if (!needLibs || !needLibs.length) {
     return undefined;
   }
