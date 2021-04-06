@@ -34,6 +34,9 @@ const records = [{
 }, {
   version: '0.1.14',
   change: 'vue template 问题修复'
+}, {
+  version: '0.1.15',
+  change: '日常优化'
 }];
 /**
  * 取得所有发不过的版本
