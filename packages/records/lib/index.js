@@ -30,7 +30,10 @@ const records = [{
   change: 'env 在 config 时进行初始化'
 }, {
   version: '0.1.13',
-  change: 'mdf vue 发布'
+  change: 'mdf-vue 发布'
+}, {
+  version: '0.1.14',
+  change: 'vue template 问题修复'
 }];
 /**
  * 取得所有发不过的版本
