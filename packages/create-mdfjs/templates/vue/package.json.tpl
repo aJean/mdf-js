@@ -27,8 +27,8 @@
     "mdfjs": "{{{ mdfjs }}}",
     "element3": "^0.0.35",
     "typescript": "^4.1.3",
-    "vue": "^3.0.4",
-    "vue-router": "^4.0.1"
+    "vue": "3.0.11",
+    "vue-router": "4.0.6"
   },
   "devDependencies": {
     "@types/node": "14.14.7",
