@@ -44,14 +44,25 @@ function _ref() {
 
 
     const config = yield (0, _input.default)();
-    const versions = yield (0, _version.getVersions)();
+    let needLibs;
 
-    if (!versions) {
-      return;
+    switch (config.template) {
+      case 'react':
+        needLibs = ['mdfjs', '@mdfjs/react'];
+        break;
+
+      case 'vue':
+        needLibs = ['mdfjs', '@mdfjs/vue'];
+        break;
+
+      case 'taro':
+        return (0, _utils.chalkPrints)([['error: ', 'red'], '想多了，还不支持这个']);
     }
 
-    if (config.template !== 'react') {
-      return (0, _utils.chalkPrints)([['error: ', 'red'], '想多了，还不支持这个']);
+    const versions = yield (0, _version.getVersions)(needLibs);
+
+    if (!versions) {
+      return (0, _utils.chalkPrints)([['error: ', 'red'], '未找到可用的 mdf lib 版本']);
     }
 
     (0, _generate.default)(Object.assign(config, versions, {

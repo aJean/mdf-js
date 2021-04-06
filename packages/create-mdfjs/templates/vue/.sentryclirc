@@ -2,6 +2,6 @@
 token=2087ae6aa0eb4d7aa9954efdc1845f700be48902f2344122b2a6d75c5125d93c
 
 [defaults]
-url=https://sentry-int.medlinker.com
-org=medlinker
-project=mdf-demo
+url=https://sentry-int.mdf.com
+org=mdf
+project=mdf-vue-demo

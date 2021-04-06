@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@medlinker/fundamental": "^0.2.0",
-    "@mdfjs/react": "{{{ react }}}",
+    "@mdfjs/react": "{{{ @mdfjs/react }}}",
     "mdfjs": "{{{ mdfjs }}}",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"

@@ -5,10 +5,18 @@ import { errorPrint } from '@mdfjs/utils';
  * @file 获取最新的框架版本，稳定后会固定下来
  */
 
-export function getVersions() {
-  return Promise.all([fetch('mdfjs'), fetch('@mdfjs/react')])
+export function getVersions(needLibs: any) {
+  if (!needLibs || !needLibs.length) {
+    return undefined;
+  }
+
+  const reqs = needLibs.map((lib: string) => fetch(lib));
+  return Promise.all(reqs)
     .then((res) => {
-      return { mdfjs: res[0], react: res[1] };
+      return {
+        [needLibs[0]]: res[0],
+        [needLibs[1]]: res[1],
+      };
     })
     .catch((e) => {
       errorPrint(e);
@@ -46,8 +54,3 @@ function fetch(name: string) {
     );
   });
 }
-
-export const versions = {
-  mdfjs: '0.0.26',
-  '@mdfjs/react': '0.0.28',
-};

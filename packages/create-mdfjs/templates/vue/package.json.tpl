@@ -4,7 +4,7 @@
   "description": "{{{ description }}}",
   "main": "index.js",
   "scripts": {
-    "mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
+    "_mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
     "build": "MDF_ENV=prod yarn mdf build",
     "dev": "MDF_ENV=dev yarn mdf dev vue",
     "react": "yarn mdf create"
@@ -23,7 +23,8 @@
     "url": "https://github.com/aJean/mdf-demo.git"
   },
   "dependencies": {
-    "@mdfjs/vue": "{{{ vue }}}",
+    "@mdfjs/vue": "{{{ @mdfjs/vue }}}",
+    "mdfjs": "{{{ mdfjs }}}",
     "element3": "^0.0.35",
     "typescript": "^4.1.3",
     "vue": "^3.0.4",

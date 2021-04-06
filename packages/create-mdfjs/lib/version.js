@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getVersions = getVersions;
-exports.versions = void 0;
 
 var _request = _interopRequireDefault(require("request"));
 
@@ -15,11 +14,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * @file 获取最新的框架版本，稳定后会固定下来
  */
-function getVersions() {
-  return Promise.all([fetch('mdfjs'), fetch('@mdfjs/react')]).then(res => {
+function getVersions(needLibs) {
+  if (!needLibs || !needLibs.length) {
+    return undefined;
+  }
+
+  const reqs = needLibs.map(lib => fetch(lib));
+  return Promise.all(reqs).then(res => {
     return {
-      mdfjs: res[0],
-      react: res[1]
+      [needLibs[0]]: res[0],
+      [needLibs[1]]: res[1]
     };
   }).catch(e => {
     (0, _utils.errorPrint)(e);
@@ -52,9 +56,3 @@ function fetch(name) {
     });
   });
 }
-
-const versions = {
-  mdfjs: '0.0.26',
-  '@mdfjs/react': '0.0.28'
-};
-exports.versions = versions;

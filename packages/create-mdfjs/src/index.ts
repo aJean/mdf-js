@@ -22,14 +22,23 @@ export default async function () {
 
   // 信息输入
   const config = await getUserInputs();
-  const versions = await getVersions();
+  let needLibs;
 
-  if (!versions) {
-    return;
+  switch (config.template) {
+    case 'react':
+      needLibs = ['mdfjs', '@mdfjs/react'];
+      break;
+    case 'vue':
+      needLibs = ['mdfjs', '@mdfjs/vue'];
+      break;
+    case 'taro':
+      return chalkPrints([['error: ', 'red'], '想多了，还不支持这个']);
   }
 
-  if (config.template !== 'react') {
-    return chalkPrints([['error: ', 'red'], '想多了，还不支持这个']);
+  const versions = await getVersions(needLibs);
+
+  if (!versions) {
+    return chalkPrints([['error: ', 'red'], '未找到可用的 mdf lib 版本']);
   }
 
   copyAndRenderFiles(
