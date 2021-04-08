@@ -50,6 +50,7 @@ dev & build 时一定要有 MDF_ENV 变量
 
 #### 发布流程
 注意开发完发布一定要整体 build 一次，因为不是所有的模块都使用了 cjs，records 模块必须手动修改并且记录 release！！
+基础模块关联 mdf-react、mdf-vue、mdf-node 都需要更新
 - yarn build
 - yarn pub
 
