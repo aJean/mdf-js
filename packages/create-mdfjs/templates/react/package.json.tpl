@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "name": "mdf-react-project",
   "version": "1.0.0",
   "description": "{{{ description }}}",
   "scripts": {
