@@ -17,7 +17,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function beforeRender(config) {
   Sentry.init({
     dsn: config.dsn,
-    release: `${process.env.MDF_VERSION}-${process.env.MDF_ENV}`,
+    release: `${process.env.PRO_NAME}-${process.env.PRO_VERSION}`,
     environment: process.env.MDF_ENV,
     // @ts-ignore
     beforeSend: function beforeSend(n, e) {

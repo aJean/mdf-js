@@ -1,5 +1,5 @@
 import { join, resolve as resolvePath } from 'path';
-import { registerRequire, errorPrint } from '@mdfjs/utils';
+import { registerRequire, errorPrint, getUserPkg } from '@mdfjs/utils';
 import Service from './service';
 import { esmExport, getFile } from './utils';
 import { parse } from 'dotenv';
@@ -37,10 +37,11 @@ export function getUserConfig() {
   const config = Object.assign(
     {
       isDev: MDF_ENV === 'dev',
-      // 框架版本
-      MDF_VERSION: require('../package.json').version,
-      // 约定 MDF_ENV 完全由执行脚本设置
       MDF_ENV,
+      // 框架与项目信息
+      MDF_VERSION: getUserPkg('..', 'version'),
+      PRO_VERSION: getUserPkg(cwd, 'version'),
+      PRO_NAME: getUserPkg(cwd, 'name'),
     },
     ...requires,
   );
@@ -61,7 +62,7 @@ export default function getConfig(service: Service) {
   const pluginConfigs = service.pluginConfigs;
 
   // 验证传入的参数合法性
-  Object.keys(pluginConfigs).forEach(key => {
+  Object.keys(pluginConfigs).forEach((key) => {
     const data = pluginConfigs[key];
     const schema = data.schema;
     const old = data.default;
@@ -76,7 +77,7 @@ export default function getConfig(service: Service) {
 
     // 补全插件默认值
     if (cur && old) {
-      Object.keys(old).forEach(key => {
+      Object.keys(old).forEach((key) => {
         if (cur[key] === undefined) {
           cur[key] = old[key];
         }
@@ -116,7 +117,7 @@ function genEnvs() {
   const ENV_FILES = genMultiFiles('env');
   const envs = {};
 
-  ENV_FILES.forEach(path => {
+  ENV_FILES.forEach((path) => {
     try {
       const absPath = resolvePath(path);
       const parsed = parse(getFile(absPath)!) || {};

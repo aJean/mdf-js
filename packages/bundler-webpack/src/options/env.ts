@@ -2,7 +2,7 @@
  * @file 处理 env 变量和 define
  */
 
-const mdf_keys = ['MDF_VERSION', 'MDF_ENV'];
+const mdf_keys = ['MDF_VERSION', 'MDF_ENV', 'PRO_VERSION', 'PRO_NAME'];
 export default function(opts: any) {
   const envs = opts.envs;
   const defines = opts.defines || {};

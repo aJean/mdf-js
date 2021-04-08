@@ -8,7 +8,7 @@ import initHttp from './http/init';
  * @file 开发 web、H5 项目可能用到的功能
  */
 
-export default function(api: IApi) {
+export default function (api: IApi) {
   // 定义的插件配置才可以被运行时读取到
   api.describe({
     key: 'vconsole',
@@ -28,16 +28,16 @@ export default function(api: IApi) {
         return joi.object({
           enable: joi.boolean(),
           designWidth: joi.number(),
+          maxWidth: joi.number(),
           rootValue: joi.number(),
-          maxRatio: joi.number(),
         });
       },
 
       default: {
         enable: false,
         designWidth: 750,
+        maxWidth: 900,
         rootValue: 100,
-        maxRatio: 2,
       },
     },
   });
@@ -82,7 +82,8 @@ export default function(api: IApi) {
     },
   });
 
-  const { vconsole, growingio, rem, sentry, MDF_ENV, MDF_VERSION } = api.getConfig();
+  const config = api.getConfig();
+  const { vconsole, growingio, rem, sentry } = config;
 
   // vconsole 模拟控制台
   if (isEnable(vconsole)) {
@@ -108,13 +109,9 @@ export default function(api: IApi) {
       return opts;
     };
 
-    api.chainWebpack(chain => {
-      rules.forEach(rule => {
-        chain.module
-          .rule(rule)
-          .oneOf('css')
-          .use('postcssLoader')
-          .tap(appendRemToPostcssOptions);
+    api.chainWebpack((chain) => {
+      rules.forEach((rule) => {
+        chain.module.rule(rule).oneOf('css').use('postcssLoader').tap(appendRemToPostcssOptions);
 
         chain.module
           .rule(rule)
@@ -137,10 +134,10 @@ export default function(api: IApi) {
 
   // sentry
   if (isEnable(sentry)) {
-    api.chainWebpack(chain => {
+    api.chainWebpack((chain) => {
       chain.plugin('sentry').use(SentryWebpackPlugin, [
         {
-          release: `${MDF_VERSION}-${MDF_ENV}`,
+          release: `${config.PRO_NAME}-${config.PRO_VERSION}`,
           entries: [],
           include: chain.output.get('path'),
           ignoreFile: '.sentrycliignore',

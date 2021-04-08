@@ -7,7 +7,7 @@ import * as Sentry from '@sentry/browser';
 export function beforeRender(config: any) {
   Sentry.init({
     dsn: config.dsn,
-    release: `${process.env.MDF_VERSION}-${process.env.MDF_ENV}`,
+    release: `${process.env.PRO_NAME}-${process.env.PRO_VERSION}`,
     environment: process.env.MDF_ENV,
     // @ts-ignore
     beforeSend: function(n, e) {

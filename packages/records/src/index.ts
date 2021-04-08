@@ -11,7 +11,7 @@ const records = [
   { version: '0.1.12', change: 'env 在 config 时进行初始化' },
   { version: '0.1.13', change: 'mdf-vue 发布' },
   { version: '0.1.14', change: 'vue template 问题修复' },
-  { version: '0.1.15', change: '日常优化' },
+  { version: '0.1.15', change: '日常优化 + 响应式方案调整' },
 ];
 
 /**

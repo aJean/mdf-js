@@ -44,10 +44,11 @@ function getUserConfig() {
 
   const config = Object.assign({
     isDev: MDF_ENV === 'dev',
-    // 框架版本
-    MDF_VERSION: require('../package.json').version,
-    // 约定 MDF_ENV 完全由执行脚本设置
-    MDF_ENV
+    MDF_ENV,
+    // 框架与项目信息
+    MDF_VERSION: (0, _utils.getUserPkg)('..', 'version'),
+    PRO_VERSION: (0, _utils.getUserPkg)(cwd, 'version'),
+    PRO_NAME: (0, _utils.getUserPkg)(cwd, 'name')
   }, ...requires); // 自定义插件
 
   if (config.plugins) {

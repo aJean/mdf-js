@@ -2,66 +2,46 @@
  * @file 集成 rem
  */
 
-export function beforeRender(config: any) {
-  const { rootValue, designWidth, maxRatio } = config.rem;
-  
-  initRem({ rootValue, maxRatio, designWidth });
+let DESIGN_WIDTH: number;
+let REM_BASE: number;
+let MAX_WIDTH: number;
+let inited = false;
 
+export function beforeRender(config: any) {
+  const { rootValue, designWidth, maxWidth } = config.rem;
   const style = document.createElement('style');
+
+  initRem({ rootValue, maxWidth, designWidth });
+  // 最大宽度约束
   style.innerHTML = `
-    @media screen and (min-width: ${designWidth * maxRatio}px) {
+    @media screen and (min-width: ${maxWidth}px) {
       #root {
-        width: ${designWidth * maxRatio}px;
+        width: ${maxWidth}px;
         margin: 0 auto;
       }
     }
   `;
-
   document.head.append(style);
 }
 
-
-let DESIGN_WIDTH = 375;
-let REM_BASE = 100;
-let MAX_RATIO = 2;
-let fontSize = 100;
-let inited = false;
-
-const hander = () => {
-  const fontSize = ((Math.min(window.innerWidth, MAX_RATIO * 375) / DESIGN_WIDTH) * REM_BASE).toFixed(1);
-
+/**
+ * 根据屏幕变化修改 fontsize
+ */
+function auto() {
+  // REM_BASE 与 pxtorem 一致，保证屏幕相同像素与设计图尺寸相同
+  const fontSize = ((Math.min(window.innerWidth, MAX_WIDTH) / DESIGN_WIDTH) * REM_BASE).toFixed(1);
   document.documentElement.style.fontSize = fontSize + 'px';
-};
+}
+
+function initRem({ designWidth = 750, maxWidth = 900, rootValue = 100 }) {
+  DESIGN_WIDTH = designWidth;
+  MAX_WIDTH = maxWidth;
+  REM_BASE = rootValue;
+  auto();
+  inited = true;
+}
 
 window.addEventListener('resize', () => {
   if (!inited) return;
-  hander();
+  auto();
 });
-
-const px2Rem = (px: any, addUnit = false) => {
-  let value: any = px / REM_BASE;
-
-  if (addUnit) {
-    value += 'rem';
-  }
-
-  return value;
-};
-
-const rem2Px = (rem: any, addUnit = false) => {
-  let value: any = REM_BASE * rem;
-
-  if (addUnit) {
-    value += 'px';
-  }
-
-  return value;
-};
-
-const initRem = ({ designWidth = 375, rootValue = 100, maxRatio = 2 }) => {
-  DESIGN_WIDTH = designWidth;
-  REM_BASE = rootValue;
-  MAX_RATIO = maxRatio;
-  hander();
-  inited = true;
-};

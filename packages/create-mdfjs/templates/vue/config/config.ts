@@ -25,4 +25,9 @@ export default defineConfig({
   workServer: {
     proxy: true,
   },
+
+  // 响应式方案
+  rem: {
+    enable: true,
+  },
 });

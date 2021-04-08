@@ -38,16 +38,16 @@ function _default(api) {
         return joi.object({
           enable: joi.boolean(),
           designWidth: joi.number(),
-          rootValue: joi.number(),
-          maxRatio: joi.number()
+          maxWidth: joi.number(),
+          rootValue: joi.number()
         });
       },
 
       default: {
         enable: false,
         designWidth: 750,
-        rootValue: 100,
-        maxRatio: 2
+        maxWidth: 900,
+        rootValue: 100
       }
     }
   });
@@ -89,15 +89,11 @@ function _default(api) {
       }
     }
   });
-
-  const _api$getConfig = api.getConfig(),
-        vconsole = _api$getConfig.vconsole,
-        growingio = _api$getConfig.growingio,
-        rem = _api$getConfig.rem,
-        sentry = _api$getConfig.sentry,
-        MDF_ENV = _api$getConfig.MDF_ENV,
-        MDF_VERSION = _api$getConfig.MDF_VERSION; // vconsole 模拟控制台
-
+  const config = api.getConfig();
+  const vconsole = config.vconsole,
+        growingio = config.growingio,
+        rem = config.rem,
+        sentry = config.sentry; // vconsole 模拟控制台
 
   if (isEnable(vconsole)) {
     api.addRuntimePlugin(() => require.resolve('./plugins/vconsole'));
@@ -140,7 +136,7 @@ function _default(api) {
   if (isEnable(sentry)) {
     api.chainWebpack(chain => {
       chain.plugin('sentry').use(_webpackPlugin.default, [{
-        release: `${MDF_VERSION}-${MDF_ENV}`,
+        release: `${config.PRO_NAME}-${config.PRO_VERSION}`,
         entries: [],
         include: chain.output.get('path'),
         ignoreFile: '.sentrycliignore',

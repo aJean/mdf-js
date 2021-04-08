@@ -4,8 +4,9 @@
 
 export function mdfInfo() {
   console.log({
-    pkg: 'mdf',
-    version: process.env.MDF_VERSION,
-    node: process.version,
+    'node-version': process.version,
+    'mdf-version': process.env.MDF_VERSION,
+    'pro-version': process.env.PRO_VERSION,
+    'pro-name': process.env.PRO_NAME,
   });
 }
