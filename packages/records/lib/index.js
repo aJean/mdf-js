@@ -40,6 +40,9 @@ const records = [{
 }, {
   version: '0.1.16',
   change: 'workserver 支持修改 port'
+}, {
+  version: '0.1.17',
+  change: '增加 trace 功能'
 }];
 /**
  * 取得所有发不过的版本

@@ -13,6 +13,7 @@ const records = [
   { version: '0.1.14', change: 'vue template 问题修复' },
   { version: '0.1.15', change: '日常优化 + 响应式方案调整' },
   { version: '0.1.16', change: 'workserver 支持修改 port' },
+  { version: '0.1.17', change: '增加 trace 功能' },
 ];
 
 /**
