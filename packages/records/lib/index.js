@@ -37,6 +37,9 @@ const records = [{
 }, {
   version: '0.1.15',
   change: '日常优化 + 响应式方案调整'
+}, {
+  version: '0.1.16',
+  change: 'workserver 支持修改 port'
 }];
 /**
  * 取得所有发不过的版本

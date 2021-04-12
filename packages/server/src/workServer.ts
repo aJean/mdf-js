@@ -9,6 +9,7 @@ import { loadUserProxy, getYapiToken } from './utils';
  */
 
 export interface IServerOpts {
+  port?: number;
   proxy?: any;
   ws?: boolean;
   ui?: boolean;
@@ -105,10 +106,10 @@ class WorkServer {
   }
 
   start() {
-    const httpServer: http.Server = this.httpServer;
+    const port = this.opts.port || 9000;
 
-    httpServer.listen(9000, '0.0.0.0', 5, () => {
-      console.log('workserver is listening on localhost:9000');
+    this.httpServer.listen(port, '0.0.0.0', 5, () => {
+      console.log(`workserver is listening on localhost:${port}`);
     });
   }
 

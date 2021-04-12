@@ -2,6 +2,7 @@
  * @file 这个模块将会聚合以下功能：proxy、ws 通信、ui 原子交互
  */
 export interface IServerOpts {
+    port?: number;
     proxy?: any;
     ws?: boolean;
     ui?: boolean;

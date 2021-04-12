@@ -44,7 +44,7 @@ function create(opts: HttpOpts): HttpInstance {
   if (opts.useProxy) {
     {{#useProxy}}
       opts.headers = {'X-Mdf-Proxy': opts.baseURL};
-      opts.baseURL = 'http://localhost:9000';
+      opts.baseURL = 'http://localhost:{{{ usePort }}}';
     {{/useProxy}}
 
     delete opts.useProxy;

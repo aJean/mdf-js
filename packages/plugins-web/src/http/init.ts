@@ -1,6 +1,6 @@
 import { prettierFormat } from '@mdfjs/utils';
 import { IApi } from '@mdfjs/types';
-import { join, dirname } from 'path';
+import { join } from 'path';
 
 /**
  * @file web request api
@@ -13,7 +13,7 @@ export default function (api: IApi) {
     const tpl = api.getFile(join(__dirname, 'http.tpl'))!;
     const content = Mustache.render(tpl, {
       axiosPath: require.resolve('axios'),
-      useProxy: checkProxy(config),
+      ...checkProxy(config),
     });
 
     api.writeFile(`${paths.absTmpPath}/request.ts`, prettierFormat(content));
@@ -31,5 +31,10 @@ export default function (api: IApi) {
 }
 
 function checkProxy(config: any) {
-  return Boolean(config.workServer && config.workServer.proxy);
+  const server = config.workServer;
+
+  return {
+    useProxy: Boolean(server.proxy),
+    usePort: Number(server.port) || 9000,
+  };
 }

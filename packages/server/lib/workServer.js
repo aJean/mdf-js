@@ -104,9 +104,9 @@ class WorkServer {
   }
 
   start() {
-    const httpServer = this.httpServer;
-    httpServer.listen(9000, '0.0.0.0', 5, () => {
-      console.log('workserver is listening on localhost:9000');
+    const port = this.opts.port || 9000;
+    this.httpServer.listen(port, '0.0.0.0', 5, () => {
+      console.log(`workserver is listening on localhost:${port}`);
     });
   }
 

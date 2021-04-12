@@ -23,6 +23,7 @@ export default defineConfig({
 
   // 工作服务器以及需要加载的中间件
   workServer: {
+    port: 9100,
     proxy: true,
   },
 
