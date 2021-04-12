@@ -10,6 +10,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
+    "noImplicitThis": false,
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
     "experimentalDecorators": true,

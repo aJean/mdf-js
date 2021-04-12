@@ -59,7 +59,7 @@ class WorkServer {
       res.header('Access-Control-Allow-Origin', req.headers.origin);
       res.header(
         'Access-Control-Allow-Headers',
-        'X-Requested-With,Content-Type,Accept,X-Mdf-Proxy',
+        'X-Requested-With,Content-Type,Accept,X-Mdf-Proxy,X-Trace-Id',
       );
       res.header('Access-Control-Allow-Credentials', 'true');
 

@@ -71,7 +71,7 @@ function create(opts: HttpOpts): HttpInstance {
 
     return actuator(res).then((res) => {
       if (opts.onAfter) {
-        opts.onAfter(res);
+        res = opts.onAfter(res);
       }
 
       return res;

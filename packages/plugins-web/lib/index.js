@@ -93,7 +93,10 @@ function _default(api) {
   const vconsole = config.vconsole,
         growingio = config.growingio,
         rem = config.rem,
-        sentry = config.sentry; // vconsole 模拟控制台
+        sentry = config.sentry,
+        trace = config.trace; // http tools
+
+  (0, _init.default)(api, isEnable(trace)); // vconsole 模拟控制台
 
   if (isEnable(vconsole)) {
     api.addRuntimePlugin(() => require.resolve('./plugins/vconsole'));
@@ -128,10 +131,8 @@ function _default(api) {
 
   if (isEnable(growingio)) {
     (0, _growingio.default)(api, growingio);
-  } // http tools
+  } // sentry
 
-
-  (0, _init.default)(api); // sentry
 
   if (isEnable(sentry)) {
     api.chainWebpack(chain => {

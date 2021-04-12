@@ -6,7 +6,7 @@ import { join } from 'path';
  * @file web request api
  */
 
-export default function (api: IApi) {
+export default function (api: IApi, useTrace: Boolean = false) {
   api.onCodeGenerate(function () {
     const { Mustache, paths } = api;
     const config = api.getConfig();
@@ -19,7 +19,9 @@ export default function (api: IApi) {
     api.writeFile(`${paths.absTmpPath}/request.ts`, prettierFormat(content));
   });
 
-  api.addRuntimePlugin(() => require.resolve('../plugins/trace'));
+  if (useTrace) {
+    api.addRuntimePlugin(() => require.resolve('../plugins/trace'));
+  }
 
   // 导出到 mdf 命名空间
   api.addRuntimeExports(function () {

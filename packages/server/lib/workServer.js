@@ -54,7 +54,7 @@ class WorkServer {
     app.set('x-powered-by', false);
     app.use(function (req, res, next) {
       res.header('Access-Control-Allow-Origin', req.headers.origin);
-      res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,X-Mdf-Proxy');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,X-Mdf-Proxy,X-Trace-Id');
       res.header('Access-Control-Allow-Credentials', 'true');
 
       if (req.method == 'OPTIONS') {

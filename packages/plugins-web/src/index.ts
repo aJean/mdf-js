@@ -83,7 +83,10 @@ export default function (api: IApi) {
   });
 
   const config = api.getConfig();
-  const { vconsole, growingio, rem, sentry } = config;
+  const { vconsole, growingio, rem, sentry, trace } = config;
+
+  // http tools
+  initHttp(api, isEnable(trace));
 
   // vconsole 模拟控制台
   if (isEnable(vconsole)) {
@@ -128,9 +131,6 @@ export default function (api: IApi) {
   if (isEnable(growingio)) {
     initGio(api, growingio);
   }
-
-  // http tools
-  initHttp(api);
 
   // sentry
   if (isEnable(sentry)) {

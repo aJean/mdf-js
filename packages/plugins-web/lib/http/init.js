@@ -18,7 +18,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * @file web request api
  */
-function _default(api) {
+function _default(api, useTrace = false) {
   api.onCodeGenerate(function () {
     const Mustache = api.Mustache,
           paths = api.paths;
@@ -29,7 +29,11 @@ function _default(api) {
     }, checkProxy(config)));
     api.writeFile(`${paths.absTmpPath}/request.ts`, (0, _utils.prettierFormat)(content));
   });
-  api.addRuntimePlugin(() => require.resolve('../plugins/trace')); // 导出到 mdf 命名空间
+
+  if (useTrace) {
+    api.addRuntimePlugin(() => require.resolve('../plugins/trace'));
+  } // 导出到 mdf 命名空间
+
 
   api.addRuntimeExports(function () {
     return {
