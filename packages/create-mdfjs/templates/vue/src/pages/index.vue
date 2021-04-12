@@ -27,7 +27,8 @@ export default defineComponent({
     const value = ref(0);
 
     const handleClick = function () {
-      request.get('/platform/checkApp');
+      this.showLoading('测试 loading 插件');
+      request.get('/platform/checkApp').finally(() => this.hideLoading());
     };
 
     return {
