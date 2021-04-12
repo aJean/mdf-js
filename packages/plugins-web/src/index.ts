@@ -11,6 +11,17 @@ import initHttp from './http/init';
 export default function (api: IApi) {
   // 定义的插件配置才可以被运行时读取到
   api.describe({
+    key: 'trace',
+    config: {
+      schema(joi: IJoi) {
+        return joi.object({
+          enable: joi.boolean(),
+        });
+      },
+    },
+  });
+
+  api.describe({
     key: 'vconsole',
     config: {
       schema(joi: IJoi) {

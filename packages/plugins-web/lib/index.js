@@ -21,6 +21,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _default(api) {
   // 定义的插件配置才可以被运行时读取到
   api.describe({
+    key: 'trace',
+    config: {
+      schema(joi) {
+        return joi.object({
+          enable: joi.boolean()
+        });
+      }
+
+    }
+  });
+  api.describe({
     key: 'vconsole',
     config: {
       schema(joi) {
