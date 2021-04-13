@@ -6,8 +6,7 @@
 
 <script>
 import { provide } from 'vue';
-
-import { decisions, isEnabled } from '../config/features';
+import { decisions, isEnabled } from './feature';
 
 export const FeatureDecisionsProviderSymbol = Symbol(
   'Feature decisions provider identifier'

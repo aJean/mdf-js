@@ -4,9 +4,7 @@
 
 <script>
 import { computed, inject } from 'vue';
-
-import { EXPORT_CSV } from '../config/features';
-
+import { EXPORT_CSV } from './feature';
 import { FeatureDecisionsProviderSymbol } from './ProvideFeatureDecisions.vue';
 
 export default {
