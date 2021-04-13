@@ -1,8 +1,9 @@
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue';
+import { ComponentCustomProperties } from 'vue'
 
-  const component: ReturnType<typeof defineComponent>;
-  export default component;
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $style: any;
+  }
 }
 
 declare module '*.css?module' {
