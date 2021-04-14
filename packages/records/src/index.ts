@@ -15,6 +15,7 @@ const records = [
   { version: '0.1.16', change: 'workserver 支持修改 port' },
   { version: '0.1.17', change: '增加 trace 功能' },
   { version: '0.1.18', change: 'request 增强，info 添加提示' },
+  { version: '0.1.19', change: '日常优化' },
 ];
 
 /**
