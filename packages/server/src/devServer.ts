@@ -29,7 +29,7 @@ export default class DevServer {
     webpackCompiler.hooks.done.tap('devDone', function(stats: any) {
       if (stats.hasErrors()) {
         console.log(stats.toString('errors-only'));
-        process.exit(1);
+        // process.exit(1); 不中断进程比较好，否则会影响开发体验
       }
 
       if (onFinish) {
