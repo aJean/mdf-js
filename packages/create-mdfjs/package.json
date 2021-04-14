@@ -1,6 +1,6 @@
 {
   "name": "create-mdfjs",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "create mdf web project",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -15,8 +15,8 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/records": "^0.1.17",
-    "@mdfjs/utils": "^0.1.17",
+    "@mdfjs/records": "^0.1.18",
+    "@mdfjs/utils": "^0.1.18",
     "inquirer": "7.3.3",
     "mkdirp": "1.0.4",
     "mustache": "4.0.1",
