@@ -1,5 +1,9 @@
 import { defineComponent, ref } from 'vue';
 
+/**
+ * @file 不建议纯 tsx 写 vue
+ */
+
 export default defineComponent({
   setup() {
     const count = ref(1);

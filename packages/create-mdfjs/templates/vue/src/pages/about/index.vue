@@ -1,17 +1,15 @@
 <template>
-  <ProvideFeatureDecisions>
-    <WidgetVisitors />
+  <ProvideFeature>
     <div>1212112123132122221221</div>
-  </ProvideFeatureDecisions>
+  </ProvideFeature>
 </template>
 
 <script>
-import ProvideFeatureDecisions from '@/components/ProvideFeatureDecisions.vue';
-import WidgetVisitors from '@/components/WidgetVisitors.vue';
+import ProvideFeature from '@/components/feature.vue';
 
 export default {
   name: 'App',
-  components: { ProvideFeatureDecisions, WidgetVisitors },
+  components: { ProvideFeature },
 };
 </script>
 
