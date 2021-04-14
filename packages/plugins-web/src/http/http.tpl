@@ -16,8 +16,9 @@ export type InterceptorPlugin = {
 
 export type HttpOpts = AxiosRequestConfig & {
   useProxy?: boolean;
-  onBefore?: Function;
-  onAfter?: Function;
+  onBefore?: (config: any) => void;
+  onSuccess?: (res: any) => any;
+  onError?: (err: HttpError) => void;
 };
 
 export { HttpInstance, HttpError, HttpResponse };
@@ -70,12 +71,18 @@ function create(opts: HttpOpts): HttpInstance {
     const actuator = genActuator(interceptors, 'after');
 
     return actuator(res).then((res) => {
-      if (opts.onAfter) {
-        res = opts.onAfter(res);
+      if (opts.onSuccess) {
+        res = opts.onSuccess(res);
       }
 
       return res;
     });
+  }, (err) => {
+    if (opts.onError) {
+      opts.onError(err);
+    }
+
+    return Promise.reject(err);
   });
 
   // 屏蔽 axios 自身属性

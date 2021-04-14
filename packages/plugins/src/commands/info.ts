@@ -5,27 +5,29 @@ import boxen, { BorderStyle } from 'boxen';
  * @file 获取框架信息、文档地址、demo 等都可以在这里输出
  */
 
-export default function(api: IApi) {
-
+export default function (api: IApi) {
   api.registerCommand({
     name: 'info',
     fn() {
       const { MDF_VERSION } = api.getConfig();
+      const internalIp = require('internal-ip');
 
-      const data = boxen(`mdf-js\nversion: ${MDF_VERSION}`, {
-        padding: {
-          top: 1,
-          left: 20,
-          right: 20,
-          bottom: 1,
-        },
-        margin: 1,
-        align: 'center',
-        borderStyle: BorderStyle.Classic,
-        borderColor: 'cyan',
+      internalIp.v4().then((ip: any) => {
+        const data = boxen(`mdf-js\nversion: ${MDF_VERSION}\nnetwork: ${ip}`, {
+          padding: {
+            top: 1,
+            left: 20,
+            right: 20,
+            bottom: 1,
+          },
+          margin: 1,
+          align: 'center',
+          borderStyle: BorderStyle.Classic,
+          borderColor: 'cyan',
+        });
+
+        console.log(data);
       });
-
-      console.log(data);
     },
   });
 }

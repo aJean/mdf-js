@@ -18,6 +18,7 @@
     "@mdfjs/types": "^0.1.17",
     "@mdfjs/utils": "^0.1.17",
     "boxen": "4.2.0",
+    "internal-ip": "^6.2.0",
     "joi2types": "1.0.7",
     "ora": "5.3.0"
   },
