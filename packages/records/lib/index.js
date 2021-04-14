@@ -45,7 +45,7 @@ const records = [{
   change: '增加 trace 功能'
 }, {
   version: '0.1.18',
-  change: '重写 sentry 功能'
+  change: 'request 增强，info 添加提示'
 }];
 /**
  * 取得所有发不过的版本
