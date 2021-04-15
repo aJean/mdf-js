@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "_mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
+    "dev": "MDF_ENV=dev yarn mdf dev",
     "build": "MDF_ENV=prod yarn mdf build",
-    "dev": "MDF_ENV=dev yarn mdf dev vue",
     "react": "yarn mdf create"
   },
   "gitHooks": {
