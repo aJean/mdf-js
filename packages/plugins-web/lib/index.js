@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
-var _webpackPlugin = _interopRequireDefault(require("@sentry/webpack-plugin"));
-
-var _path = _interopRequireDefault(require("path"));
-
 var _growingio = _interopRequireDefault(require("./growingio"));
+
+var _sentry = _interopRequireDefault(require("./sentry"));
+
+var _rem = _interopRequireDefault(require("./rem"));
 
 var _init = _interopRequireDefault(require("./http/init"));
 
@@ -81,22 +81,24 @@ function _default(api) {
         debug: false
       }
     }
-  });
+  }); // sentry
+
   api.describe({
     key: 'sentry',
     config: {
       schema(joi) {
         return joi.object({
           enable: joi.boolean(),
-          dsn: joi.any(),
-          urlPrefix: joi.array()
+          stripPrefix: joi.array(),
+          release: joi.string(),
+          dsn: joi.any().required(),
+          org: joi.string().required(),
+          project: joi.string().required()
         });
       },
 
       default: {
-        enable: false,
-        dsn: '',
-        urlPrefix: ['']
+        enable: false
       }
     }
   });
@@ -115,28 +117,7 @@ function _default(api) {
 
 
   if (isEnable(rem)) {
-    const pxtorem = require('postcss-pxtorem');
-
-    const rules = ['css', 'less', 'sass'];
-
-    const appendRemToPostcssOptions = opts => {
-      opts.postcssOptions.plugins.unshift(pxtorem({
-        rootValue: rem.rootValue || 100,
-        unitPrecision: 5,
-        minPixelValue: 2,
-        propList: ['*'],
-        exclude: /node_modules/i
-      }));
-      return opts;
-    };
-
-    api.chainWebpack(chain => {
-      rules.forEach(rule => {
-        chain.module.rule(rule).oneOf('css').use('postcssLoader').tap(appendRemToPostcssOptions);
-        chain.module.rule(rule).oneOf('css-modules').use('postcssLoader').tap(appendRemToPostcssOptions);
-      });
-    });
-    api.addRuntimePlugin(() => require.resolve('./plugins/rem'));
+    (0, _rem.default)(api, rem);
   } // gio 统计，即将用新的埋点 sdk
 
 
@@ -146,18 +127,8 @@ function _default(api) {
 
 
   if (isEnable(sentry)) {
-    api.chainWebpack(chain => {
-      chain.plugin('sentry').use(_webpackPlugin.default, [{
-        release: `${config.PRO_NAME}-${config.PRO_VERSION}`,
-        entries: [],
-        include: chain.output.get('path'),
-        ignoreFile: '.sentrycliignore',
-        configFile: '.sentryclirc',
-        stripPrefix: [_path.default.dirname(chain.output.get('path'))],
-        rewrite: true
-      }]);
-    });
-    api.addRuntimePlugin(() => require.resolve('./plugins/sentry'));
+    sentry.release = `${config.PRO_NAME}@${config.PRO_VERSION}`;
+    (0, _sentry.default)(api, sentry);
   }
 }
 

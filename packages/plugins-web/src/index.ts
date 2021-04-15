@@ -1,7 +1,7 @@
 import { IApi, IJoi } from '@mdfjs/types';
-import SentryWebpackPlugin from '@sentry/webpack-plugin';
-import path from 'path';
 import initGio from './growingio';
+import initSentry from './sentry';
+import initRem from './rem';
 import initHttp from './http/init';
 
 /**
@@ -74,21 +74,23 @@ export default function (api: IApi) {
     },
   });
 
+  // sentry
   api.describe({
     key: 'sentry',
     config: {
       schema(joi: IJoi) {
         return joi.object({
           enable: joi.boolean(),
-          dsn: joi.any(),
-          urlPrefix: joi.array(),
+          stripPrefix: joi.array(),
+          release: joi.string(),
+          dsn: joi.any().required(),
+          org: joi.string().required(),
+          project: joi.string().required(),
         });
       },
 
       default: {
         enable: false,
-        dsn: '',
-        urlPrefix: [''],
       },
     },
   });
@@ -106,36 +108,7 @@ export default function (api: IApi) {
 
   // 响应式
   if (isEnable(rem)) {
-    const pxtorem = require('postcss-pxtorem');
-    const rules = ['css', 'less', 'sass'];
-
-    const appendRemToPostcssOptions = (opts: any) => {
-      opts.postcssOptions.plugins.unshift(
-        pxtorem({
-          rootValue: rem.rootValue || 100,
-          unitPrecision: 5,
-          minPixelValue: 2,
-          propList: ['*'],
-          exclude: /node_modules/i,
-        }),
-      );
-
-      return opts;
-    };
-
-    api.chainWebpack((chain) => {
-      rules.forEach((rule) => {
-        chain.module.rule(rule).oneOf('css').use('postcssLoader').tap(appendRemToPostcssOptions);
-
-        chain.module
-          .rule(rule)
-          .oneOf('css-modules')
-          .use('postcssLoader')
-          .tap(appendRemToPostcssOptions);
-      });
-    });
-
-    api.addRuntimePlugin(() => require.resolve('./plugins/rem'));
+    initRem(api, rem);
   }
 
   // gio 统计，即将用新的埋点 sdk
@@ -145,21 +118,8 @@ export default function (api: IApi) {
 
   // sentry
   if (isEnable(sentry)) {
-    api.chainWebpack((chain) => {
-      chain.plugin('sentry').use(SentryWebpackPlugin, [
-        {
-          release: `${config.PRO_NAME}-${config.PRO_VERSION}`,
-          entries: [],
-          include: chain.output.get('path'),
-          ignoreFile: '.sentrycliignore',
-          configFile: '.sentryclirc',
-          stripPrefix: [path.dirname(chain.output.get('path'))],
-          rewrite: true,
-        },
-      ]);
-    });
-
-    api.addRuntimePlugin(() => require.resolve('./plugins/sentry'));
+    sentry.release = `${config.PRO_NAME}@${config.PRO_VERSION}`;
+    initSentry(api, sentry);
   }
 }
 

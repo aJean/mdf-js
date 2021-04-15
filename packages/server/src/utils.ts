@@ -4,9 +4,14 @@ import fs from 'fs';
  * @file utils
  */
 
+export const yapi_cookie =
+  '_yapi_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjExLCJpYXQiOjE2MTg0NTkwNDQsImV4cCI6MTYxOTA2Mzg0NH0.8SEf_LQhUsZHiJ1cMAnDE6XlRKbOXu8t4LyE3PvjpaY; _yapi_uid=11';
+
+/**
+ * yapi 的 cookie
+ */
 export function getYapiToken() {
-  // 应该申请一个通用最高权限的 token
-  return '_yapi_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjY3LCJpYXQiOjE2MDk3NjY0NzcsImV4cCI6MTYxMDM3MTI3N30.bxB_UxDVUEtBQbB0F6JL_EZZp2KStNvMD94_d0aufjk;_yapi_uid=67';
+  return yapi_cookie;
 }
 
 /**
@@ -23,4 +28,19 @@ export function loadUserProxy() {
     console.log(e);
     process.exit(1);
   }
+}
+
+/**
+ * 允许的跨区头
+ */
+export function getCorsHeaders() {
+  return [
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Mdf-Proxy',
+    'X-Trace-Id',
+    'X-Analysis',
+    'Authorization',
+  ].join(',');
 }

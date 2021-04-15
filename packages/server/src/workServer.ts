@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { createProxyMiddleware, Options as ProxyOptions } from 'http-proxy-middleware';
 import http from 'http';
 import url from 'url';
-import { loadUserProxy, getYapiToken } from './utils';
+import { loadUserProxy, getYapiToken, getCorsHeaders } from './utils';
 
 /**
  * @file 这个模块将会聚合以下功能：proxy、ws 通信、ui 原子交互
@@ -57,10 +57,7 @@ class WorkServer {
     app.set('x-powered-by', false);
     app.use(function (req: Request, res: Response, next: NextFunction) {
       res.header('Access-Control-Allow-Origin', req.headers.origin);
-      res.header(
-        'Access-Control-Allow-Headers',
-        'X-Requested-With,Content-Type,Accept,X-Mdf-Proxy,X-Trace-Id',
-      );
+      res.header('Access-Control-Allow-Headers', getCorsHeaders());
       res.header('Access-Control-Allow-Credentials', 'true');
 
       if (req.method == 'OPTIONS') {

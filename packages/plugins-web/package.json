@@ -15,12 +15,11 @@
     "@mdfjs/runtime": "^0.1.18",
     "@mdfjs/types": "^0.1.18",
     "@mdfjs/utils": "^0.1.18",
-    "@sentry/browser": "5.15.0",
-    "@sentry/cli": "1.61.0",
-    "@sentry/webpack-plugin": "1.14.0",
-    "axios": "^0.21.1",
+    "@sentry/cli": "1.64.0",
+    "@sentry/webpack-plugin": "1.15.0",
+    "axios": "0.21.1",
     "postcss-pxtorem": "5.1.1",
-    "vconsole": "3.3.4"
+    "vconsole": "^3.4.1"
   },
   "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
   "publishConfig": {

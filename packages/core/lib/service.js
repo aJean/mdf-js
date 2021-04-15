@@ -233,7 +233,6 @@ class Service {
     } catch (e) {
       Utils.chalkPrint(`can not run command ${name}`, 'red');
       console.log(e);
-      process.exit(1);
     }
   }
 
