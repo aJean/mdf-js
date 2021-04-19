@@ -21,11 +21,13 @@ export default defineComponent({
 <router>
 {
   meta: {
-    test: 23123
+    test: 55555
   },
+
   async: true,
+
   props(params) {
     console.log(params);
-  }
+  },
 }
 </router>

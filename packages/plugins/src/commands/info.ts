@@ -10,24 +10,21 @@ export default function (api: IApi) {
     name: 'info',
     fn() {
       const { MDF_VERSION } = api.getConfig();
-      const internalIp = require('internal-ip');
 
-      internalIp.v4().then((ip: any) => {
-        const data = boxen(`mdf-js\nversion: ${MDF_VERSION}\nnetwork: ${ip}`, {
-          padding: {
-            top: 1,
-            left: 20,
-            right: 20,
-            bottom: 1,
-          },
-          margin: 1,
-          align: 'center',
-          borderStyle: BorderStyle.Classic,
-          borderColor: 'cyan',
-        });
-
-        console.log(data);
+      const data = boxen(`mdf-js\nversion: ${MDF_VERSION}`, {
+        padding: {
+          top: 1,
+          left: 20,
+          right: 20,
+          bottom: 1,
+        },
+        margin: 1,
+        align: 'center',
+        borderStyle: BorderStyle.Classic,
+        borderColor: 'cyan',
       });
+
+      console.log(data);
     },
   });
 }

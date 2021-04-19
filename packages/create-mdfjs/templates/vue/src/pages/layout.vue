@@ -30,7 +30,7 @@ export default defineComponent({
     const handleClick = function () {
       this.showLoading('测试 loading 插件');
       request
-        .get('/platform/checkApp')
+        .get('/platform/checkApp', {headers: {Authorization: 1}})
         .then((res) => console.log(res))
         .finally(() => this.hideLoading());
     };
@@ -56,3 +56,11 @@ export default defineComponent({
   background: rgb(189, 167, 167);
 }
 </style>
+
+<router>
+{
+  meta: {
+    test: 1
+  },
+}
+</router>

@@ -12,7 +12,9 @@ export interface IServerOpts {
 export default class DevServer {
     opts: IServerOpts;
     httpServer: any;
+    host: string;
     constructor(opts: IServerOpts);
+    createOpts(opts: IServerOpts): void;
     createServer(): void;
     start(): void;
     close(): void;

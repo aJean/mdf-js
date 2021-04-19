@@ -4,8 +4,8 @@
 <router>
 {
   props(){
-    console.log('2224441212')
-  }
+    console.log('home c');
+  },
 }
 </router>
 <style lang="less" scoped>

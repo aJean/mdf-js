@@ -22,25 +22,21 @@ function _default(api) {
       const _api$getConfig = api.getConfig(),
             MDF_VERSION = _api$getConfig.MDF_VERSION;
 
-      const internalIp = require('internal-ip');
-
-      internalIp.v4().then(ip => {
-        const data = (0, _boxen.default)(`mdf-js\nversion: ${MDF_VERSION}\nnetwork: ${ip}`, {
-          padding: {
-            top: 1,
-            left: 20,
-            right: 20,
-            bottom: 1
-          },
-          margin: 1,
-          align: 'center',
-          borderStyle: "classic"
-          /* Classic */
-          ,
-          borderColor: 'cyan'
-        });
-        console.log(data);
+      const data = (0, _boxen.default)(`mdf-js\nversion: ${MDF_VERSION}`, {
+        padding: {
+          top: 1,
+          left: 20,
+          right: 20,
+          bottom: 1
+        },
+        margin: 1,
+        align: 'center',
+        borderStyle: "classic"
+        /* Classic */
+        ,
+        borderColor: 'cyan'
       });
+      console.log(data);
     }
 
   });

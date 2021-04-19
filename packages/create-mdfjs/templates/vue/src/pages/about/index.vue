@@ -15,13 +15,14 @@ export default {
 
 <router>
   {
-    props(params){
+    props(params) {
       console.log(params);
-      console.log('qy');
     },
+
     meta: {
-      test: 1233321231232222
+      test: 'hello'
     },
-    redirect: '/home/a'
+
+    redirect: '/home/a',
   }
 </router>
