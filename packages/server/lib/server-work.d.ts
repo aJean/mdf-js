@@ -31,6 +31,7 @@ export declare class WorkServer {
     proxyMiddleware(): void;
     start(): void;
     close(): void;
+    print(from: string, to: string): void;
 }
 /**
  * 首次创建服务传入外部参数使用这个方法

@@ -83,7 +83,7 @@ export default function (api: IApi) {
           workRes.msg && console.log(` - ${workRes.msg}`);
 
           initWatchers(api, devRes.server, !!workRes);
-        }, 500);
+        }, 800);
       });
     },
   });

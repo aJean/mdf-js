@@ -5,11 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = getServerOpts;
 
-var _child_process = require("child_process");
-
 var _path = require("path");
 
-var _open = _interopRequireDefault(require("open"));
+var _openBrowser = _interopRequireDefault(require("../scripts/openBrowser"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -61,35 +59,11 @@ function getServerOpts(opts = {}) {
         });
       }
 
-      compiler.hooks.watchRun.tap('CleanConsolePlugin', () => {
-        try {
-          console.clear();
-          process.stdout.write('\x1Bc');
-        } catch (e) {//
-        }
-      });
+      compiler.hooks.watchRun.tap('clean-console', () => process.stdout.write('\x1B[2J\x1B[3J\x1B[H'));
     },
 
     after() {
-      const url = `http://${host}:${port}`;
-      const supportedChromiumBrowsers = ['Google Chrome Canary', 'Google Chrome', 'Microsoft Edge', 'Brave Browser', 'Vivaldi', 'Chromium'];
-
-      for (var _i = 0, _supportedChromiumBro = supportedChromiumBrowsers; _i < _supportedChromiumBro.length; _i++) {
-        let chromiumBrowser = _supportedChromiumBro[_i];
-
-        try {
-          // mac 上可以通过 osascript 进行tab复用
-          (0, _child_process.execSync)('ps cax | grep "' + chromiumBrowser + '"');
-          (0, _child_process.execSync)('osascript openChrome.applescript "' + encodeURI(url) + '" "' + chromiumBrowser + '"', {
-            cwd: __dirname,
-            stdio: 'ignore'
-          });
-          return;
-        } catch (err) {}
-      } // 如果复用 tab 失败， 打开新标签页
-
-
-      (0, _open.default)(url).catch(() => {});
+      (0, _openBrowser.default)(`http://${host}:${port}`);
     }
 
   };

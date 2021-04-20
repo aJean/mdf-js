@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { createProxyMiddleware, Options as ProxyOptions } from 'http-proxy-middleware';
+import { createProxyMiddleware, Options as ProxyOpts } from 'http-proxy-middleware';
 import http from 'http';
 import url from 'url';
 import { loadUserProxy, getYapiToken, getCorsHeaders } from './utils';
@@ -83,15 +83,17 @@ export class WorkServer {
   proxyMiddleware() {
     // 每次安装都要重新读取 proxy 配置
     const { server, paths } = loadUserProxy();
+    const rootProxy = genProxyMiddleware(server);
 
-    const proxyMiddleware = genProxyMiddleware(server);
-    // context + bypass 模式
-    this.app.use(function (req: Request, res: Response, next: NextFunction) {
+    // TODO: context + bypass 模式, 动态创建对性能有损失
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
       const requestPath = req.path;
+      const toPath = paths[requestPath];
 
       // 完整匹配
-      if (paths[requestPath]) {
-        const exactProxy = genProxyMiddleware(requestPath, paths[requestPath]);
+      if (toPath) {
+        const exactProxy = genProxyMiddleware(requestPath, toPath);
+        this.print(requestPath, toPath);
         return exactProxy ? exactProxy(req, res, next) : next();
       }
 
@@ -102,12 +104,14 @@ export class WorkServer {
 
         if (new RegExp(path, 'i').test(requestPath)) {
           const fuzzyProxy = genProxyMiddleware(address)!;
+          this.print(requestPath, address);
           return fuzzyProxy(req, res, next);
         }
       }
 
       // 返回的数据结构还需要 parse function
-      return proxyMiddleware ? proxyMiddleware(req, res, next) : next();
+      this.print(requestPath, server);
+      return rootProxy ? rootProxy(req, res, next) : next();
     });
   }
 
@@ -126,19 +130,21 @@ export class WorkServer {
   close() {
     this.httpServer.close();
   }
+
+  print(from: string, to: string) {
+    console.log(`[HPM] Proxy created: ${from}  -> ${to}`);
+  }
 }
 
 /**
- * 根据路径映射生成 proxy middleware
+ * 根据路径映射生成 proxy route function
  */
-function genProxyMiddleware(...args: any) {
-  if (args.length < 2) {
-    const server = args[0];
-    return server ? createProxyMiddleware(genProxyConfig({ target: server })) : null;
+function genProxyMiddleware(context: string, mapping?: string) {
+  if (!mapping) {
+    return createProxyMiddleware(genProxyOpts({ target: context, logLevel: 'info' }));
   }
 
-  const context = args[0];
-  const data = url.parse(args[1]);
+  const data = url.parse(mapping);
 
   if (data.host) {
     const path = `${data.pathname}${data.search || ''}`;
@@ -146,11 +152,11 @@ function genProxyMiddleware(...args: any) {
 
     return createProxyMiddleware(
       context,
-      genProxyConfig({
+      genProxyOpts({
         target,
         pathRewrite: { [context]: path },
-        // 针对 yapi 的接口设置 cookie
         onProxyReq(proxyReq) {
+          // 针对 yapi 的接口设置 cookie
           proxyReq.setHeader('cookie', getYapiToken());
         },
       }),
@@ -161,20 +167,22 @@ function genProxyMiddleware(...args: any) {
 }
 
 /**
- * 生成 proxy config
+ * 生成 proxy opts
  */
-function genProxyConfig(config: ProxyOptions): ProxyOptions {
-  const defaultConfig: ProxyOptions = {
-    changeOrigin: true,
-    secure: false,
+function genProxyOpts(opts: ProxyOpts): ProxyOpts {
+  return Object.assign(
+    {
+      changeOrigin: true,
+      secure: false,
+      logLevel: 'warn',
 
-    onError(err, req, res) {
-      console.log(err.message);
-      res.end('Something went wrong. Please contact qy to resolve!');
-    },
-  };
-
-  return Object.assign(defaultConfig, config);
+      onError(err, req, res) {
+        console.log(err.message);
+        res.end('Something went wrong. Please contact qy to resolve!');
+      },
+    } as ProxyOpts,
+    opts,
+  );
 }
 
 let workServer: WorkServer;

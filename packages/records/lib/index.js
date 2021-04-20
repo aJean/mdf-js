@@ -55,6 +55,9 @@ const records = [{
 }, {
   version: '0.1.21',
   change: '@mdfjs/server 重构'
+}, {
+  version: '0.1.22',
+  change: 'work proxy 日志'
 }];
 /**
  * 取得所有发不过的版本

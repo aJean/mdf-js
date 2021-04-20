@@ -1,6 +1,5 @@
-import { execSync } from 'child_process';
 import { resolve as resolvePath } from 'path';
-import open from 'open';
+import openBrowser from '../scripts/openBrowser';
 
 /**
  * @file 配置 webpack dev server
@@ -49,44 +48,13 @@ export default function getServerOpts(opts: any = {}) {
         });
       }
 
-      compiler.hooks.watchRun.tap('CleanConsolePlugin', () => {
-        try {
-          console.clear();
-          process.stdout.write('\x1Bc');
-        } catch (e) {
-          //
-        }
-      });
+      compiler.hooks.watchRun.tap('clean-console', () =>
+        process.stdout.write('\x1B[2J\x1B[3J\x1B[H'),
+      );
     },
 
     after() {
-      const url = `http://${host}:${port}`;
-      const supportedChromiumBrowsers = [
-        'Google Chrome Canary',
-        'Google Chrome',
-        'Microsoft Edge',
-        'Brave Browser',
-        'Vivaldi',
-        'Chromium',
-      ];
-
-      for (let chromiumBrowser of supportedChromiumBrowsers) {
-        try {
-          // mac 上可以通过 osascript 进行tab复用
-          execSync('ps cax | grep "' + chromiumBrowser + '"');
-          execSync(
-            'osascript openChrome.applescript "' + encodeURI(url) + '" "' + chromiumBrowser + '"',
-            {
-              cwd: __dirname,
-              stdio: 'ignore',
-            },
-          );
-          return;
-        } catch (err) {}
-      }
-
-      // 如果复用 tab 失败， 打开新标签页
-      open(url).catch(() => {});
+      openBrowser(`http://${host}:${port}`);
     },
   };
 }
