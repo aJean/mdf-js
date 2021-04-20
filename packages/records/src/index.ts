@@ -19,20 +19,21 @@ const records = [
   { version: '0.1.20', change: '日常优化' },
   { version: '0.1.21', change: '@mdfjs/server 重构' },
   { version: '0.1.22', change: 'work proxy 日志' },
+  { version: '0.1.23', change: '日常优化' },
 ];
 
 /**
  * 取得所有发不过的版本
  */
 export function getVersions() {
-  return records.map(record => record.version);
+  return records.map((record) => record.version);
 }
 
 /**
  * 取得特定版本的 release
  */
 export function getRelease(vid: string) {
-  const data = records.find(record => record.version == vid);
+  const data = records.find((record) => record.version == vid);
   return data ? data.change : undefined;
 }
 

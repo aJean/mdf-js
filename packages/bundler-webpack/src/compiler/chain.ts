@@ -168,7 +168,7 @@ export default function(userConfig: any) {
     () => {
       chain.plugin('hotPlugin').use(webpack.HotModuleReplacementPlugin);
 
-      chain.watchOptions({ ignored: /node_modules/, aggregateTimeout: 500 });
+      chain.watchOptions({ ignored: /node_modules/, aggregateTimeout: 300 });
 
       chain.stats({
         all: false,
