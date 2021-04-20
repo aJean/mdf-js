@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.startWorkServer = startWorkServer;
 exports.restartWorkServer = restartWorkServer;
+exports.WorkServer = void 0;
 
 var _express = _interopRequireDefault(require("express"));
 
@@ -21,8 +22,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class WorkServer {
   constructor(opts) {
     this.app = (0, _express.default)();
-    this.opts = opts;
+    this.createOpts(opts);
     this.createServer();
+  }
+
+  createOpts(opts) {
+    if (!opts.port) {
+      opts.port = 9000;
+    }
+
+    this.opts = opts;
   }
 
   createServer() {
@@ -104,9 +113,16 @@ class WorkServer {
   }
 
   start() {
-    const port = this.opts.port || 9000;
-    this.httpServer.listen(port, '0.0.0.0', 5, () => {
-      console.log(`workserver is listening on localhost:${port}`);
+    const _this$opts = this.opts,
+          onError = _this$opts.onError,
+          onListening = _this$opts.onListening,
+          port = _this$opts.port;
+    this.httpServer.listen(port, '0.0.0.0', 5, err => {
+      if (err) {
+        return onError ? onError(err) : console.log(err);
+      }
+
+      onListening && onListening();
     });
   }
 
@@ -119,6 +135,8 @@ class WorkServer {
  * 根据路径映射生成 proxy middleware
  */
 
+
+exports.WorkServer = WorkServer;
 
 function genProxyMiddleware(...args) {
   if (args.length < 2) {
@@ -177,12 +195,23 @@ let serverOpts;
  */
 
 function startWorkServer(opts = {}, callback) {
-  // 因为使用了 hooks.done，要避免 compile 过程执行多次
-  if (!workServer) {
+  return new Promise(function (resolve, reject) {
+    Object.assign(opts, {
+      onListening() {
+        resolve({
+          server: workServer,
+          msg: `work-server is running at localhost:${opts.port}`
+        });
+      },
+
+      onError(err) {
+        reject(err);
+      }
+
+    });
     workServer = new WorkServer(serverOpts = opts);
     workServer.start();
-    callback && callback();
-  }
+  });
 }
 /**
  * watch 变化重启服务使用这个方法

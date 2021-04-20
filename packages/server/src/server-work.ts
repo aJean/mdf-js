@@ -8,7 +8,7 @@ import { loadUserProxy, getYapiToken, getCorsHeaders } from './utils';
  * @file 这个模块将会聚合以下功能：proxy、ws 通信、ui 原子交互
  */
 
-export interface IServerOpts {
+export interface WorkOpts {
   port?: number;
   proxy?: any;
   ws?: boolean;
@@ -18,14 +18,23 @@ export interface IServerOpts {
   onFinish?: (...args: any) => void;
 }
 
-class WorkServer {
-  app = express();
-  opts: IServerOpts;
+export class WorkServer {
+  // @ts-ignore
+  opts: WorkOpts;
   httpServer: any;
+  app = express();
 
-  constructor(opts: IServerOpts) {
-    this.opts = opts;
+  constructor(opts: WorkOpts) {
+    this.createOpts(opts);
     this.createServer();
+  }
+
+  createOpts(opts: WorkOpts) {
+    if (!opts.port) {
+      opts.port = 9000;
+    }
+
+    this.opts = opts;
   }
 
   createServer() {
@@ -103,10 +112,14 @@ class WorkServer {
   }
 
   start() {
-    const port = this.opts.port || 9000;
+    const { onError, onListening, port } = this.opts;
 
-    this.httpServer.listen(port, '0.0.0.0', 5, () => {
-      console.log(`workserver is listening on localhost:${port}`);
+    this.httpServer.listen(port, '0.0.0.0', 5, (err: any) => {
+      if (err) {
+        return onError ? onError(err) : console.log(err);
+      }
+
+      onListening && onListening();
     });
   }
 
@@ -165,17 +178,25 @@ function genProxyConfig(config: ProxyOptions): ProxyOptions {
 }
 
 let workServer: WorkServer;
-let serverOpts: IServerOpts;
+let serverOpts: WorkOpts;
 /**
  * 首次创建服务传入外部参数使用这个方法
  */
-export function startWorkServer(opts: IServerOpts = {}, callback?: Function) {
-  // 因为使用了 hooks.done，要避免 compile 过程执行多次
-  if (!workServer) {
+export function startWorkServer(opts: WorkOpts = {}, callback?: Function) {
+  return new Promise(function (resolve, reject) {
+    Object.assign(opts, {
+      onListening() {
+        resolve({ server: workServer, msg: `work-server is running at localhost:${opts.port}` });
+      },
+
+      onError(err: any) {
+        reject(err);
+      },
+    });
+
     workServer = new WorkServer((serverOpts = opts));
     workServer.start();
-    callback && callback();
-  }
+  });
 }
 
 /**

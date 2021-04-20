@@ -24,7 +24,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  */
 function _default(api) {
   const paths = api.paths,
-        PluginType = api.PluginType; // test: 修改用户配置
+        PluginType = api.PluginType; // @test 修改用户配置
 
   api.changeUserConfig(function (config) {
     // config.devServer.port = 9999;
@@ -84,21 +84,23 @@ function _default(api) {
               webpackCompiler = _bundler$setupDev.webpackCompiler,
               serverOpts = _bundler$setupDev.serverOpts;
 
-        const server = new _server.DevServer({
-          webpackCompiler,
-          serverOpts,
+        const workServer = config.workServer;
+        const reqs = Promise.all([(0, _server.startDevServer)(webpackCompiler, serverOpts), workServer ? (0, _server.startWorkServer)(workServer) : null]);
+        reqs.then(res => {
+          const devRes = res[0];
+          const workRes = res[1]; // 必须加个延时，要在 webpack 之后输出
 
-          onFinish() {
+          setTimeout(function () {
             api.invokePlugin({
               key: 'processDone',
               type: PluginType.flush
             });
-            initWorkServer(config, unwatchs);
-          }
-
+            (0, _utils.chalkPrints)([[`\nsuccess: `, 'green'], ` mdf server`]);
+            console.log(` - ${devRes.msg}`);
+            workRes.msg && console.log(` - ${workRes.msg}`);
+            initWatchers(api, devRes.server, !!workRes);
+          }, 500);
         });
-        const unwatchs = initWatches(api, server);
-        server.start();
       })();
     }
 
@@ -112,60 +114,45 @@ function generateCode(api) {
   });
 }
 /**
- * 监控 config 目录
+ * 初始化监控
  */
 
 
-function initWatches(api, server) {
+function initWatchers(api, server, useProxy = false) {
   const unwatchs = [];
-  const unwatchConfig = (0, _utils.watch)({
+  unwatchs.push((0, _utils.watch)({
     path: (0, _path.resolve)('./config'),
     useMemo: true,
+    exclude: /proxy.json/i,
     onChange: function onChange(type, path) {
-      // 代理服务会自己处理
-      if (/proxy.json/.test(path)) {
-        return;
-      }
-
       (0, _utils.chalkPrints)([[`${type}: `, 'green'], ` ${path}`]);
-      (0, _utils.chalkPrints)([[`restart: `, 'yellow'], ` mdf server`]);
+      (0, _utils.chalkPrints)([[`restart: `, 'yellow'], ` dev-server`]);
       unwatchs.forEach(unwatch => unwatch());
       server.close();
       process.send({
         type: 'RESTART'
       });
     }
-  }); // 变化比较快，没必要提示了
+  })); // 变化比较快，没必要提示了
 
-  const unwatchApp = (0, _utils.watch)({
+  unwatchs.push((0, _utils.watch)({
     path: (0, _path.resolve)((0, _utils.genAppPath)(api)),
     onChange: function onChange() {
       generateCode(api);
     }
-  });
-  unwatchs.push(unwatchConfig, unwatchApp);
-  return unwatchs;
-}
-/**
- * 启动代理服务
- */
+  }));
 
-
-function initWorkServer(config, unwatchs) {
-  if (!config.workServer) {
-    return;
-  } // workServer 只配置开关，读取 proxy 放在 server 内部处理
-
-
-  (0, _server.startWorkServer)(config.workServer, function () {
-    const unwatchProxy = (0, _utils.watch)({
+  if (useProxy) {
+    // 读取 proxy 放在 work-server 内部处理
+    unwatchs.push((0, _utils.watch)({
       path: (0, _path.resolve)('./config/proxy.json'),
       onChange: function onChange() {
         process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
-        (0, _utils.chalkPrints)([[`restart: `, 'yellow'], ` workserver`]);
+        (0, _utils.chalkPrints)([[`restart: `, 'yellow'], ` work-server`]);
         (0, _server.restartWorkServer)();
       }
-    });
-    unwatchs.push(unwatchProxy);
-  });
+    }));
+  }
+
+  return unwatchs;
 }

@@ -1,7 +1,7 @@
 /**
  * @file 配置 webpack dev server
  */
-export default function getDevServerOpts(opts?: any): {
+export default function getServerOpts(opts?: any): {
     port: any;
     host: any;
     contentBase: any;

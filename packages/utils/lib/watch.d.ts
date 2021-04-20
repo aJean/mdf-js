@@ -5,6 +5,7 @@ export declare type IWatchOpts = {
     path: string;
     keys?: string[];
     useMemo?: boolean;
+    exclude?: RegExp;
     onChange: (type: string, path: string) => void;
 };
 export declare function watch(opts: IWatchOpts): (() => void) | undefined;

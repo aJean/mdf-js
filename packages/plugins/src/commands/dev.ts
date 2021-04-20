@@ -1,6 +1,6 @@
 import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
-import { DevServer, startWorkServer, restartWorkServer } from '@mdfjs/server';
+import { startDevServer, startWorkServer, restartWorkServer } from '@mdfjs/server';
 import { watch, chalkPrints, genAppPath, Spinner } from '@mdfjs/utils';
 import { resolve as resolvePath } from 'path';
 
@@ -11,7 +11,7 @@ import { resolve as resolvePath } from 'path';
 export default function (api: IApi) {
   const { paths, PluginType } = api;
 
-  // test: 修改用户配置
+  // @test 修改用户配置
   api.changeUserConfig(function (config) {
     // config.devServer.port = 9999;
     return config;
@@ -65,17 +65,26 @@ export default function (api: IApi) {
 
       // dev pipeline
       const { webpackCompiler, serverOpts } = bundler.setupDev();
-      const server = new DevServer({
-        webpackCompiler,
-        serverOpts,
-        onFinish() {
-          api.invokePlugin({ key: 'processDone', type: PluginType.flush });
-          initWorkServer(config, unwatchs);
-        },
-      });
+      const { workServer } = config;
+      const reqs = Promise.all([
+        startDevServer(webpackCompiler, serverOpts),
+        workServer ? startWorkServer(workServer) : null,
+      ]);
 
-      const unwatchs: any = initWatches(api, server);
-      server.start();
+      reqs.then((res) => {
+        const devRes: any = res[0];
+        const workRes: any = res[1];
+        // 必须加个延时，要在 webpack 之后输出
+        setTimeout(function () {
+          api.invokePlugin({ key: 'processDone', type: PluginType.flush });
+
+          chalkPrints([[`\nsuccess: `, 'green'], ` mdf server`]);
+          console.log(` - ${devRes.msg}`);
+          workRes.msg && console.log(` - ${workRes.msg}`);
+
+          initWatchers(api, devRes.server, !!workRes);
+        }, 500);
+      });
     },
   });
 }
@@ -85,61 +94,50 @@ function generateCode(api: IApi): Promise<any> {
 }
 
 /**
- * 监控 config 目录
+ * 初始化监控
  */
-function initWatches(api: IApi, server: DevServer) {
+function initWatchers(api: IApi, server: any, useProxy = false) {
   const unwatchs: any = [];
 
-  const unwatchConfig = watch({
-    path: resolvePath('./config'),
-    useMemo: true,
-    onChange: function (type: any, path: string) {
-      // 代理服务会自己处理
-      if (/proxy.json/.test(path)) {
-        return;
-      }
+  unwatchs.push(
+    watch({
+      path: resolvePath('./config'),
+      useMemo: true,
+      exclude: /proxy.json/i,
+      onChange: function (type: any, path: string) {
+        chalkPrints([[`${type}: `, 'green'], ` ${path}`]);
+        chalkPrints([[`restart: `, 'yellow'], ` dev-server`]);
+        unwatchs.forEach((unwatch: Function) => unwatch());
 
-      chalkPrints([[`${type}: `, 'green'], ` ${path}`]);
-      chalkPrints([[`restart: `, 'yellow'], ` mdf server`]);
-      unwatchs.forEach((unwatch: Function) => unwatch());
-
-      server.close();
-      process.send!({ type: 'RESTART' });
-    },
-  });
+        server.close();
+        process.send!({ type: 'RESTART' });
+      },
+    }),
+  );
 
   // 变化比较快，没必要提示了
-  const unwatchApp = watch({
-    path: resolvePath(genAppPath(api)),
-    onChange: function () {
-      generateCode(api);
-    },
-  });
+  unwatchs.push(
+    watch({
+      path: resolvePath(genAppPath(api)),
+      onChange: function () {
+        generateCode(api);
+      },
+    }),
+  );
 
-  unwatchs.push(unwatchConfig, unwatchApp);
-
-  return unwatchs;
-}
-
-/**
- * 启动代理服务
- */
-function initWorkServer(config: any, unwatchs: Array<any>) {
-  if (!config.workServer) {
-    return;
+  if (useProxy) {
+    // 读取 proxy 放在 work-server 内部处理
+    unwatchs.push(
+      watch({
+        path: resolvePath('./config/proxy.json'),
+        onChange: function () {
+          process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
+          chalkPrints([[`restart: `, 'yellow'], ` work-server`]);
+          restartWorkServer();
+        },
+      }),
+    );
   }
 
-  // workServer 只配置开关，读取 proxy 放在 server 内部处理
-  startWorkServer(config.workServer, function () {
-    const unwatchProxy = watch({
-      path: resolvePath('./config/proxy.json'),
-      onChange: function () {
-        process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
-        chalkPrints([[`restart: `, 'yellow'], ` workserver`]);
-        restartWorkServer();
-      },
-    });
-
-    unwatchs.push(unwatchProxy);
-  });
+  return unwatchs;
 }

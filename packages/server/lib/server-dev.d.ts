@@ -2,20 +2,24 @@ import { Compiler } from 'webpack';
 /**
  * @file 封装 webpack-dev-server
  */
-export interface IServerOpts {
+export interface DevOpts {
     webpackCompiler: Compiler;
-    serverOpts: any;
+    dev: any;
     onError?: Function;
     onListening?: Function;
     onFinish?: (...args: any) => void;
 }
-export default class DevServer {
-    opts: IServerOpts;
+export declare class DevServer {
+    opts: DevOpts;
     httpServer: any;
     host: string;
-    constructor(opts: IServerOpts);
-    createOpts(opts: IServerOpts): void;
+    constructor(opts: DevOpts);
+    createOpts(opts: DevOpts): void;
     createServer(): void;
     start(): void;
     close(): void;
 }
+/**
+ * 服务启动 helper function
+ */
+export declare function startDevServer(webpackCompiler: Compiler, dev: any): Promise<unknown>;

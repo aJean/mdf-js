@@ -1,9 +1,9 @@
 import Server from './server';
-import DevServer from './devServer';
 
 /**
  * @file mdf node server
  */
 
-export { Server, DevServer };
-export * from './workServer';
+export { Server };
+export * from './server-dev';
+export * from './server-work';

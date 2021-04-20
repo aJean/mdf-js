@@ -1,7 +1,7 @@
 import { IBundler } from '@mdfjs/core';
 import webpack, { Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import getDevServerOpts from './devServer';
+import getServerOpts from './options/server';
 import getChain from './compiler/chain';
 
 /**
@@ -65,7 +65,7 @@ export default class BundlerWebpack implements IBundler {
    */
   setupDev(isComplex?: boolean) {
     const bundleImpl = this.bundleImpl;
-    const serverOpts = getDevServerOpts(this.userConfig);
+    const serverOpts = getServerOpts(this.userConfig);
     const webpackCompiler = bundleImpl(this.config);
     let devMiddleware;
 

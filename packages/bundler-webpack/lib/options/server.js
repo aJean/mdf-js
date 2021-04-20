@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = getDevServerOpts;
+exports.default = getServerOpts;
 
 var _child_process = require("child_process");
 
@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * @file 配置 webpack dev server
  */
-function getDevServerOpts(opts = {}) {
+function getServerOpts(opts = {}) {
   const publicPath = opts.publicPath,
         devServer = opts.devServer;
 

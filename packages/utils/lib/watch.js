@@ -19,6 +19,7 @@ function watch(opts) {
   const path = opts.path,
         keys = opts.keys,
         useMemo = opts.useMemo,
+        exclude = opts.exclude,
         onChange = opts.onChange;
   const sizeMemo = {};
   let watcher; // 避免开发者在 build 时候误用 watch
@@ -44,6 +45,10 @@ function watch(opts) {
             }
 
             sizeMemo[path] = data.size;
+          }
+
+          if (exclude && exclude.test(path)) {
+            return;
           }
 
           onChange(event, path);

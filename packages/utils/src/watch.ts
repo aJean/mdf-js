@@ -10,12 +10,13 @@ export type IWatchOpts = {
   path: string;
   keys?: string[];
   useMemo?: boolean;
+  exclude?: RegExp;
   onChange: (type: string, path: string) => void;
 };
 
 const InternalEvents = ['add', 'unlink', 'addDir', 'unlinkDir', 'change'];
 export function watch(opts: IWatchOpts) {
-  const { path, keys, useMemo, onChange } = opts;
+  const { path, keys, useMemo, exclude, onChange } = opts;
   const sizeMemo = {};
 
   let watcher: any;
@@ -43,6 +44,10 @@ export function watch(opts: IWatchOpts) {
             sizeMemo[path] = data.size;
           }
 
+          if (exclude && exclude.test(path)) {
+            return;
+          }
+          
           onChange(event, path);
         });
       });

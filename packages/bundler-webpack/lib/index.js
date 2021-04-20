@@ -9,7 +9,7 @@ var _webpack = _interopRequireDefault(require("webpack"));
 
 var _webpackDevMiddleware = _interopRequireDefault(require("webpack-dev-middleware"));
 
-var _devServer = _interopRequireDefault(require("./devServer"));
+var _server = _interopRequireDefault(require("./options/server"));
 
 var _chain = _interopRequireDefault(require("./compiler/chain"));
 
@@ -65,7 +65,7 @@ class BundlerWebpack {
 
   setupDev(isComplex) {
     const bundleImpl = this.bundleImpl;
-    const serverOpts = (0, _devServer.default)(this.userConfig);
+    const serverOpts = (0, _server.default)(this.userConfig);
     const webpackCompiler = bundleImpl(this.config);
     let devMiddleware;
 
