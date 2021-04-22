@@ -30,6 +30,7 @@ Program.command('config')
 Program.command('lint')
   .description('project lint & prettier')
   .option('--es', 'es lint')
+  .option('--css', 'css lint')
   .option('--sass', 'sass lint')
   .option('--less', 'less lint')
   .action(opts => cli('lint', opts));
