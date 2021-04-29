@@ -38,6 +38,10 @@ export default class BundlerWebpack implements IBundler {
             open: boolean;
             hot: boolean;
             hotOnly: boolean;
+            watchOptions: {
+                ignored: RegExp;
+                aggregateTimeout: number;
+            };
             historyApiFallback: {
                 index: string;
             };

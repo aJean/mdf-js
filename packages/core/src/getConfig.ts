@@ -57,7 +57,7 @@ export function getUserConfig() {
 /**
  * 用于构建: 验证 config 并加入 env 信息
  */
-export default function getConfig(service: Service) {
+export function getConfig(service: Service) {
   const config = getUserConfig();
   const pluginConfigs = service.pluginConfigs;
 

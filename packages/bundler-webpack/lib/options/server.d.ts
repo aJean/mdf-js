@@ -13,6 +13,10 @@ export default function getServerOpts(opts?: any): {
     open: boolean;
     hot: boolean;
     hotOnly: boolean;
+    watchOptions: {
+        ignored: RegExp;
+        aggregateTimeout: number;
+    };
     historyApiFallback: {
         index: string;
     };

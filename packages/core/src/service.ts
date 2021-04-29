@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import Api from './api';
 import * as Utils from './utils';
-import getConfig, { getUserConfig } from './getConfig';
+import { getConfig, getUserConfig } from './getConfig';
 import { IConfig, IPaths, PluginType, PluginsOpts, ICommand } from './types';
 
 /**

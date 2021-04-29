@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getUserConfig = getUserConfig;
-exports.default = getConfig;
+exports.getConfig = getConfig;
 
 var _path = require("path");
 

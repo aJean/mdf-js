@@ -15,6 +15,12 @@ Object.defineProperty(exports, "Service", {
     return _service.default;
   }
 });
+Object.defineProperty(exports, "getConfig", {
+  enumerable: true,
+  get: function get() {
+    return _getConfig.getConfig;
+  }
+});
 Object.defineProperty(exports, "getUserConfig", {
   enumerable: true,
   get: function get() {

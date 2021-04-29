@@ -153,7 +153,7 @@ function _default(userConfig) {
     chain.plugin('hotPlugin').use(_webpack.default.HotModuleReplacementPlugin);
     chain.watchOptions({
       ignored: /node_modules/,
-      aggregateTimeout: 500
+      aggregateTimeout: 300
     });
     chain.stats({
       all: false,

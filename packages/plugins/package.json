@@ -18,6 +18,7 @@
     "@mdfjs/types": "^0.1.22",
     "@mdfjs/utils": "^0.1.22",
     "boxen": "4.2.0",
+    "console-table-printer": "^2.8.2",
     "joi2types": "1.0.7",
     "ora": "5.3.0"
   },

@@ -7,5 +7,5 @@ import Api, { ExportsType } from './api';
 export { Api as PluginApi, ExportsType };
 export { default as Service } from './service';
 export { default as IBundler } from './bundler';
-export { getUserConfig } from './getConfig';
+export { getConfig, getUserConfig } from './getConfig';
 export { PluginType, IPaths, ICommand } from './types';

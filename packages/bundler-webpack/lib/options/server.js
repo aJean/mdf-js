@@ -36,6 +36,10 @@ function getServerOpts(opts = {}) {
     open: false,
     hot: true,
     hotOnly: false,
+    watchOptions: {
+      ignored: /node_modules/,
+      aggregateTimeout: 300
+    },
     historyApiFallback: {
       index: `${publicPath}/index.html`
     },

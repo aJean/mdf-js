@@ -11,7 +11,7 @@ var _api = _interopRequireDefault(require("./api"));
 
 var Utils = _interopRequireWildcard(require("./utils"));
 
-var _getConfig = _interopRequireWildcard(require("./getConfig"));
+var _getConfig = require("./getConfig");
 
 var _types = require("./types");
 
@@ -222,7 +222,7 @@ class Service {
         args: [data]
       }); // 收集 config 目录里面的配置并验证
 
-      this.config = (0, _getConfig.default)(this);
+      this.config = (0, _getConfig.getConfig)(this);
       const command = this.commands[name];
 
       if (command) {

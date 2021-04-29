@@ -6,4 +6,4 @@ export declare function getUserConfig(): any;
 /**
  * 用于构建: 验证 config 并加入 env 信息
  */
-export default function getConfig(service: Service): any;
+export declare function getConfig(service: Service): any;
