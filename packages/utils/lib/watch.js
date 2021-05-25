@@ -22,11 +22,8 @@ function watch(opts) {
         exclude = opts.exclude,
         onChange = opts.onChange;
   const sizeMemo = {};
-  let watcher; // 避免开发者在 build 时候误用 watch
-
-  if (process.env.MDF_ENV === 'prod') {
-    return;
-  }
+  let watcher; // 避免开发者在 build 时候误用 watch，但是还有使用 yarn dev:prod 的 case
+  // if (process.env.MDF_ENV === 'prod') { return; }
 
   try {
     const state = (0, _fs.statSync)(path);

@@ -8,4 +8,4 @@ export declare type IWatchOpts = {
     exclude?: RegExp;
     onChange: (type: string, path: string) => void;
 };
-export declare function watch(opts: IWatchOpts): (() => void) | undefined;
+export declare function watch(opts: IWatchOpts): () => void;
