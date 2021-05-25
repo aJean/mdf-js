@@ -61,6 +61,9 @@ const records = [{
 }, {
   version: '0.1.23',
   change: '日常优化'
+}, {
+  version: '0.1.24',
+  change: '日常优化'
 }];
 /**
  * 取得所有发不过的版本

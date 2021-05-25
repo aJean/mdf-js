@@ -20,6 +20,7 @@ const records = [
   { version: '0.1.21', change: '@mdfjs/server 重构' },
   { version: '0.1.22', change: 'work proxy 日志' },
   { version: '0.1.23', change: '日常优化' },
+  { version: '0.1.24', change: '日常优化' },
 ];
 
 /**
