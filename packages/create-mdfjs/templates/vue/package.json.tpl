@@ -7,7 +7,7 @@
     "_mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
     "dev": "MDF_ENV=dev yarn mdf dev",
     "build": "MDF_ENV=prod yarn mdf build",
-    "react": "yarn mdf create"
+    "lint": "yarn mdf lint --es",
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

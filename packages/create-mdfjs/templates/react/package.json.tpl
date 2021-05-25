@@ -8,7 +8,6 @@
     "build": "MDF_ENV=prod mdf build",
     "build:qa": "MDF_ENV=qa mdf build",
     "lint": "yarn mdf lint --es",
-    "react": "yarn mdf create"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
