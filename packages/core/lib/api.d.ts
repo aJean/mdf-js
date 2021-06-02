@@ -69,11 +69,11 @@ export default class Api {
      */
     addPolyfill(fn: () => string[]): void;
     /**
-     * 工作进程退出
+     * 工作进程退出时执行
      */
     onProcessExit(fn: () => void): void;
     /**
-     * 在 webpack 完成之后 console.log，避免信息被清除
+     * 初次构建完成后执行
      */
     addProcessDone(fn: () => void): void;
     /**

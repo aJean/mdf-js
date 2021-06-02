@@ -115,7 +115,7 @@ function initWatchers(api: IApi, server: any, useProxy = false) {
     }),
   );
 
-  // 变化比较快，没必要提示了
+  // 监听 app.ts
   unwatchs.push(
     watch({
       path: resolvePath(genAppPath(api)),

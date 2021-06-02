@@ -133,7 +133,7 @@ function initWatchers(api, server, useProxy = false) {
         type: 'RESTART'
       });
     }
-  })); // 变化比较快，没必要提示了
+  })); // 监听 app.ts
 
   unwatchs.push((0, _utils.watch)({
     path: (0, _path.resolve)((0, _utils.genAppPath)(api)),
