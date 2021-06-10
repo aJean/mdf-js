@@ -20,6 +20,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 class Server {
   constructor(opts) {
     this.app = (0, _express.default)();
+    this.opts = void 0;
+    this.httpServer = void 0;
     this.opts = opts;
     this.setup();
     this.createServer();

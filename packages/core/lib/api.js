@@ -17,6 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 class Api {
   constructor(service) {
+    this.service = void 0;
     this.cwd = process.cwd();
     this.Mustache = _mustache.default;
     this.PluginType = _types.PluginType;

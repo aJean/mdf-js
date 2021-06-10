@@ -19,6 +19,7 @@ class BundlerWebpack {
   constructor(userConfig) {
     this.config = {};
     this.bundleImpl = _webpack.default;
+    this.userConfig = void 0;
     this.userConfig = userConfig;
   }
   /**

@@ -11,6 +11,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 class Spinner {
   constructor(opts) {
+    this.ins = void 0;
+
     if (opts && opts.graph) {
       opts['spinner'] = opts.graph;
       delete opts.graph;

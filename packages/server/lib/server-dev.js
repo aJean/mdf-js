@@ -11,7 +11,10 @@ var _webpackDevServer = _interopRequireDefault(require("webpack-dev-server"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class DevServer {
+  // @ts-ignore
   constructor(opts) {
+    this.opts = void 0;
+    this.httpServer = void 0;
     this.host = '0.0.0.0';
     this.createOpts(opts);
     this.createServer();
