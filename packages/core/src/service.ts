@@ -6,12 +6,9 @@ import { IConfig, IPaths, PluginType, PluginsOpts, ICommand } from './types';
 
 /**
  * @file core service
- */
-
-/**
- * 想让插件的管理简单些，暂时不做 skip 了，所以不需要 id 维度的聚合
  * plugins、pluginConfigs 全部以 key value 形式存储
  */
+
 export default class Service {
   config: IConfig | null = null;
   // 必须的路径
@@ -71,7 +68,7 @@ export default class Service {
    */
   initPresets() {
     const presets = this.presets;
-    presets.forEach(preset => this.initPreset(preset));
+    presets.forEach((preset) => this.initPreset(preset));
   }
 
   /**
@@ -145,6 +142,7 @@ export default class Service {
         const asyncList: Function[] = [];
 
         list.forEach((plugin: any) => {
+          // TODO: 异步插件延后执行，但还是有顺序问题，需要更高效的插件执行机制
           if (plugin.async) {
             asyncList.push(plugin.fn);
           } else if (plugin.fn) {
@@ -155,7 +153,7 @@ export default class Service {
         });
 
         return Promise.resolve(true).then(() => {
-          asyncList.forEach(fn => Utils.runInContext(fn, args));
+          asyncList.forEach((fn) => Utils.runInContext(fn, args));
         });
 
       // 清除信息
@@ -169,34 +167,28 @@ export default class Service {
   }
 
   /**
-   * 执行构建命令
+   * 执行 cli 命令
    */
-  runCommand(name: string, data = {}) {
+  async runCommand(name: string, data = {}) {
     try {
       this.initPresets();
-      this.invokePlugin({ key: 'onStart', type: PluginType.event, args: [data] });
+      await this.invokePlugin({ key: 'onStart', type: PluginType.event, args: [data] });
 
       // 收集 config 目录里面的配置并验证
       this.config = getConfig(this);
-
-      const command = this.commands[name];
-
-      if (command) {
-        command.fn(data);
-      } else {
-        Utils.chalkPrint(`command ${name} has not been registered`, 'red');
-      }
+      await this.commands[name].fn(data);
     } catch (e) {
-      Utils.chalkPrint(`can not run command ${name}`, 'red');
+      Utils.chalkPrint(`run command ${name} failed`, 'red');
       console.log(e);
+      process.exit(0);
     }
   }
 }
 
 // 因为绝大部分异常都是跟 invokePlugin 相关的，所以放到这处理
-process.on('unhandledRejection', e => {
+process.on('unhandledRejection', (e) => {
   console.log(e);
-  process.exit(1);
+  process.exit(0);
 });
 
 // 定义插件策略

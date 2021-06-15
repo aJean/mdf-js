@@ -3,9 +3,6 @@ import Api from './api';
 import { IConfig, IPaths, PluginsOpts, ICommand } from './types';
 /**
  * @file core service
- */
-/**
- * 想让插件的管理简单些，暂时不做 skip 了，所以不需要 id 维度的聚合
  * plugins、pluginConfigs 全部以 key value 形式存储
  */
 export default class Service {
@@ -44,7 +41,7 @@ export default class Service {
      */
     invokePlugin(opts: PluginsOpts): any;
     /**
-     * 执行构建命令
+     * 执行 cli 命令
      */
-    runCommand(name: string, data?: {}): void;
+    runCommand(name: string, data?: {}): Promise<void>;
 }

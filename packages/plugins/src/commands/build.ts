@@ -6,7 +6,7 @@ import { errorPrint, Spinner } from '@mdfjs/utils';
  * @file 构建 prod
  */
 
-export default function(api: IApi) {
+export default function (api: IApi) {
   const { paths, PluginType } = api;
 
   api.registerCommand({
@@ -52,7 +52,7 @@ export default function(api: IApi) {
         type: PluginType.event,
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         spinner.succeed({ text: 'generate success', color: 'yellow' });
 
         bundler

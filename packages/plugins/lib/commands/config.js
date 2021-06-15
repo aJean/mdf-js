@@ -19,8 +19,8 @@ function _default(api) {
     fn() {
       console.log('------------------------ user config ------------------------');
       toTable((0, _core.getUserConfig)()).printTable();
-      console.log('------------------------ last config ------------------------');
-      toTable(api.getConfig()).printTable();
+      console.log('------------------------ env config ------------------------');
+      toTable(api.getConfig().envs).printTable();
     }
 
   });

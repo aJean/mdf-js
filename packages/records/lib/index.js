@@ -67,6 +67,9 @@ const records = [{
 }, {
   version: '0.1.25',
   change: 'sass-loader 问题修复'
+}, {
+  version: '0.1.26',
+  change: 'plugins cli 命令执行修复'
 }];
 /**
  * 取得所有发不过的版本

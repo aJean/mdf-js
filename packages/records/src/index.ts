@@ -22,6 +22,7 @@ const records = [
   { version: '0.1.23', change: '日常优化' },
   { version: '0.1.24', change: 'sass-loader 问题修复' },
   { version: '0.1.25', change: 'sass-loader 问题修复' },
+  { version: '0.1.26', change: 'plugins cli 命令执行修复' },
 ];
 
 /**

@@ -12,8 +12,8 @@ export default function (api: IApi) {
     fn() {
       console.log('------------------------ user config ------------------------');
       toTable(getUserConfig()).printTable();
-      console.log('------------------------ last config ------------------------');
-      toTable(api.getConfig()).printTable();
+      console.log('------------------------ env config ------------------------');
+      toTable(api.getConfig().envs).printTable();
     },
   });
 }
