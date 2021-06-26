@@ -14,17 +14,20 @@ function generateExports(item: ExportsType) {
   }
 }
 
-export default function(api: IApi) {
+export default function (api: IApi) {
   const { paths, PluginType } = api;
 
-  api.onCodeGenerate(function() {
-    // 约定 api.addRuntimeExports 不能放在异步队列里执行
-    const runtimeExports = api.invokePlugin({
-      key: 'addRuntimeExports',
-      type: PluginType.add,
-    });
+  api.onCodeGenerate({
+    name: 'genExport',
+    fn() {
+      // 约定 api.addRuntimeExports 不能放在异步队列里执行
+      const runtimeExports = api.invokePlugin({
+        key: 'addRuntimeExports',
+        type: PluginType.add,
+      });
 
-    const data = runtimeExports.map((item: any) => generateExports(item)).join('\n') + `\n`;
-    api.writeFile(`${paths.absTmpPath}/moduleExports.ts`, data);
+      const data = runtimeExports.map((item: any) => generateExports(item)).join('\n') + `\n`;
+      api.writeFile(`${paths.absTmpPath}/moduleExports.ts`, data);
+    },
   });
 }

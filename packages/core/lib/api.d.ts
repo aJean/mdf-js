@@ -17,6 +17,12 @@ export declare type ExportsType = {
     specifiers?: string[];
     source: string;
 };
+export declare type CodePlugin = {
+    name: string;
+    fn?: Function;
+    resolve?: (next: Function) => any;
+    lazy?: Function;
+};
 export default class Api {
     service: Service;
     cwd: string;
@@ -35,7 +41,7 @@ export default class Api {
     /**
      * 快捷注册代码生成 hook
      */
-    onCodeGenerate(fn: Function, async?: boolean): void;
+    onCodeGenerate(plugin: CodePlugin): void;
     /**
      * 运行时导出
      */

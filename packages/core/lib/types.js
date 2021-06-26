@@ -17,4 +17,5 @@ exports.PluginType = PluginType;
   PluginType["event"] = "event";
   PluginType["compose"] = "compose";
   PluginType["flush"] = "flush";
+  PluginType["code"] = "code";
 })(PluginType || (exports.PluginType = PluginType = {}));

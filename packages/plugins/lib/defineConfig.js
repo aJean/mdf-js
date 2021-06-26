@@ -16,7 +16,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 /**
- * @file 将所有插件 describe 的 config 导出
+ * @file 将插件 describe 的 config 导出
  */
 function _default(_x) {
   return _ref.apply(this, arguments);
@@ -35,25 +35,32 @@ function _ref() {
       }
     }); // 约定 api.describe 不能放在异步队列里执行
 
-    api.onCodeGenerate( /*#__PURE__*/_asyncToGenerator(function* () {
-      const paths = api.paths,
-            service = api.service;
-      const pluginConfigs = service.pluginConfigs;
-      let schemas = {};
-      Object.keys(pluginConfigs).map(key => {
-        const data = pluginConfigs[key];
+    api.onCodeGenerate({
+      name: 'genPluginConfig',
 
-        if (data.schema) {
-          schemas[key] = data.schema;
-        }
-      });
-      schemas = _joi.default.object(schemas).unknown();
-      const data = yield (0, _joi2types.default)(schemas, {
-        interfaceName: 'IConfigPlugins',
-        bannerComment: '/** plugin interface **/'
-      });
-      api.writeFile(`${paths.absTmpPath}/plugins/pluginConfig.d.ts`, data);
-    }));
+      fn() {
+        return _asyncToGenerator(function* () {
+          const paths = api.paths,
+                service = api.service;
+          const pluginConfigs = service.pluginConfigs;
+          let schemas = {};
+          Object.keys(pluginConfigs).map(key => {
+            const data = pluginConfigs[key];
+
+            if (data.schema) {
+              schemas[key] = data.schema;
+            }
+          });
+          schemas = _joi.default.object(schemas).unknown();
+          const data = yield (0, _joi2types.default)(schemas, {
+            interfaceName: 'IConfigPlugins',
+            bannerComment: '/** plugin interface **/'
+          });
+          api.writeFile(`${paths.absTmpPath}/plugins/pluginConfig.d.ts`, data);
+        })();
+      }
+
+    });
   });
   return _ref.apply(this, arguments);
 }

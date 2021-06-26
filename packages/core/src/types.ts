@@ -8,6 +8,7 @@ export enum PluginType {
   event = 'event',
   compose = 'compose',
   flush = 'flush',
+  code = 'code',
 }
 
 export type PluginsOpts = {

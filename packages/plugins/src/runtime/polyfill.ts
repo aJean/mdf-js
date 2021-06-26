@@ -17,14 +17,17 @@ export default function (api: IApi) {
 
   api.addPolyfill(() => ['./polyfill']);
 
-  api.onCodeGenerate(() => {
-    const { Mustache, paths } = api;
-    const tpl = api.getFile(join(__dirname, 'polyfill.tpl'));
-    const config = api.getConfig();
-    const content = Mustache.render(tpl, {
-      modules: config.polyfill || null
-    });
+  api.onCodeGenerate({
+    name: 'genPolyfill',
+    fn() {
+      const { Mustache, paths } = api;
+      const tpl = api.getFile(join(__dirname, 'polyfill.tpl'));
+      const config = api.getConfig();
+      const content = Mustache.render(tpl, {
+        modules: config.polyfill || null,
+      });
 
-    api.writeFile(`${paths.absTmpPath}/polyfill.ts`, content);
+      api.writeFile(`${paths.absTmpPath}/polyfill.ts`, content);
+    },
   });
-};
+}

@@ -22,35 +22,40 @@ function _default(api) {
   api.addRuntimePluginKey(_runtimePluginKeys);
   api.addRuntimePlugin(() => require.resolve('./enhance')); // 这个事件需要最后执行，否则插件的 runtimePlugin 都无法生效
 
-  api.onCodeGenerate(function () {
-    const tpl = api.getFile((0, _path.join)(__dirname, 'plugin.tpl'));
-    const pluginConfig = getPluginConfig(api);
-    const validKeys = api.runtimeKeys;
-    const plugins = api.invokePlugin({
-      key: 'addRuntimePlugin',
-      type: api.PluginType.add
-    });
-    const data = {
-      validKeys,
-      runtimePath: (0, _path.dirname)(require.resolve('@mdfjs/runtime/package.json')),
-      plugins: plugins,
-      config: JSON.stringify(pluginConfig, null, 2)
-    }; // 项目 app 配置文件，为了兼容 node 先这么写
+  api.onCodeGenerate({
+    name: 'genPlugin',
 
-    if (api.isExist(`${paths.absSrcPath}/app.ts`)) {
-      data.projectPlugin = {
-        path: `${paths.absSrcPath}/app.ts`
-      };
-    } else if (api.isExist(`${paths.absSrcPath}/client/app.ts`)) {
-      data.projectPlugin = {
-        path: `${paths.absSrcPath}/client/app.ts`
-      };
+    resolve(next) {
+      const tpl = api.getFile((0, _path.join)(__dirname, 'plugin.tpl'));
+      const pluginConfig = getPluginConfig(api);
+      const validKeys = api.runtimeKeys;
+      const plugins = api.invokePlugin({
+        key: 'addRuntimePlugin',
+        type: api.PluginType.add
+      });
+      const data = {
+        validKeys,
+        runtimePath: (0, _path.dirname)(require.resolve('@mdfjs/runtime/package.json')),
+        plugins: plugins,
+        config: JSON.stringify(pluginConfig, null, 2)
+      }; // 项目 app 配置文件，为了兼容 node 先这么写
+
+      if (api.isExist(`${paths.absSrcPath}/app.ts`)) {
+        data.projectPlugin = {
+          path: `${paths.absSrcPath}/app.ts`
+        };
+      } else if (api.isExist(`${paths.absSrcPath}/client/app.ts`)) {
+        data.projectPlugin = {
+          path: `${paths.absSrcPath}/client/app.ts`
+        };
+      }
+
+      const content = Mustache.render(tpl, data);
+      api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, (0, _utils.prettierFormat)(content));
+      next();
     }
 
-    const content = Mustache.render(tpl, data);
-    api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, (0, _utils.prettierFormat)(content));
-  }, true); // 需要把实例化后的 plugin 对象导出给用户使用
-  // 注意不要放在 onCodeGenerate 里面不然会添加多次
+  }); // 注意不要放在 onCodeGenerate 里面否则 watch 会导致添加多次
 
   api.addRuntimeExports(function () {
     return {

@@ -19,15 +19,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @file web request api
  */
 function _default(api, useTrace = false) {
-  api.onCodeGenerate(function () {
-    const Mustache = api.Mustache,
-          paths = api.paths;
-    const config = api.getConfig();
-    const tpl = api.getFile((0, _path.join)(__dirname, 'http.tpl'));
-    const content = Mustache.render(tpl, _objectSpread({
-      axiosPath: require.resolve('axios')
-    }, checkProxy(config)));
-    api.writeFile(`${paths.absTmpPath}/request.ts`, (0, _utils.prettierFormat)(content));
+  api.onCodeGenerate({
+    name: 'plugins-web',
+
+    fn() {
+      const Mustache = api.Mustache,
+            paths = api.paths;
+      const config = api.getConfig();
+      const tpl = api.getFile((0, _path.join)(__dirname, 'http.tpl'));
+      const content = Mustache.render(tpl, _objectSpread({
+        axiosPath: require.resolve('axios')
+      }, checkProxy(config)));
+      api.writeFile(`${paths.absTmpPath}/request.ts`, (0, _utils.prettierFormat)(content));
+    }
+
   });
 
   if (useTrace) {

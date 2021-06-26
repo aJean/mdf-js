@@ -183,23 +183,15 @@ class Service {
           return next => () => fn(next);
         });
         return wrapList.reduce((last, current) => current(last), initValue);
-      // 支持异步返回 promise
 
       case _types.PluginType.event:
-        const asyncList = [];
-        list.forEach(plugin => {
-          // TODO: 异步插件延后执行，但还是有顺序问题，需要更高效的插件执行机制
-          if (plugin.async) {
-            asyncList.push(plugin.fn);
-          } else if (plugin.fn) {
-            Utils.runInContext(plugin.fn, args);
-          } else {
-            Utils.runInContext(plugin, args);
-          }
-        });
-        return Promise.resolve(true).then(() => {
-          asyncList.forEach(fn => Utils.runInContext(fn, args));
-        });
+        list.forEach(fn => Utils.runInContext(fn, args));
+        return undefined;
+      // generate code 专用
+
+      case _types.PluginType.code:
+        list.forEach(plugin => {});
+        return;
       // 清除信息
 
       case _types.PluginType.flush:

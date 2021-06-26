@@ -7,16 +7,19 @@ import { join } from 'path';
  */
 
 export default function (api: IApi, useTrace: Boolean = false) {
-  api.onCodeGenerate(function () {
-    const { Mustache, paths } = api;
-    const config = api.getConfig();
-    const tpl = api.getFile(join(__dirname, 'http.tpl'))!;
-    const content = Mustache.render(tpl, {
-      axiosPath: require.resolve('axios'),
-      ...checkProxy(config),
-    });
+  api.onCodeGenerate({
+    name: 'plugins-web',
+    fn() {
+      const { Mustache, paths } = api;
+      const config = api.getConfig();
+      const tpl = api.getFile(join(__dirname, 'http.tpl'))!;
+      const content = Mustache.render(tpl, {
+        axiosPath: require.resolve('axios'),
+        ...checkProxy(config),
+      });
 
-    api.writeFile(`${paths.absTmpPath}/request.ts`, prettierFormat(content));
+      api.writeFile(`${paths.absTmpPath}/request.ts`, prettierFormat(content));
+    },
   });
 
   if (useTrace) {

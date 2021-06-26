@@ -8,47 +8,52 @@ import { prettierFormat } from '@mdfjs/utils';
 
 export const _runtimePluginKeys = ['appElement', 'beforeRender', 'render', 'mdfInfo', 'appOpts'];
 
-export default function(api: IApi) {
+export default function (api: IApi) {
   const { Mustache, paths } = api;
 
   api.addRuntimePluginKey(_runtimePluginKeys);
   api.addRuntimePlugin(() => require.resolve('./enhance'));
 
   // 这个事件需要最后执行，否则插件的 runtimePlugin 都无法生效
-  api.onCodeGenerate(function() {
-    const tpl = api.getFile(join(__dirname, 'plugin.tpl'));
-    const pluginConfig = getPluginConfig(api);
-    const validKeys = api.runtimeKeys;
-    const plugins = api.invokePlugin({
-      key: 'addRuntimePlugin',
-      type: api.PluginType.add,
-    });
+  api.onCodeGenerate({
+    name: 'genPlugin',
 
-    const data: any = {
-      validKeys,
-      runtimePath: dirname(require.resolve('@mdfjs/runtime/package.json')),
-      plugins: plugins,
-      config: JSON.stringify(pluginConfig, null, 2),
-    };
+    resolve(next) {
+      const tpl = api.getFile(join(__dirname, 'plugin.tpl'));
+      const pluginConfig = getPluginConfig(api);
+      const validKeys = api.runtimeKeys;
+      const plugins = api.invokePlugin({
+        key: 'addRuntimePlugin',
+        type: api.PluginType.add,
+      });
 
-    // 项目 app 配置文件，为了兼容 node 先这么写
-    if (api.isExist(`${paths.absSrcPath}/app.ts`)) {
-      data.projectPlugin = {
-        path: `${paths.absSrcPath}/app.ts`,
+      const data: any = {
+        validKeys,
+        runtimePath: dirname(require.resolve('@mdfjs/runtime/package.json')),
+        plugins: plugins,
+        config: JSON.stringify(pluginConfig, null, 2),
       };
-    } else if (api.isExist(`${paths.absSrcPath}/client/app.ts`)) {
-      data.projectPlugin = {
-        path: `${paths.absSrcPath}/client/app.ts`,
-      };
-    }
 
-    const content = Mustache.render(tpl, data);
-    api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, prettierFormat(content));
-  }, true);
+      // 项目 app 配置文件，为了兼容 node 先这么写
+      if (api.isExist(`${paths.absSrcPath}/app.ts`)) {
+        data.projectPlugin = {
+          path: `${paths.absSrcPath}/app.ts`,
+        };
+      } else if (api.isExist(`${paths.absSrcPath}/client/app.ts`)) {
+        data.projectPlugin = {
+          path: `${paths.absSrcPath}/client/app.ts`,
+        };
+      }
 
-  // 需要把实例化后的 plugin 对象导出给用户使用
-  // 注意不要放在 onCodeGenerate 里面不然会添加多次
-  api.addRuntimeExports(function() {
+      const content = Mustache.render(tpl, data);
+      api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, prettierFormat(content));
+
+      next();
+    },
+  });
+
+  // 注意不要放在 onCodeGenerate 里面否则 watch 会导致添加多次
+  api.addRuntimeExports(function () {
     return {
       specifiers: ['plugin'],
       source: `./plugins/plugin`,
@@ -64,7 +69,7 @@ function getPluginConfig(api: IApi) {
   const pluginConfigs = api.service.pluginConfigs;
   const config = Object.create(null);
 
-  Object.keys(pluginConfigs).forEach(key => {
+  Object.keys(pluginConfigs).forEach((key) => {
     config[key] = userConfig[key];
   });
 

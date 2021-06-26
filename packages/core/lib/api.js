@@ -50,11 +50,7 @@ class Api {
    */
 
 
-  onCodeGenerate(fn, async) {
-    const plugin = {
-      async,
-      fn
-    };
+  onCodeGenerate(plugin) {
     this.service.registerPlugin('codeGenerate', plugin);
   }
   /**

@@ -137,24 +137,15 @@ export default class Service {
         });
         return wrapList.reduce((last: Function, current: Function) => current(last), initValue);
 
-      // 支持异步返回 promise
       case PluginType.event:
-        const asyncList: Function[] = [];
+        list.forEach((fn: any) => Utils.runInContext(fn, args));
+        return undefined;
 
-        list.forEach((plugin: any) => {
-          // TODO: 异步插件延后执行，但还是有顺序问题，需要更高效的插件执行机制
-          if (plugin.async) {
-            asyncList.push(plugin.fn);
-          } else if (plugin.fn) {
-            Utils.runInContext(plugin.fn, args);
-          } else {
-            Utils.runInContext(plugin, args);
-          }
-        });
+      // generate code 专用
+      case PluginType.code:
+        list.forEach((plugin: any) => {});
 
-        return Promise.resolve(true).then(() => {
-          asyncList.forEach((fn) => Utils.runInContext(fn, args));
-        });
+        return;
 
       // 清除信息
       case PluginType.flush:

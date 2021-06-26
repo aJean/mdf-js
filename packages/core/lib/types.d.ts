@@ -6,7 +6,8 @@ export declare enum PluginType {
     modify = "modify",
     event = "event",
     compose = "compose",
-    flush = "flush"
+    flush = "flush",
+    code = "code"
 }
 export declare type PluginsOpts = {
     key: string;

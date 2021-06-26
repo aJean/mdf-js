@@ -25,6 +25,13 @@ export type ExportsType = {
   source: string;
 };
 
+export type CodePlugin = {
+  name: string;
+  fn?: Function;
+  resolve?: (next: Function) => any;
+  lazy?: Function;
+};
+
 export default class Api {
   service: Service;
   cwd = process.cwd();
@@ -58,9 +65,7 @@ export default class Api {
   /**
    * 快捷注册代码生成 hook
    */
-  onCodeGenerate(fn: Function, async?: boolean) {
-    const plugin = { async, fn };
-
+  onCodeGenerate(plugin: CodePlugin) {
     this.service.registerPlugin('codeGenerate', plugin);
   }
 
@@ -154,12 +159,12 @@ export default class Api {
   createWatchFn() {
     let unwatch: any;
 
-    return function(opts: { api: Api; watchOpts: any; onExit?: Function }) {
+    return function (opts: { api: Api; watchOpts: any; onExit?: Function }) {
       if (!unwatch) {
         const { watchOpts, api, onExit } = opts;
         unwatch = watch(watchOpts);
 
-        api.onProcessExit(function() {
+        api.onProcessExit(function () {
           onExit && onExit();
           unwatch();
         });

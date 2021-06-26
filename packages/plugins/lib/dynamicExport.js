@@ -21,13 +21,18 @@ function generateExports(item) {
 function _default(api) {
   const paths = api.paths,
         PluginType = api.PluginType;
-  api.onCodeGenerate(function () {
-    // 约定 api.addRuntimeExports 不能放在异步队列里执行
-    const runtimeExports = api.invokePlugin({
-      key: 'addRuntimeExports',
-      type: PluginType.add
-    });
-    const data = runtimeExports.map(item => generateExports(item)).join('\n') + `\n`;
-    api.writeFile(`${paths.absTmpPath}/moduleExports.ts`, data);
+  api.onCodeGenerate({
+    name: 'genExport',
+
+    fn() {
+      // 约定 api.addRuntimeExports 不能放在异步队列里执行
+      const runtimeExports = api.invokePlugin({
+        key: 'addRuntimeExports',
+        type: PluginType.add
+      });
+      const data = runtimeExports.map(item => generateExports(item)).join('\n') + `\n`;
+      api.writeFile(`${paths.absTmpPath}/moduleExports.ts`, data);
+    }
+
   });
 }
