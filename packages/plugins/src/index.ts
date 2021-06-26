@@ -14,7 +14,7 @@ export default function() {
       require.resolve('./runtime/plugin'),
       require.resolve('./runtime/style'),
       require.resolve('./dynamicExport'),
-      require.resolve('./defineConfig'),
+      require.resolve('./pluginConfig'),
     ],
   };
 }

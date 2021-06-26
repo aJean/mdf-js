@@ -11,6 +11,6 @@ exports.default = _default;
  */
 function _default() {
   return {
-    presets: [require.resolve('./commands/build'), require.resolve('./commands/dev'), require.resolve('./commands/config'), require.resolve('./commands/info'), require.resolve('./runtime/polyfill'), require.resolve('./runtime/plugin'), require.resolve('./runtime/style'), require.resolve('./dynamicExport'), require.resolve('./defineConfig')]
+    presets: [require.resolve('./commands/build'), require.resolve('./commands/dev'), require.resolve('./commands/config'), require.resolve('./commands/info'), require.resolve('./runtime/polyfill'), require.resolve('./runtime/plugin'), require.resolve('./runtime/style'), require.resolve('./dynamicExport'), require.resolve('./pluginConfig')]
   };
 }

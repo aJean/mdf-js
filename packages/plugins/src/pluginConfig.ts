@@ -6,7 +6,7 @@ import { IApi } from '@mdfjs/types';
  * @file 将插件 describe 的 config 导出
  */
 
-export default async function (api: IApi) {
+export default function (api: IApi) {
   // 配置 chainWebpack 的定义
   api.describe({
     key: 'chainWebpack',
