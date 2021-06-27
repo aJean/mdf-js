@@ -49,9 +49,10 @@ export default function (api: IApi) {
         },
       });
 
-      return bundler
-        .build()
-        .finally(() => api.invokePlugin({ key: 'processDone', type: PluginType.flush }));
+      return bundler.build().finally(() => {
+        api.invokePlugin({ key: 'processDone', type: PluginType.flush });
+        process.exit(0);
+      });
     },
   });
 }

@@ -65,10 +65,13 @@ function _default(api) {
           }
 
         });
-        return bundler.build().finally(() => api.invokePlugin({
-          key: 'processDone',
-          type: PluginType.flush
-        }));
+        return bundler.build().finally(() => {
+          api.invokePlugin({
+            key: 'processDone',
+            type: PluginType.flush
+          });
+          process.exit(0);
+        });
       })();
     }
 

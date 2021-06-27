@@ -73,6 +73,9 @@ const records = [{
 }, {
   version: '0.1.27',
   change: 'invoke code generate'
+}, {
+  version: '0.1.28',
+  change: 'invoke code generate'
 }];
 /**
  * 取得所有发不过的版本
