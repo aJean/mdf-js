@@ -25,7 +25,7 @@ function _default(api) {
   api.onCodeGenerate({
     name: 'genPlugin',
 
-    resolve(next) {
+    resolve() {
       const tpl = api.getFile((0, _path.join)(__dirname, 'plugin.tpl'));
       const pluginConfig = getPluginConfig(api);
       const validKeys = api.runtimeKeys;
@@ -52,7 +52,6 @@ function _default(api) {
 
       const content = Mustache.render(tpl, data);
       api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, (0, _utils.prettierFormat)(content));
-      next();
     }
 
   }); // 注意不要放在 onCodeGenerate 里面否则 watch 会导致添加多次

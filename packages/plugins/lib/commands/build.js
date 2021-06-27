@@ -32,7 +32,11 @@ function _default(api) {
           graph: 'dots'
         }).start();
         api.makeDir(paths.absTmpPath);
-        yield generateCode(api); // instance
+        yield api.codeGenerate();
+        spinner.succeed({
+          text: 'generate success',
+          color: 'yellow'
+        }); // instance
 
         const bundler = new _bundlerWebpack.default(config);
         bundler.generateConfig({
@@ -61,32 +65,12 @@ function _default(api) {
           }
 
         });
-        api.invokePlugin({
-          key: 'onBuildComplete',
-          type: PluginType.event
-        });
-        setTimeout(function () {
-          spinner.succeed({
-            text: 'generate success',
-            color: 'yellow'
-          });
-          bundler.build().catch(e => (0, _utils.errorPrint)(e)).finally(() => {
-            api.invokePlugin({
-              key: 'processDone',
-              type: PluginType.flush
-            });
-            process.exit(0);
-          });
-        }, 1000);
+        return bundler.build().finally(() => api.invokePlugin({
+          key: 'processDone',
+          type: PluginType.flush
+        }));
       })();
     }
 
-  });
-}
-
-function generateCode(api) {
-  return api.invokePlugin({
-    key: 'codeGenerate',
-    type: api.PluginType.event
   });
 }

@@ -112,14 +112,14 @@ export function deepArrayAdd(list: Function[], args: any, ret: any[]) {
 
   function add(data: any[]) {
     if (toString.call(data) === '[object Array]') {
-      data.forEach(item => add(item));
+      data.forEach((item) => add(item));
     } else {
       ret.push(data);
     }
   }
 
   // 第一层执行 plugin fn，但是要处理返回值是 array 的情况
-  list.forEach(fn => {
+  list.forEach((fn) => {
     const data = runInContext(fn, args);
     add(data);
   });
@@ -132,4 +132,15 @@ export function deepArrayAdd(list: Function[], args: any, ret: any[]) {
  */
 export function runInContext(fn: Function, args: any[], context?: any) {
   return fn.apply(context, args);
+}
+
+/**
+ * 工程错误解析
+ */
+export function parseError(msg: string) {
+  if (/configuration.entry/.test(msg)) {
+    return 'no entry found, maybe you need mdf-react、mdf-vue or mdf-node';
+  } else {
+    return msg;
+  }
 }

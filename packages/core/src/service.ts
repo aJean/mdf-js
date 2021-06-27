@@ -1,8 +1,9 @@
 import 'reflect-metadata';
-import Api from './api';
+import Api, { CodePlugin } from './api';
 import * as Utils from './utils';
 import { getConfig, getUserConfig } from './getConfig';
 import { IConfig, IPaths, PluginType, PluginsOpts, ICommand } from './types';
+import { rejects } from 'assert';
 
 /**
  * @file core service
@@ -143,9 +144,40 @@ export default class Service {
 
       // generate code 专用
       case PluginType.code:
-        list.forEach((plugin: any) => {});
+        const fns = list.filter((plugin: CodePlugin) => plugin.fn);
+        const resolves: CodePlugin[] = list.filter((plugin: CodePlugin) => plugin.resolve);
 
-        return;
+        const next: any = function () {
+          const plugin = resolves.shift();
+
+          if (!plugin) {
+            return Promise.resolve(null);
+          }
+
+          return new Promise(function (resolve, reject) {
+            const ret = plugin.resolve!();
+
+            if (ret && ret.then) {
+              ret.then(() => resolve(null)).catch((e: Error) => reject(e));
+            } else {
+              resolve(null);
+            }
+          })
+            .then(() => next())
+            .catch((e) => {
+              throw new Error(`[plugin ${plugin.name}] ${e.message}`);
+            });
+        };
+
+        fns.forEach((plugin: any) => {
+          try {
+            Utils.runInContext(plugin.fn, args);
+          } catch (e) {
+            throw new Error(`[plugin ${plugin.name}] ${e.message}`);
+          }
+        });
+
+        return next();
 
       // 清除信息
       case PluginType.flush:
@@ -163,14 +195,14 @@ export default class Service {
   async runCommand(name: string, data = {}) {
     try {
       this.initPresets();
-      await this.invokePlugin({ key: 'onStart', type: PluginType.event, args: [data] });
+      this.invokePlugin({ key: 'onStart', type: PluginType.event, args: [data] });
 
       // 收集 config 目录里面的配置并验证
       this.config = getConfig(this);
       await this.commands[name].fn(data);
     } catch (e) {
-      Utils.chalkPrint(`run command ${name} failed`, 'red');
-      console.log(e);
+      Utils.chalkPrint(`run command-${name} failed`, 'red');
+      console.log(Utils.parseError(e.message));
       process.exit(0);
     }
   }

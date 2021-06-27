@@ -55,3 +55,7 @@ export declare function deepArrayAdd(list: Function[], args: any, ret: any[]): a
  * 可以赋予更多的能力，比如沙盒环境
  */
 export declare function runInContext(fn: Function, args: any[], context?: any): any;
+/**
+ * 工程错误解析
+ */
+export declare function parseError(msg: string): string;

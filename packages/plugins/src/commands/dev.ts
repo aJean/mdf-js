@@ -24,7 +24,7 @@ export default function (api: IApi) {
       const spinner = new Spinner({ text: 'generate mdf\n', graph: 'dots' }).start();
 
       api.makeDir(paths.absTmpPath);
-      await generateCode(api);
+      await api.codeGenerate();
 
       spinner.succeed({ text: 'generate success', color: 'yellow' });
 
@@ -58,11 +58,6 @@ export default function (api: IApi) {
         },
       });
 
-      api.invokePlugin({
-        key: 'onBuildComplete',
-        type: PluginType.event,
-      });
-
       // dev pipeline
       const { webpackCompiler, serverOpts } = bundler.setupDev();
       const { workServer } = config;
@@ -71,7 +66,7 @@ export default function (api: IApi) {
         workServer ? startWorkServer(workServer) : null,
       ]);
 
-      reqs.then((res) => {
+      return reqs.then((res) => {
         const devRes: any = res[0];
         const workRes: any = res[1];
         // 必须加个延时，要在 webpack 之后输出
@@ -87,10 +82,6 @@ export default function (api: IApi) {
       });
     },
   });
-}
-
-function generateCode(api: IApi): Promise<any> {
-  return api.invokePlugin({ key: 'codeGenerate', type: api.PluginType.event });
 }
 
 /**
@@ -119,8 +110,8 @@ function initWatchers(api: IApi, server: any, useProxy = false) {
   unwatchs.push(
     watch({
       path: resolvePath(genAppPath(api)),
-      onChange: function () {
-        generateCode(api);
+      onChange() {
+        api.codeGenerate();
       },
     }),
   );
@@ -130,7 +121,7 @@ function initWatchers(api: IApi, server: any, useProxy = false) {
     unwatchs.push(
       watch({
         path: resolvePath('./config/proxy.json'),
-        onChange: function () {
+        onChange() {
           process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
           chalkPrints([[`restart: `, 'yellow'], ` work-server`]);
           restartWorkServer();

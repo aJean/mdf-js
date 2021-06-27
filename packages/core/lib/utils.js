@@ -14,6 +14,7 @@ exports.pathToObj = pathToObj;
 exports.esmExport = esmExport;
 exports.deepArrayAdd = deepArrayAdd;
 exports.runInContext = runInContext;
+exports.parseError = parseError;
 
 var _mkdirp = _interopRequireDefault(require("mkdirp"));
 
@@ -163,4 +164,16 @@ function deepArrayAdd(list, args, ret) {
 
 function runInContext(fn, args, context) {
   return fn.apply(context, args);
+}
+/**
+ * 工程错误解析
+ */
+
+
+function parseError(msg) {
+  if (/configuration.entry/.test(msg)) {
+    return 'no entry found, maybe you need mdf-react、mdf-vue or mdf-node';
+  } else {
+    return msg;
+  }
 }

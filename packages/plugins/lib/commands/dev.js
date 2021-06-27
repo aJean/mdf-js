@@ -41,7 +41,7 @@ function _default(api) {
           graph: 'dots'
         }).start();
         api.makeDir(paths.absTmpPath);
-        yield generateCode(api);
+        yield api.codeGenerate();
         spinner.succeed({
           text: 'generate success',
           color: 'yellow'
@@ -74,10 +74,6 @@ function _default(api) {
             });
           }
 
-        });
-        api.invokePlugin({
-          key: 'onBuildComplete',
-          type: PluginType.event
         }); // dev pipeline
 
         const _bundler$setupDev = bundler.setupDev(),
@@ -86,7 +82,7 @@ function _default(api) {
 
         const workServer = config.workServer;
         const reqs = Promise.all([(0, _server.startDevServer)(webpackCompiler, serverOpts), workServer ? (0, _server.startWorkServer)(workServer) : null]);
-        reqs.then(res => {
+        return reqs.then(res => {
           const devRes = res[0];
           const workRes = res[1]; // 必须加个延时，要在 webpack 之后输出
 
@@ -104,13 +100,6 @@ function _default(api) {
       })();
     }
 
-  });
-}
-
-function generateCode(api) {
-  return api.invokePlugin({
-    key: 'codeGenerate',
-    type: api.PluginType.event
   });
 }
 /**
@@ -137,20 +126,24 @@ function initWatchers(api, server, useProxy = false) {
 
   unwatchs.push((0, _utils.watch)({
     path: (0, _path.resolve)((0, _utils.genAppPath)(api)),
-    onChange: function onChange() {
-      generateCode(api);
+
+    onChange() {
+      api.codeGenerate();
     }
+
   }));
 
   if (useProxy) {
     // 读取 proxy 放在 work-server 内部处理
     unwatchs.push((0, _utils.watch)({
       path: (0, _path.resolve)('./config/proxy.json'),
-      onChange: function onChange() {
+
+      onChange() {
         process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
         (0, _utils.chalkPrints)([[`restart: `, 'yellow'], ` work-server`]);
         (0, _server.restartWorkServer)();
       }
+
     }));
   }
 

@@ -17,8 +17,7 @@ export default function (api: IApi) {
   // 这个事件需要最后执行，否则插件的 runtimePlugin 都无法生效
   api.onCodeGenerate({
     name: 'genPlugin',
-
-    resolve(next) {
+    resolve() {
       const tpl = api.getFile(join(__dirname, 'plugin.tpl'));
       const pluginConfig = getPluginConfig(api);
       const validKeys = api.runtimeKeys;
@@ -47,8 +46,6 @@ export default function (api: IApi) {
 
       const content = Mustache.render(tpl, data);
       api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, prettierFormat(content));
-
-      next();
     },
   });
 

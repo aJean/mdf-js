@@ -28,8 +28,7 @@ export type ExportsType = {
 export type CodePlugin = {
   name: string;
   fn?: Function;
-  resolve?: (next: Function) => any;
-  lazy?: Function;
+  resolve?: Function;
 };
 
 export default class Api {
@@ -67,6 +66,13 @@ export default class Api {
    */
   onCodeGenerate(plugin: CodePlugin) {
     this.service.registerPlugin('codeGenerate', plugin);
+  }
+
+  /**
+   * 执行代码生成
+   */
+  codeGenerate() {
+    return this.service.invokePlugin({ key: 'codeGenerate', type: PluginType.code });
   }
 
   /**

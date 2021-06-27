@@ -54,6 +54,17 @@ class Api {
     this.service.registerPlugin('codeGenerate', plugin);
   }
   /**
+   * 执行代码生成
+   */
+
+
+  codeGenerate() {
+    return this.service.invokePlugin({
+      key: 'codeGenerate',
+      type: _types.PluginType.code
+    });
+  }
+  /**
    * 运行时导出
    */
 

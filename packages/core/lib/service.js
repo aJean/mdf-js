@@ -190,8 +190,37 @@ class Service {
       // generate code 专用
 
       case _types.PluginType.code:
-        list.forEach(plugin => {});
-        return;
+        const fns = list.filter(plugin => plugin.fn);
+        const resolves = list.filter(plugin => plugin.resolve);
+
+        const next = function next() {
+          const plugin = resolves.shift();
+
+          if (!plugin) {
+            return Promise.resolve(null);
+          }
+
+          return new Promise(function (resolve, reject) {
+            const ret = plugin.resolve();
+
+            if (ret && ret.then) {
+              ret.then(() => resolve(null)).catch(e => reject(e));
+            } else {
+              resolve(null);
+            }
+          }).then(() => next()).catch(e => {
+            throw new Error(`[plugin ${plugin.name}] ${e.message}`);
+          });
+        };
+
+        fns.forEach(plugin => {
+          try {
+            Utils.runInContext(plugin.fn, args);
+          } catch (e) {
+            throw new Error(`[plugin ${plugin.name}] ${e.message}`);
+          }
+        });
+        return next();
       // 清除信息
 
       case _types.PluginType.flush:
@@ -215,17 +244,18 @@ class Service {
       try {
         _this.initPresets();
 
-        yield _this.invokePlugin({
+        _this.invokePlugin({
           key: 'onStart',
           type: _types.PluginType.event,
           args: [data]
         }); // 收集 config 目录里面的配置并验证
 
+
         _this.config = (0, _getConfig.getConfig)(_this);
         yield _this.commands[name].fn(data);
       } catch (e) {
-        Utils.chalkPrint(`run command ${name} failed`, 'red');
-        console.log(e);
+        Utils.chalkPrint(`run command-${name} failed`, 'red');
+        console.log(Utils.parseError(e.message));
         process.exit(0);
       }
     })();

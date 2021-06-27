@@ -1,6 +1,6 @@
 import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
-import { errorPrint, Spinner } from '@mdfjs/utils';
+import { Spinner } from '@mdfjs/utils';
 
 /**
  * @file 构建 prod
@@ -16,7 +16,9 @@ export default function (api: IApi) {
       const spinner = new Spinner({ text: 'generate mdf\n', graph: 'dots' }).start();
 
       api.makeDir(paths.absTmpPath);
-      await generateCode(api);
+      await api.codeGenerate();
+
+      spinner.succeed({ text: 'generate success', color: 'yellow' });
 
       // instance
       const bundler = new Bundler(config);
@@ -47,29 +49,9 @@ export default function (api: IApi) {
         },
       });
 
-      api.invokePlugin({
-        key: 'onBuildComplete',
-        type: PluginType.event,
-      });
-
-      setTimeout(function () {
-        spinner.succeed({ text: 'generate success', color: 'yellow' });
-
-        bundler
-          .build()
-          .catch((e: any) => errorPrint(e))
-          .finally(() => {
-            api.invokePlugin({
-              key: 'processDone',
-              type: PluginType.flush,
-            });
-            process.exit(0);
-          });
-      }, 1000);
+      return bundler
+        .build()
+        .finally(() => api.invokePlugin({ key: 'processDone', type: PluginType.flush }));
     },
   });
-}
-
-function generateCode(api: IApi): Promise<any> {
-  return api.invokePlugin({ key: 'codeGenerate', type: api.PluginType.event });
 }
