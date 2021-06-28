@@ -135,6 +135,21 @@ export function runInContext(fn: Function, args: any[], context?: any) {
 }
 
 /**
+ * 执行并返回 promise
+ */
+export function runPlugin(plugin: any, method: string) {
+  return new Promise(function (resolve, reject) {
+    const ret = plugin[method]();
+
+    if (ret && ret.then) {
+      ret.then(() => resolve(null)).catch((e: Error) => reject(e));
+    } else {
+      resolve(null);
+    }
+  });
+}
+
+/**
  * 工程错误解析
  */
 export function parseError(msg: string) {

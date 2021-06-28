@@ -1,7 +1,7 @@
 import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
 import { startDevServer, startWorkServer, restartWorkServer } from '@mdfjs/server';
-import { watch, chalkPrints, genAppPath, Spinner } from '@mdfjs/utils';
+import { watch, chalkPrints, genAppPath, Spinner, rmrf } from '@mdfjs/utils';
 import { resolve as resolvePath } from 'path';
 
 /**
@@ -23,9 +23,10 @@ export default function (api: IApi) {
       const config = api.getConfig();
       const spinner = new Spinner({ text: 'generate mdf\n', graph: 'dots' }).start();
 
+      rmrf(paths.absTmpPath);
       api.makeDir(paths.absTmpPath);
-      await api.codeGenerate();
 
+      await api.codeGenerate();
       spinner.succeed({ text: 'generate success', color: 'yellow' });
 
       // instance

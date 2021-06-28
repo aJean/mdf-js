@@ -192,23 +192,18 @@ class Service {
       case _types.PluginType.code:
         const fns = list.filter(plugin => plugin.fn);
         const resolves = list.filter(plugin => plugin.resolve);
+        const lasts = list.filter(plugin => plugin.last);
 
         const next = function next() {
           const plugin = resolves.shift();
 
           if (!plugin) {
-            return Promise.resolve(null);
+            return lasts.length ? Promise.all(lasts.map(plugin => Utils.runPlugin(plugin, 'last').catch(e => {
+              throw new Error(`[plugin ${plugin.name}] ${e.message}`);
+            }))) : Promise.resolve(null);
           }
 
-          return new Promise(function (resolve, reject) {
-            const ret = plugin.resolve();
-
-            if (ret && ret.then) {
-              ret.then(() => resolve(null)).catch(e => reject(e));
-            } else {
-              resolve(null);
-            }
-          }).then(() => next()).catch(e => {
+          return Utils.runPlugin(plugin, 'resolve').then(() => next()).catch(e => {
             throw new Error(`[plugin ${plugin.name}] ${e.message}`);
           });
         };

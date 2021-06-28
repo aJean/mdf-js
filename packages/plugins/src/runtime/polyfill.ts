@@ -19,13 +19,11 @@ export default function (api: IApi) {
 
   api.onCodeGenerate({
     name: 'genPolyfill',
-    fn() {
+    last() {
       const { Mustache, paths } = api;
+      const { polyfill } = api.getConfig();
       const tpl = api.getFile(join(__dirname, 'polyfill.tpl'));
-      const config = api.getConfig();
-      const content = Mustache.render(tpl, {
-        modules: config.polyfill || null,
-      });
+      const content = Mustache.render(tpl, { modules: polyfill || null });
 
       api.writeFile(`${paths.absTmpPath}/polyfill.ts`, content);
     },

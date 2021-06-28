@@ -6,7 +6,11 @@ import glob from 'glob';
  * @file mdf utils
  */
 
+const rimraf = require('rimraf');
 const prettierOpts = require('../assets/prettierrc.json');
+/**
+ * 格式化输出
+ */
 export function prettierFormat(data: string) {
   return prettier.format(data, { parser: 'typescript', ...prettierOpts });
 }
@@ -60,6 +64,13 @@ export function compileErrorPrint(msg: string) {
  */
 export function globFind(pattern: string, opts?: glob.IOptions) {
   return glob.sync(pattern, opts);
+}
+
+/**
+ * 删除目录
+ */
+export function rmrf(...paths: string[]) {
+  paths.forEach((path) => rimraf.sync(path));
 }
 
 /**
@@ -145,7 +156,7 @@ export function genServerPath(api: any) {
     case 'hybrid':
       return 'src/server';
     case 'node':
-        return 'src';
+      return 'src';
     default:
       return 'src';
   }

@@ -54,7 +54,7 @@ function _default(api) {
       api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, (0, _utils.prettierFormat)(content));
     }
 
-  }); // 注意不要放在 onCodeGenerate 里面否则 watch 会导致添加多次
+  }); // 注意不要写在 codeGenerate 中否则 watch 会导致添加多次
 
   api.addRuntimeExports(function () {
     return {

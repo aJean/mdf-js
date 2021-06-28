@@ -3,7 +3,6 @@ import Api, { CodePlugin } from './api';
 import * as Utils from './utils';
 import { getConfig, getUserConfig } from './getConfig';
 import { IConfig, IPaths, PluginType, PluginsOpts, ICommand } from './types';
-import { rejects } from 'assert';
 
 /**
  * @file core service
@@ -146,23 +145,24 @@ export default class Service {
       case PluginType.code:
         const fns = list.filter((plugin: CodePlugin) => plugin.fn);
         const resolves: CodePlugin[] = list.filter((plugin: CodePlugin) => plugin.resolve);
+        const lasts: CodePlugin[] = list.filter((plugin: CodePlugin) => plugin.last);
 
         const next: any = function () {
           const plugin = resolves.shift();
 
           if (!plugin) {
-            return Promise.resolve(null);
+            return lasts.length
+              ? Promise.all(
+                  lasts.map((plugin: CodePlugin) =>
+                    Utils.runPlugin(plugin, 'last').catch((e) => {
+                      throw new Error(`[plugin ${plugin.name}] ${e.message}`);
+                    }),
+                  ),
+                )
+              : Promise.resolve(null);
           }
 
-          return new Promise(function (resolve, reject) {
-            const ret = plugin.resolve!();
-
-            if (ret && ret.then) {
-              ret.then(() => resolve(null)).catch((e: Error) => reject(e));
-            } else {
-              resolve(null);
-            }
-          })
+          return Utils.runPlugin(plugin, 'resolve')
             .then(() => next())
             .catch((e) => {
               throw new Error(`[plugin ${plugin.name}] ${e.message}`);

@@ -21,6 +21,7 @@ export declare type CodePlugin = {
     name: string;
     fn?: Function;
     resolve?: Function;
+    last?: Function;
 };
 export default class Api {
     service: Service;

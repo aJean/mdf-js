@@ -56,6 +56,10 @@ export declare function deepArrayAdd(list: Function[], args: any, ret: any[]): a
  */
 export declare function runInContext(fn: Function, args: any[], context?: any): any;
 /**
+ * 执行并返回 promise
+ */
+export declare function runPlugin(plugin: any, method: string): Promise<unknown>;
+/**
  * 工程错误解析
  */
 export declare function parseError(msg: string): string;

@@ -31,6 +31,7 @@ function _default(api) {
           text: 'generate mdf\n',
           graph: 'dots'
         }).start();
+        (0, _utils.rmrf)('dist');
         api.makeDir(paths.absTmpPath);
         yield api.codeGenerate();
         spinner.succeed({

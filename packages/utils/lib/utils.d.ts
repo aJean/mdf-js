@@ -1,4 +1,7 @@
 import glob from 'glob';
+/**
+ * 格式化输出
+ */
 export declare function prettierFormat(data: string): string;
 /**
  * 彩色打印
@@ -20,6 +23,10 @@ export declare function compileErrorPrint(msg: string): void;
  * 查找文件
  */
 export declare function globFind(pattern: string, opts?: glob.IOptions): string[];
+/**
+ * 删除目录
+ */
+export declare function rmrf(...paths: string[]): void;
 /**
  * node require 支持 .ts
  * 目前只兼容 config 和 plugins 目录

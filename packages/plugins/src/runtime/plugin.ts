@@ -49,7 +49,7 @@ export default function (api: IApi) {
     },
   });
 
-  // 注意不要放在 onCodeGenerate 里面否则 watch 会导致添加多次
+  // 注意不要写在 codeGenerate 中否则 watch 会导致添加多次
   api.addRuntimeExports(function () {
     return {
       specifiers: ['plugin'],

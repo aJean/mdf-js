@@ -40,6 +40,7 @@ function _default(api) {
           text: 'generate mdf\n',
           graph: 'dots'
         }).start();
+        (0, _utils.rmrf)(paths.absTmpPath);
         api.makeDir(paths.absTmpPath);
         yield api.codeGenerate();
         spinner.succeed({

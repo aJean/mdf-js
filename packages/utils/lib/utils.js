@@ -9,6 +9,7 @@ exports.chalkPrints = chalkPrints;
 exports.errorPrint = errorPrint;
 exports.compileErrorPrint = compileErrorPrint;
 exports.globFind = globFind;
+exports.rmrf = rmrf;
 exports.registerRequire = registerRequire;
 exports.getUserPkg = getUserPkg;
 exports.genStaticPath = genStaticPath;
@@ -34,7 +35,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * @file mdf utils
  */
+const rimraf = require('rimraf');
+
 const prettierOpts = require('../assets/prettierrc.json');
+/**
+ * 格式化输出
+ */
+
 
 function prettierFormat(data) {
   return _prettier.default.format(data, _objectSpread({
@@ -92,6 +99,14 @@ function compileErrorPrint(msg) {
 
 function globFind(pattern, opts) {
   return _glob.default.sync(pattern, opts);
+}
+/**
+ * 删除目录
+ */
+
+
+function rmrf(...paths) {
+  paths.forEach(path => rimraf.sync(path));
 }
 /**
  * node require 支持 .ts

@@ -14,6 +14,7 @@ exports.pathToObj = pathToObj;
 exports.esmExport = esmExport;
 exports.deepArrayAdd = deepArrayAdd;
 exports.runInContext = runInContext;
+exports.runPlugin = runPlugin;
 exports.parseError = parseError;
 
 var _mkdirp = _interopRequireDefault(require("mkdirp"));
@@ -164,6 +165,22 @@ function deepArrayAdd(list, args, ret) {
 
 function runInContext(fn, args, context) {
   return fn.apply(context, args);
+}
+/**
+ * 执行并返回 promise
+ */
+
+
+function runPlugin(plugin, method) {
+  return new Promise(function (resolve, reject) {
+    const ret = plugin[method]();
+
+    if (ret && ret.then) {
+      ret.then(() => resolve(null)).catch(e => reject(e));
+    } else {
+      resolve(null);
+    }
+  });
 }
 /**
  * 工程错误解析

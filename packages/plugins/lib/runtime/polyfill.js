@@ -24,13 +24,16 @@ function _default(api) {
   api.onCodeGenerate({
     name: 'genPolyfill',
 
-    fn() {
+    last() {
       const Mustache = api.Mustache,
             paths = api.paths;
+
+      const _api$getConfig = api.getConfig(),
+            polyfill = _api$getConfig.polyfill;
+
       const tpl = api.getFile((0, _path.join)(__dirname, 'polyfill.tpl'));
-      const config = api.getConfig();
       const content = Mustache.render(tpl, {
-        modules: config.polyfill || null
+        modules: polyfill || null
       });
       api.writeFile(`${paths.absTmpPath}/polyfill.ts`, content);
     }

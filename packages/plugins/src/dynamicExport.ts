@@ -19,8 +19,8 @@ export default function (api: IApi) {
 
   api.onCodeGenerate({
     name: 'genExport',
-    fn() {
-      // 约定 api.addRuntimeExports 不能放在异步队列里执行
+    last() {
+      // api.addRuntimeExports 不能在 last 中执行
       const runtimeExports = api.invokePlugin({
         key: 'addRuntimeExports',
         type: PluginType.add,
