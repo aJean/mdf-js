@@ -72,10 +72,16 @@ const records = [{
   change: 'plugins cli 命令执行修复'
 }, {
   version: '0.1.27',
-  change: 'invoke code generate'
+  change: '插件系统升级'
 }, {
   version: '0.1.28',
-  change: 'invoke code generate'
+  change: '插件系统升级'
+}, {
+  version: '0.2.0',
+  change: '升级依赖'
+}, {
+  version: '0.2.1',
+  change: ''
 }];
 /**
  * 取得所有发不过的版本

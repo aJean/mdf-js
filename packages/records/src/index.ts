@@ -23,8 +23,10 @@ const records = [
   { version: '0.1.24', change: 'sass-loader 问题修复' },
   { version: '0.1.25', change: 'sass-loader 问题修复' },
   { version: '0.1.26', change: 'plugins cli 命令执行修复' },
-  { version: '0.1.27', change: 'invoke code generate' },
-  { version: '0.1.28', change: 'invoke code generate' },
+  { version: '0.1.27', change: '插件系统升级' },
+  { version: '0.1.28', change: '插件系统升级' },
+  { version: '0.2.0', change: '升级依赖' },
+  { version: '0.2.1', change: '' },
 ];
 
 /**
