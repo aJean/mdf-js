@@ -29,7 +29,7 @@ export function getUserConfig() {
     }
   }).filter(Boolean);
 
-  if (!Object.keys(requires).length) {
+  if (!requires.length) {
     errorPrint(new Error('无法识别 config.ts 文件'));
     process.exit(1);
   }
