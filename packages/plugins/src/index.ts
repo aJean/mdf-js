@@ -6,10 +6,9 @@
 export default function() {
   return {
     presets: [
+      require.resolve('./commands/help'),
       require.resolve('./commands/build'),
       require.resolve('./commands/dev'),
-      require.resolve('./commands/config'),
-      require.resolve('./commands/info'),
       require.resolve('./runtime/polyfill'),
       require.resolve('./runtime/plugin'),
       require.resolve('./runtime/style'),

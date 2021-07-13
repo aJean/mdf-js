@@ -4,7 +4,7 @@ import stylelint from 'stylelint';
  * @file stylelint
  */
 
-export default function(files: any, opts: any) {
+export default function (files: any, opts: any) {
   opts.extends = require.resolve('stylelint-config-recommended');
   opts.rules = {
     'at-rule-no-unknown': null,
@@ -14,11 +14,10 @@ export default function(files: any, opts: any) {
   };
   opts.fix = true;
 
-  stylelint.lint({ config: opts, files, formatter: 'verbose' }).then(res => {
+  stylelint.lint({ config: opts, files, formatter: 'verbose' }).then((res) => {
     if (res.errored) {
       console.log(res.output);
-      // 在普通命令模式会打印两次 exit
-      process.exit(1);
+      process.exit(0);
     }
   });
 }

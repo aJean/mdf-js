@@ -4,35 +4,45 @@
  * @file 启动
  */
 
-const Program = require('commander');
+const program = require('commander');
+const { errorPrint } = require('@mdfjs/utils');
 const cli = require('../lib/cli').default;
 
-Program.version(require('../package.json').version);
+// program.version('use mdf -i instead', '-v, --version');
 
-Program.command('build')
-  .description('build project')
+program
+  .option('-i, --info', 'get mdf info')
+  .option('-c, --config', 'get project configs')
+  .option('-t, --tag', 'sync git tags')
+  .description('welcome to mdf cli')
+  .action((params) => cli('help', params));
+
+program
+  .command('build')
+  .description('project build')
   .option('--node', 'node project')
-  .action(opts => cli('build', opts));
+  .action((params) => cli('build', params));
 
-Program.command('dev')
+program
+  .command('dev')
   .option('--node', 'node project')
-  .description('dev project')
-  .action(opts => cli('dev', opts));
+  .description('project run')
+  .action((params) => cli('dev', params));
 
-Program.command('info')
-  .description('get mdf infomation')
-  .action(opts => cli('info', opts));
-
-Program.command('config')
-  .description('get project config')
-  .action(opts => cli('config', opts));
-
-Program.command('lint')
+program
+  .command('lint [files...]')
   .description('project lint & prettier')
   .option('--es', 'es lint')
   .option('--css', 'css lint')
-  .option('--sass', 'sass lint')
+  .option('--scss', 'sass lint')
   .option('--less', 'less lint')
-  .action(opts => cli('lint', opts));
+  .action((files, params) => cli('lint', { ...params, files }));
 
-Program.parse(process.argv);
+try {
+  program.configureOutput({
+    outputError: (str, write) => write(`\x1b[31m${str}\x1b[0m`),
+  });
+
+  program.exitOverride();
+  program.parse(process.argv);
+} catch (e) {}

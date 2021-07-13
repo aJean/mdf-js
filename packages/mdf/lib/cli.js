@@ -17,17 +17,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * @file cli 命令分配
- *      【约定参数】都是boolean 类型 => yarn dev --node
- *      【非约定参数】只取第一个值 => yarn lint ./global.less
  */
 function _default(name, opts) {
   const args = {
     node: opts.node,
     es: opts.es,
     css: opts.css,
-    sass: opts.sass,
+    scss: opts.scss,
     less: opts.less,
-    files: opts.args[0]
+    files: opts.files
   };
   process.env.mdfArgs = JSON.stringify(args);
   let service;
@@ -50,7 +48,7 @@ function _default(name, opts) {
 
       default:
         service = new _core.Service((0, _presets.default)(true));
-        service.runCommand(name, args);
+        service.runCommand(name, opts);
     }
   } catch (e) {
     (0, _utils.errorPrint)(e);

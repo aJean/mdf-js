@@ -81,7 +81,7 @@ function chalkPrints(tokens) {
 
 function errorPrint(e) {
   chalkPrint(e.message, 'red');
-  console.error(e.stack);
+  e.stack && console.error(e.stack);
 }
 /**
  * 编译错误

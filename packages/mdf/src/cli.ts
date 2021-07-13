@@ -5,20 +5,18 @@ import getPresets from './presets';
 
 /**
  * @file cli 命令分配
- *      【约定参数】都是boolean 类型 => yarn dev --node
- *      【非约定参数】只取第一个值 => yarn lint ./global.less
  */
 
-export default function(name: string, opts: any) {
+export default function (name: string, opts: any) {
   const args = {
     node: opts.node,
     es: opts.es,
     css: opts.css,
-    sass: opts.sass,
+    scss: opts.scss,
     less: opts.less,
-    files: opts.args[0],
+    files: opts.files,
   };
-  
+
   process.env.mdfArgs = JSON.stringify(args);
   let service;
 
@@ -27,7 +25,7 @@ export default function(name: string, opts: any) {
       case 'dev':
         const child = startFork(require.resolve('./childService'));
 
-        process.on('message', function(msg: string) {
+        process.on('message', function (msg: string) {
           chalkPrint(`from child process: ${msg}`, 'grey');
         });
         process.on('SIGINT', () => child.kill('SIGINT'));
@@ -39,7 +37,7 @@ export default function(name: string, opts: any) {
         break;
       default:
         service = new Service(getPresets(true));
-        service.runCommand(name, args);
+        service.runCommand(name, opts);
     }
   } catch (e) {
     errorPrint(e);

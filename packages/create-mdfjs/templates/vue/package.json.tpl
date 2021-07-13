@@ -7,7 +7,7 @@
     "_mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
     "dev": "MDF_ENV=dev yarn mdf dev",
     "build": "MDF_ENV=prod yarn mdf build",
-    "lint": "yarn mdf lint --es",
+    "lint": "yarn mdf lint",
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -15,7 +15,7 @@
   "lint-staged": {
     "*.{ts,tsx}": ["yarn mdf lint --es"],
     "*.css": ["yarn mdf lint --css"],
-    "*.scss": ["yarn mdf lint --sass"],
+    "*.scss": ["yarn mdf lint --scss"],
     "*.less": ["yarn mdf lint --less"]
   },
   "repository": {

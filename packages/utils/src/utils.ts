@@ -48,7 +48,7 @@ export function chalkPrints(tokens: any[]) {
  */
 export function errorPrint(e: Error) {
   chalkPrint(e.message, 'red');
-  console.error(e.stack);
+  e.stack && console.error(e.stack);
 }
 
 /**

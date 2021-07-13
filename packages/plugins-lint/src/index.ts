@@ -8,19 +8,27 @@ import stylelint from './stylelint';
  * @todo 支持 vue
  */
 
-export default function(api: IApi) {
+type LintOpts = {
+  files: string[];
+  es?: boolean;
+  scss?: boolean;
+  less?: boolean;
+  css?: boolean;
+};
+
+export default function (api: IApi) {
   api.registerCommand({
     name: 'lint',
-    fn(args: any) {
-      const opts = require('stylelint-config-standard');
-      const files = args.files;
+    fn(opts: LintOpts) {
+      const config = require('stylelint-config-standard');
+      const files = opts.files;
 
-      if (args.es) {
+      if (opts.es) {
         eslint(files, api.cwd);
-      } else if (args.css || args.sass || args.less) {
-        stylelint(files, opts);
+      } else if (opts.css || opts.scss || opts.less) {
+        stylelint(files, config);
       } else {
-        errorPrint({ name: 'error', message: 'must pass a type parameter to mdflint' });
+        errorPrint({ name: 'error', message: 'must pass a type parameter to mdf-lint' });
       }
     },
   });

@@ -32,9 +32,8 @@ function _default(files, opts) {
     formatter: 'verbose'
   }).then(res => {
     if (res.errored) {
-      console.log(res.output); // 在普通命令模式会打印两次 exit
-
-      process.exit(1);
+      console.log(res.output);
+      process.exit(0);
     }
   });
 }

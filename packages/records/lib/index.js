@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getVersions = getVersions;
+exports.getVersion = getVersion;
 exports.getRelease = getRelease;
 exports.default = void 0;
 
@@ -81,14 +82,22 @@ const records = [{
   change: '升级依赖'
 }, {
   version: '0.2.1',
-  change: ''
+  change: 'mdf-cli 优化'
 }];
 /**
- * 取得所有发不过的版本
+ * 取得所有发布过的版本
  */
 
 function getVersions() {
   return records.map(record => record.version);
+}
+/**
+ * 最新版本
+ */
+
+
+function getVersion() {
+  return records[records.length - 1].version;
 }
 /**
  * 取得特定版本的 release
