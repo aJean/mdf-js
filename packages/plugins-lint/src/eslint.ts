@@ -21,7 +21,7 @@ export default function(files: any, cwd: string) {
 
     console.log(formatter.format(list));
     if (list.some(data => data.errorCount)) {
-      process.exit(0);
+      process.exit(1);
     }
   });
 }

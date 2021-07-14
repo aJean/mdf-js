@@ -30,7 +30,7 @@ function _default(files, cwd) {
     console.log(formatter.format(list));
 
     if (list.some(data => data.errorCount)) {
-      process.exit(0);
+      process.exit(1);
     }
   });
 }

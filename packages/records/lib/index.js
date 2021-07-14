@@ -83,6 +83,9 @@ const records = [{
 }, {
   version: '0.2.1',
   change: 'mdf-cli 优化'
+}, {
+  version: '0.2.2',
+  change: 'mdf-cli 优化'
 }];
 /**
  * 取得所有发布过的版本

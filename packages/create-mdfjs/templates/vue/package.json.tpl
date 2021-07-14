@@ -8,9 +8,7 @@
     "dev": "MDF_ENV=dev yarn mdf dev",
     "build": "MDF_ENV=prod yarn mdf build",
     "lint": "yarn mdf lint",
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{ts,tsx}": ["yarn mdf lint --es"],
@@ -37,8 +35,8 @@
     "@commitlint/config-conventional": "^11.0.0",
     "core-js": "3.7.0",
     "regenerator-runtime": "0.13.7",
-    "husky": "^4.2.3",
-    "lint-staged": "^10.0.9"
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.1"
   },
   "author": "{{{ author }}}",
   "license": "MIT"
