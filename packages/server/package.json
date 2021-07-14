@@ -17,7 +17,7 @@
     "@types/webpack-dev-server": "3.11.1",
     "express": "4.17.1",
     "http-proxy-middleware": "1.0.6",
-    "internal-ip": "^6.2.0",
+    "internal-ip": "6.2.0",
     "webpack-dev-server": "3.11.0"
   },
   "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
