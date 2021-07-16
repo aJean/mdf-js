@@ -4,11 +4,18 @@
  * @file 启动
  */
 
-const program = require('commander');
+const { Command } = require('commander');
 const { errorPrint } = require('@mdfjs/utils');
 const cli = require('../lib/cli').default;
 
-// program.version('use mdf -i instead', '-v, --version');
+// 内部 _exit 逻辑
+Command.prototype._exit = function (exitCode, code, message) {
+  if (this._exitCallback) {
+    this._exitCallback(new CommanderError(exitCode, code, message));
+  }
+  process.exit(0);
+};
+const program = new Command();
 
 program
   .option('-i, --info', 'get mdf info')
@@ -43,6 +50,5 @@ try {
     outputError: (str, write) => write(`\x1b[31m${str}\x1b[0m`),
   });
 
-  program.exitOverride();
   program.parse(process.argv);
 } catch (e) {}

@@ -17,7 +17,7 @@ export default function (files: any, opts: any) {
   stylelint.lint({ config: opts, files, formatter: 'verbose' }).then((res) => {
     if (res.errored) {
       console.log(res.output);
-      process.exit(1); // 为什么 exit 两次 ???!!
+      process.exit(1);
     }
   });
 }

@@ -33,7 +33,7 @@ function _default(files, opts) {
   }).then(res => {
     if (res.errored) {
       console.log(res.output);
-      process.exit(1); // 为什么 exit 两次 ???!!
+      process.exit(1);
     }
   });
 }

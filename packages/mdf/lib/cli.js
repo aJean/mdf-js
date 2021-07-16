@@ -30,28 +30,23 @@ function _default(name, opts) {
   process.env.mdfArgs = JSON.stringify(args);
   let service;
 
-  try {
-    switch (name) {
-      case 'dev':
-        const child = (0, _fork.default)(require.resolve('./childService'));
-        process.on('message', function (msg) {
-          (0, _utils.chalkPrint)(`from child process: ${msg}`, 'grey');
-        });
-        process.on('SIGINT', () => child.kill('SIGINT'));
-        process.on('SIGTERM', () => child.kill('SIGTERM'));
-        break;
+  switch (name) {
+    case 'dev':
+      const child = (0, _fork.default)(require.resolve('./childService'));
+      process.on('message', function (msg) {
+        (0, _utils.chalkPrint)(`from child process: ${msg}`, 'grey');
+      });
+      process.on('SIGINT', () => child.kill('SIGINT'));
+      process.on('SIGTERM', () => child.kill('SIGTERM'));
+      break;
 
-      case 'build':
-        service = new _core.Service((0, _presets.default)());
-        service.runCommand(name, args);
-        break;
+    case 'build':
+      service = new _core.Service((0, _presets.default)());
+      service.runCommand(name, args);
+      break;
 
-      default:
-        service = new _core.Service((0, _presets.default)(true));
-        service.runCommand(name, opts);
-    }
-  } catch (e) {
-    (0, _utils.errorPrint)(e);
-    process.exit(1);
+    default:
+      service = new _core.Service((0, _presets.default)(true));
+      service.runCommand(name, opts);
   }
 }

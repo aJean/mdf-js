@@ -7,14 +7,14 @@
     "dev": "MDF_ENV=dev mdf dev",
     "build": "MDF_ENV=prod mdf build",
     "build:qa": "MDF_ENV=qa mdf build",
-    "lint": "yarn mdf lint",
+    "lint": "mdf lint",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["yarn mdf lint --es"],
-    "*.css": ["yarn mdf lint --css"],
-    "*.scss": ["yarn mdf lint --scss"],
-    "*.less": ["yarn mdf lint --less"]
+    "*.{ts,tsx}": ["mdf lint --es"],
+    "*.css": ["mdf lint --css"],
+    "*.scss": ["mdf lint --scss"],
+    "*.less": ["mdf lint --less"]
   },
   "dependencies": {
     "@medlinker/fundamental": "^0.2.0",

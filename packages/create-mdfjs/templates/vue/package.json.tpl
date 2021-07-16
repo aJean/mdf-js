@@ -5,16 +5,16 @@
   "main": "index.js",
   "scripts": {
     "_mdf": "./node_modules/mdfjs/packages/mdf/bin/bootstrap.js",
-    "dev": "MDF_ENV=dev yarn mdf dev",
-    "build": "MDF_ENV=prod yarn mdf build",
-    "lint": "yarn mdf lint",
+    "dev": "MDF_ENV=dev mdf dev",
+    "build": "MDF_ENV=prod mdf build",
+    "lint": "mdf lint",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["yarn mdf lint --es"],
-    "*.css": ["yarn mdf lint --css"],
-    "*.scss": ["yarn mdf lint --scss"],
-    "*.less": ["yarn mdf lint --less"]
+    "*.{ts,tsx}": ["mdf lint --es"],
+    "*.css": ["mdf lint --css"],
+    "*.scss": ["mdf lint --scss"],
+    "*.less": ["mdf lint --less"]
   },
   "repository": {
     "type": "git",
