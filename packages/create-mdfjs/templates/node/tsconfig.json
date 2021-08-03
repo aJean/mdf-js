@@ -16,9 +16,7 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/client/*"],
-      "@@/*": [".tmp/*"],
-      "mdf": ["node_modules/mdfjs/packages/mdf"]
+      "mdf": ["node_modules/mdfjs"]
     }
   },
   "include": [
