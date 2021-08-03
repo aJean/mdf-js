@@ -61,7 +61,11 @@ function _ref() {
         needLibs = ['mdfjs', '@mdfjs/vue'];
         break;
 
-      case 'taro':
+      case 'node':
+        needLibs = ['mdfjs', '@mdfjs/node'];
+        break;
+
+      case 'remax':
         return (0, _utils.chalkPrints)([['error: ', 'red'], '想多了，还不支持这个']);
     }
 

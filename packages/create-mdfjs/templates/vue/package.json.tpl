@@ -11,10 +11,10 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["mdf lint --es"],
-    "*.css": ["mdf lint --css"],
-    "*.scss": ["mdf lint --scss"],
-    "*.less": ["mdf lint --less"]
+    "*.{ts,tsx}": "mdf lint --es",
+    "*.css": "mdf lint --css",
+    "*.scss": "mdf lint --scss",
+    "*.less": "mdf lint --less"
   },
   "repository": {
     "type": "git",

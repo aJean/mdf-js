@@ -36,7 +36,10 @@ export default async function () {
     case 'vue':
       needLibs = ['mdfjs', '@mdfjs/vue'];
       break;
-    case 'taro':
+    case 'node':
+      needLibs = ['mdfjs', '@mdfjs/node'];
+      break;
+    case 'remax':
       return chalkPrints([['error: ', 'red'], '想多了，还不支持这个']);
   }
 

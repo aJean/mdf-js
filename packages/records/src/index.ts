@@ -29,6 +29,7 @@ const records = [
   { version: '0.2.1', change: 'mdf-cli 优化' },
   { version: '0.2.2', change: 'mdf-cli 优化' },
   { version: '0.2.3', change: 'mdf 命令执行逻辑优化' },
+  { version: '0.2.4', change: 'mdf node 功能优化' },
 ];
 
 /**

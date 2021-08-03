@@ -40,8 +40,11 @@ function _default() {
       name: 'vue-web',
       value: 'vue'
     }, {
-      name: 'wx-taro',
-      value: 'taro'
+      name: 'node-server',
+      value: 'node'
+    }, {
+      name: 'wx-remax',
+      value: 'remax'
     }]
   }]);
 }
