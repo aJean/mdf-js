@@ -5,5 +5,5 @@ last 1 safari version
 
 [production]
 Android >=4
-iOS >=7
-IE 10
+iOS >=11
+IE 11
