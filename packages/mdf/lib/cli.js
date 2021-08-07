@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
+var _updateNotifier = _interopRequireDefault(require("update-notifier"));
+
 var _core = require("@mdfjs/core");
 
 var _utils = require("@mdfjs/utils");
@@ -19,6 +21,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @file cli 命令分配
  */
 function _default(name, opts) {
+  // 检查版本更新
+  try {
+    const path = require.resolve('../package.json');
+
+    const notifier = (0, _updateNotifier.default)({
+      pkg: require(path),
+      updateCheckInterval: 1000 * 60 * 60 * 24,
+      shouldNotifyInNpmScript: true
+    });
+
+    if (notifier.update) {
+      return notifier.notify();
+    }
+  } catch (e) {}
+
   const args = {
     node: opts.node,
     es: opts.es,

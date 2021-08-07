@@ -7,13 +7,11 @@ exports.default = _default;
 
 var _core = require("@mdfjs/core");
 
-var _utils = require("@mdfjs/utils");
-
 var _boxen = _interopRequireWildcard(require("boxen"));
 
 var _consoleTablePrinter = require("console-table-printer");
 
-var _child_process = require("child_process");
+var _tag = require("./tag");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -27,7 +25,7 @@ function _default(api) {
       if (opts.config) {
         doConfig(api);
       } else if (opts.tag) {
-        doTags();
+        (0, _tag.tagPipeline)(api);
       } else {
         doInfo(api);
       }
@@ -99,21 +97,4 @@ function doConfig(api) {
   toTable((0, _core.getUserConfig)()).printTable();
   console.log('------------------------ env config ------------------------');
   toTable(api.getConfig().envs).printTable();
-}
-/**
- * 同步 git tags
- */
-
-
-function doTags() {
-  try {
-    (0, _child_process.execSync)('git tag -l | xargs git tag -d', {
-      stdio: [0, 1, 2]
-    });
-    (0, _child_process.execSync)('git fetch origin --prune --tags', {
-      stdio: [0, 1, 2]
-    });
-  } catch (e) {
-    (0, _utils.errorPrint)(e);
-  }
 }

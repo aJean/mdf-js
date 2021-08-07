@@ -1,9 +1,8 @@
 import { getUserConfig } from '@mdfjs/core';
-import { errorPrint } from '@mdfjs/utils';
 import { IApi } from '@mdfjs/types';
 import boxen, { BorderStyle } from 'boxen';
 import { Table } from 'console-table-printer';
-import { execSync } from 'child_process';
+import { tagPipeline } from './tag';
 
 /**
  * @file 内部命令 helper
@@ -22,7 +21,7 @@ export default function (api: IApi) {
       if (opts.config) {
         doConfig(api);
       } else if (opts.tag) {
-        doTags();
+        tagPipeline(api);
       } else {
         doInfo(api);
       }
@@ -75,16 +74,4 @@ function doConfig(api: IApi) {
   toTable(getUserConfig()).printTable();
   console.log('------------------------ env config ------------------------');
   toTable(api.getConfig().envs).printTable();
-}
-
-/**
- * 同步 git tags
- */
-function doTags() {
-  try {
-    execSync('git tag -l | xargs git tag -d', { stdio: [0, 1, 2] });
-    execSync('git fetch origin --prune --tags', { stdio: [0, 1, 2] });
-  } catch (e) {
-    errorPrint(e);
-  }
 }
