@@ -14,7 +14,7 @@ export default function (name: string, opts: any) {
     const path = require.resolve('../package.json');
     const notifier = updater({
       pkg: require(path),
-      updateCheckInterval: 1000 * 60 * 60 * 24 , // 1 day
+      updateCheckInterval: 1000 * 60 * 60 * 24, // 1 day
       shouldNotifyInNpmScript: true,
     });
 
