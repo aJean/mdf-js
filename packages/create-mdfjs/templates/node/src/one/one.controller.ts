@@ -7,10 +7,15 @@ import OneService from './one.service';
 
 @Controller('/one')
 export default class OneController {
-  constructor(private readonly one: OneService) {}
+  constructor(private server: OneService) {}
 
-  @Get('/')
+  @Get('/data')
   index(@Query() query: any) {
-    return this.one.getData();
+    return this.server.getData();
+  }
+
+  @Get('/check')
+  check() {
+    return this.server.checkData();
   }
 }

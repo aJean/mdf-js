@@ -7,14 +7,14 @@ import OneModule from './one/one.module';
 
 export default Helper.createAppModule({
   imports: [OneModule],
+  
   /**
    * 自定义 http 异常处理
    */
   handleHttpError(err, req, res) {
-    console.log(err);
     res.send({
       code: 200,
-      msg: 'hahah',
+      msg: err.message,
     });
   },
 });

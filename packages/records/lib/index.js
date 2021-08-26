@@ -91,7 +91,7 @@ const records = [{
   change: 'mdf 命令执行逻辑优化'
 }, {
   version: '0.2.4',
-  change: 'mdf node 功能优化'
+  change: '升级 mdf node 模板'
 }];
 /**
  * 取得所有发布过的版本

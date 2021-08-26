@@ -30,6 +30,10 @@ function getVersions(needLibs) {
     return undefined;
   });
 }
+/**
+ * 查找 lib latest 版本
+ */
+
 
 function fetch(name) {
   // 淘宝源版本可能会滞后，但是不需要代理

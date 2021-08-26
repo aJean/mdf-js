@@ -15,9 +15,14 @@ export default defineConfig({
   },
 
   node: {
-    uselog: false,
-    timeout: 300000,
+    timeout: 60000,
+  },
+
+  history: {
+    type: 'hash',
   },
 
   publicPath: '/',
+
+  chainWebpack(chain: any) {},
 });

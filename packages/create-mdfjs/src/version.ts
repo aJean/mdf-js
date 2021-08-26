@@ -24,6 +24,9 @@ export default function getVersions(needLibs: any) {
     });
 }
 
+/**
+ * 查找 lib latest 版本
+ */
 function fetch(name: string) {
   // 淘宝源版本可能会滞后，但是不需要代理
   const url = `https://registry.npm.taobao.org/${name}`;
