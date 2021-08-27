@@ -55,7 +55,7 @@ export async function tagPipeline(api: IApi) {
       case 'query':
         return query();
     }
-  } catch (e) {
+  } catch (e: any) {
     chalkPrint(e.message, 'red');
   }
 

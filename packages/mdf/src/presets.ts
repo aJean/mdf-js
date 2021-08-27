@@ -33,7 +33,7 @@ export default function getPresets(only?: boolean) {
         }
       });
     }
-  } catch (e) {
+  } catch (e: any) {
     errorPrint(e);
   } finally {
     return presets;

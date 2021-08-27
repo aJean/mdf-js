@@ -55,7 +55,7 @@ export function watch(opts: IWatchOpts) {
         onChange('change', path);
       });
     }
-  } catch (e) {
+  } catch (e: any) {
     errorPrint(e);
     process.exit(1);
   }

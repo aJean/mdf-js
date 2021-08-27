@@ -47,7 +47,7 @@ export default class BundlerWebpack implements IBundler {
     return new Promise((resolve, reject) => {
       const compiler = bundleImpl(config);
 
-      compiler.run((err, stats) => {
+      compiler.run((err, stats: any) => {
         if (err || stats.hasErrors()) {
           try {
             console.log(stats.toString('errors-only'));

@@ -172,7 +172,7 @@ export default class Service {
         fns.forEach((plugin: any) => {
           try {
             Utils.runInContext(plugin.fn, args);
-          } catch (e) {
+          } catch (e: any) {
             throw new Error(`[plugin ${plugin.name}] ${e.message}`);
           }
         });
@@ -200,7 +200,7 @@ export default class Service {
       // 收集 config 目录里面的配置并验证
       this.config = getConfig(this);
       await this.commands[name].fn(data);
-    } catch (e) {
+    } catch (e: any) {
       Utils.chalkPrint(`run command-${name} failed`, 'red');
       console.log(Utils.parseError(e.message));
       process.exit(0);

@@ -35,7 +35,7 @@ try {
     });
     process.exit(0);
   }
-} catch (e) {
+} catch (e: any) {
   errorPrint(e);
   process.exit(1);
 }

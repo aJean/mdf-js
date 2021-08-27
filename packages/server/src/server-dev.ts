@@ -55,13 +55,13 @@ export class DevServer {
     });
 
     // @ts-ignore
-    this.httpServer = new WebpackDevServer(webpackCompiler, dev);
+    this.httpServer = new WebpackDevServer(dev, webpackCompiler);
   }
 
   start() {
     const { dev, onError, onListening } = this.opts;
 
-    this.httpServer.listen(dev.port, this.host, (err: any) => {
+    this.httpServer.start(dev.port, this.host, (err: any) => {
       if (err) {
         return onError ? onError(err) : console.log(err);
       }

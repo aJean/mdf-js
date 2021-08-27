@@ -1,4 +1,3 @@
-/// <reference types="connect" />
 import { IBundler } from '@mdfjs/core';
 import webpack, { Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -29,35 +28,26 @@ export default class BundlerWebpack implements IBundler {
         serverOpts: {
             port: any;
             host: any;
-            contentBase: any;
-            watchContentBase: boolean;
-            publicPath: any;
             compress: boolean;
-            clientLogLevel: string;
-            disableHostCheck: boolean;
-            open: boolean;
             hot: boolean;
-            hotOnly: boolean;
-            watchOptions: {
-                ignored: RegExp;
-                aggregateTimeout: number;
+            static: {
+                publicPath: any;
+                directory: any;
+                watch: {
+                    ignored: RegExp;
+                    aggregateTimeout: number;
+                };
             };
             historyApiFallback: {
                 index: string;
             };
-            openPage: any;
-            overlay: {
-                warnings: boolean;
-                errors: boolean;
+            open: boolean;
+            client: {
+                logging: string;
+                overlay: boolean;
             };
-            stats: {
-                errors: boolean;
-                warnings: boolean;
-                colors: boolean;
-                all: boolean;
-            };
-            before(app: any, server: any, compiler: any): void;
-            after(): void;
+            onBeforeSetupMiddleware(server: any): void;
+            onAfterSetupMiddleware(): void;
         };
     };
     print(data: Object): void;

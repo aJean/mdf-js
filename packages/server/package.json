@@ -13,12 +13,12 @@
   "dependencies": {
     "@mdfjs/records": "^0.2.4",
     "@types/express": "4.17.9",
-    "@types/webpack": "4.41.25",
-    "@types/webpack-dev-server": "3.11.1",
+    "@types/webpack": "5.28.0",
+    "@types/webpack-dev-server": "4.0.3",
     "express": "4.17.1",
     "http-proxy-middleware": "1.0.6",
     "internal-ip": "6.2.0",
-    "webpack-dev-server": "3.11.0"
+    "webpack-dev-server": "4.0.0"
   },
   "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
   "publishConfig": {

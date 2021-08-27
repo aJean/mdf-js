@@ -93,17 +93,19 @@ function _default(userConfig) {
     paths
   }); // node shims
 
-  chain.node.merge({
-    setImmediate: false,
-    module: 'empty',
-    dns: 'mock',
-    http2: 'empty',
-    process: 'mock',
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
+  chain.resolve.merge({
+    fallback: {
+      setImmediate: false,
+      module: 'empty',
+      dns: 'mock',
+      http2: 'empty',
+      process: 'mock',
+      dgram: 'empty',
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty',
+      child_process: 'empty'
+    }
   }); // resolves
 
   chain.resolve.extensions.merge(['.web.js', '.web.jsx', '.web.ts', '.web.tsx', '.js', '.jsx', '.ts', '.tsx']).end().mainFields.merge(['browser', 'module', 'main']).end().alias.merge(_objectSpread({
@@ -125,8 +127,12 @@ function _default(userConfig) {
       MDF_SCRIPT: !isDev && paths.rtScript || '',
       MDF_PUBLIC_URL: isDev ? '' : paths.publicPath.replace(/\/$/, '')
     })
-  }]);
-  chain.plugin('ignorePlugin').use(_webpack.default.IgnorePlugin, [/^\.\/locale$/, /moment$/]); // 打包策略
+  }]); // 忽略语言包
+
+  chain.plugin('ignorePlugin').use(_webpack.default.IgnorePlugin, [{
+    resourceRegExp: /^\.\/locale$/,
+    contextRegExp: /moment$/
+  }]); // 打包策略
 
   chain.optimization.splitChunks({
     cacheGroups: {

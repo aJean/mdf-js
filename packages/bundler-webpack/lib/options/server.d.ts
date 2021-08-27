@@ -1,36 +1,27 @@
 /**
- * @file 配置 webpack dev server
+ * @file 配置 webpack dev server 4.0
  */
 export default function getServerOpts(opts?: any): {
     port: any;
     host: any;
-    contentBase: any;
-    watchContentBase: boolean;
-    publicPath: any;
     compress: boolean;
-    clientLogLevel: string;
-    disableHostCheck: boolean;
-    open: boolean;
     hot: boolean;
-    hotOnly: boolean;
-    watchOptions: {
-        ignored: RegExp;
-        aggregateTimeout: number;
+    static: {
+        publicPath: any;
+        directory: any;
+        watch: {
+            ignored: RegExp;
+            aggregateTimeout: number;
+        };
     };
     historyApiFallback: {
         index: string;
     };
-    openPage: any;
-    overlay: {
-        warnings: boolean;
-        errors: boolean;
+    open: boolean;
+    client: {
+        logging: string;
+        overlay: boolean;
     };
-    stats: {
-        errors: boolean;
-        warnings: boolean;
-        colors: boolean;
-        all: boolean;
-    };
-    before(app: any, server: any, compiler: any): void;
-    after(): void;
+    onBeforeSetupMiddleware(server: any): void;
+    onAfterSetupMiddleware(): void;
 };

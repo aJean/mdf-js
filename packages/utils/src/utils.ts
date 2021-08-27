@@ -95,7 +95,7 @@ export function registerRequire(Files: string[], basePath: string) {
       cache: false,
       plugins: [[require('babel-plugin-module-resolver'), { alias }]],
     });
-  } catch (e) {
+  } catch (e: any) {
     errorPrint(e);
   }
 }

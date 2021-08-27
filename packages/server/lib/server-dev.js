@@ -52,7 +52,7 @@ class DevServer {
       onFinish && onFinish();
     }); // @ts-ignore
 
-    this.httpServer = new _webpackDevServer.default(webpackCompiler, dev);
+    this.httpServer = new _webpackDevServer.default(dev, webpackCompiler);
   }
 
   start() {
@@ -60,7 +60,7 @@ class DevServer {
           dev = _this$opts2.dev,
           onError = _this$opts2.onError,
           onListening = _this$opts2.onListening;
-    this.httpServer.listen(dev.port, this.host, err => {
+    this.httpServer.start(dev.port, this.host, err => {
       if (err) {
         return onError ? onError(err) : console.log(err);
       }

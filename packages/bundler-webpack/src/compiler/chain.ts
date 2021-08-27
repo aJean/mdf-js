@@ -15,7 +15,7 @@ import geBabelOpts from './babel';
  * @file create webpack config chain
  */
 
-export default function(userConfig: any) {
+export default function (userConfig: any) {
   const { isDev } = userConfig;
   const paths = resolvePaths(userConfig);
   const defines = resolveEnv(userConfig);
@@ -89,17 +89,19 @@ export default function(userConfig: any) {
   createCssRule(chain, { lang: 'sass', test: /\.scss$/, isDev, paths });
 
   // node shims
-  chain.node.merge({
-    setImmediate: false,
-    module: 'empty',
-    dns: 'mock',
-    http2: 'empty',
-    process: 'mock',
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty',
+  chain.resolve.merge({
+    fallback: {
+      setImmediate: false,
+      module: 'empty',
+      dns: 'mock',
+      http2: 'empty',
+      process: 'mock',
+      dgram: 'empty',
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty',
+      child_process: 'empty',
+    },
   });
 
   // resolves
@@ -138,7 +140,10 @@ export default function(userConfig: any) {
     },
   ]);
 
-  chain.plugin('ignorePlugin').use(webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/]);
+  // 忽略语言包
+  chain
+    .plugin('ignorePlugin')
+    .use(webpack.IgnorePlugin, [{ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }]);
 
   // 打包策略
   chain.optimization.splitChunks({
