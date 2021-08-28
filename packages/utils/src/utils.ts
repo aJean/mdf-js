@@ -101,6 +101,25 @@ export function registerRequire(Files: string[], basePath: string) {
 }
 
 /**
+ * 共享模块，用于 link 开发调试
+ */
+export function shareModules() {
+  const Module = require('module');
+
+  // 说明处于 debug 模式
+  if (require.resolve('webpack').indexOf('mdf-js') > 0) {
+    const resolveFile = Module._resolveFilename;
+
+    Module._resolveFilename = function (...args: any) {
+      const name = args[0];
+      const path = resolveFile.apply(Module, args);
+
+      return /webpack\//.test(name) ? path.replace('mdf-vue', 'mdf-js') : path;
+    };
+  }
+}
+
+/**
  * 查找用户的 package.json
  */
 export function getUserPkg(path: string, prop?: string) {

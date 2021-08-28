@@ -11,6 +11,7 @@ exports.compileErrorPrint = compileErrorPrint;
 exports.globFind = globFind;
 exports.rmrf = rmrf;
 exports.registerRequire = registerRequire;
+exports.shareModules = shareModules;
 exports.getUserPkg = getUserPkg;
 exports.genStaticPath = genStaticPath;
 exports.genRoutesPath = genRoutesPath;
@@ -139,6 +140,25 @@ function registerRequire(Files, basePath) {
     });
   } catch (e) {
     errorPrint(e);
+  }
+}
+/**
+ * 共享模块，用于 link 开发调试
+ */
+
+
+function shareModules() {
+  const Module = require('module'); // 说明处于 debug 模式
+
+
+  if (require.resolve('webpack').indexOf('mdf-js') > 0) {
+    const resolveFile = Module._resolveFilename;
+
+    Module._resolveFilename = function (...args) {
+      const name = args[0];
+      const path = resolveFile.apply(Module, args);
+      return /webpack\//.test(name) ? path.replace('mdf-vue', 'mdf-js') : path;
+    };
   }
 }
 /**

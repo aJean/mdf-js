@@ -33,6 +33,10 @@ export declare function rmrf(...paths: string[]): void;
  */
 export declare function registerRequire(Files: string[], basePath: string): void;
 /**
+ * 共享模块，用于 link 开发调试
+ */
+export declare function shareModules(): void;
+/**
  * 查找用户的 package.json
  */
 export declare function getUserPkg(path: string, prop?: string): any;

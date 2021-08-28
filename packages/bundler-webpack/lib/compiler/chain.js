@@ -19,8 +19,6 @@ var _copyWebpackPlugin = _interopRequireDefault(require("copy-webpack-plugin"));
 
 var _miniCssExtractPlugin = _interopRequireDefault(require("mini-css-extract-plugin"));
 
-var _webpackbar = _interopRequireDefault(require("webpackbar"));
-
 var _paths = _interopRequireDefault(require("../options/paths"));
 
 var _env = _interopRequireDefault(require("../options/env"));
@@ -57,7 +55,7 @@ function _default(userConfig) {
     entry.add(paths.appEntry);
   }); // output
 
-  chain.output.path(paths.appDist).filename(isDev ? 'js/[name].js' : 'js/[name].[contentHash:10].js').chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contentHash:10].async.js').publicPath(paths.publicPath); // babel
+  chain.output.path(paths.appDist).filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js').chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js').publicPath(paths.publicPath); // babel
 
   chain.module.rule('babelJs').test(/\.(js|jsx|ts|tsx)$/).exclude.add(/node_modules/).end().use('babelLoader').loader(require.resolve('babel-loader')).options((0, _babel.default)({
     isDev
@@ -108,7 +106,7 @@ function _default(userConfig) {
     }
   }); // resolves
 
-  chain.resolve.extensions.merge(['.web.js', '.web.jsx', '.web.ts', '.web.tsx', '.js', '.jsx', '.ts', '.tsx']).end().mainFields.merge(['browser', 'module', 'main']).end().alias.merge(_objectSpread({
+  chain.resolve.extensions.merge(['.js', '.jsx', '.ts', '.tsx']).end().mainFields.merge(['browser', 'module', 'main']).end().alias.merge(_objectSpread({
     'react-native': 'react-native-web',
     // 使用内置的 react 版本
     'react-dom': require.resolve('react-dom'),
@@ -118,8 +116,16 @@ function _default(userConfig) {
   chain.plugin('definePlugin').use(_webpack.default.DefinePlugin, [{
     'process.version': JSON.stringify(process.version),
     'process.env': JSON.stringify(defines)
-  }]);
-  chain.plugin('progressPlugin').use(_webpackbar.default);
+  }]); // dev 不使用 progress
+  // chain.plugin('progressPlugin').use(WebpackBar);
+  // chain.plugin('progressPlugin').use(
+  //   new webpack.ProgressPlugin((percentage, message, ...args) => {
+  //     process.stdout.clearLine(0);
+  //     process.stdout.cursorTo(0);
+  //     process.stdout.write(`${Math.round(percentage * 100)}% - ${message} ${args}`);
+  //   }),
+  // );
+
   chain.plugin('htmlPlugin').use(_htmlWebpackPlugin.default, [{
     filename: './index.html',
     template: paths.htmlTemplatePath,
@@ -182,8 +188,8 @@ function _default(userConfig) {
       }]
     }));
     chain.plugin('miniCssPlugin').use(new _miniCssExtractPlugin.default({
-      filename: 'css/style.[contenthash].css',
-      chunkFilename: 'css/[name].[contenthash].css',
+      filename: 'css/style.[contenthash:10].css',
+      chunkFilename: 'css/[name].[contenthash:10].css',
       ignoreOrder: true
     })); // 输出 stats
 
@@ -202,17 +208,15 @@ function _default(userConfig) {
 
     chain.optimization.merge({
       minimize: true,
-      namedModules: false,
-      namedChunks: false,
       nodeEnv: 'production',
       flagIncludedChunks: true,
-      occurrenceOrder: true,
       sideEffects: true,
       usedExports: true,
       concatenateModules: true,
       runtimeChunk: 'single',
-      noEmitOnErrors: true,
-      checkWasmTypes: true
+      emitOnErrors: false,
+      checkWasmTypes: true,
+      realContentHash: true
     }); // 压缩
 
     chain.optimization.minimizer('terser').use(_terserWebpackPlugin.default, [{

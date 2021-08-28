@@ -17,7 +17,7 @@ export default function (api: IApi) {
 
       rmrf('dist');
       api.makeDir(paths.absTmpPath);
-      
+
       await api.codeGenerate();
       spinner.succeed({ text: 'generate success', color: 'yellow' });
 
@@ -50,10 +50,13 @@ export default function (api: IApi) {
         },
       });
 
-      return bundler.build().finally(() => {
-        api.invokePlugin({ key: 'processDone', type: PluginType.flush });
-        process.exit(0);
-      });
+      return bundler
+        .build()
+        .catch((e: any) => console.log(e))
+        .finally(() => {
+          api.invokePlugin({ key: 'processDone', type: PluginType.flush });
+          process.exit(0);
+        });
     },
   });
 }

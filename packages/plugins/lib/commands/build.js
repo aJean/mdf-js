@@ -66,7 +66,7 @@ function _default(api) {
           }
 
         });
-        return bundler.build().finally(() => {
+        return bundler.build().catch(e => console.log(e)).finally(() => {
           api.invokePlugin({
             key: 'processDone',
             type: PluginType.flush

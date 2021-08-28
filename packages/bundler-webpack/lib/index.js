@@ -43,20 +43,21 @@ class BundlerWebpack {
     const bundleImpl = this.bundleImpl;
     const config = this.config;
     return new Promise((resolve, reject) => {
-      const compiler = bundleImpl(config);
-      compiler.run((err, stats) => {
-        if (err || stats.hasErrors()) {
-          try {
+      try {
+        const compiler = bundleImpl(config);
+        compiler.run((err, stats) => {
+          if (err || stats.hasErrors()) {
             console.log(stats.toString('errors-only'));
-          } catch (e) {}
+            return reject(new Error('build failed'));
+          }
 
-          return reject(new Error('build failed'));
-        }
-
-        resolve({
-          stats
+          resolve({
+            stats
+          });
         });
-      });
+      } catch (e) {
+        return reject(new Error(e.toString('errors-only')));
+      }
     });
   }
   /**

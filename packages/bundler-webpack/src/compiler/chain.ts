@@ -42,8 +42,8 @@ export default function (userConfig: any) {
   // output
   chain.output
     .path(paths.appDist)
-    .filename(isDev ? 'js/[name].js' : 'js/[name].[contentHash:10].js')
-    .chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contentHash:10].async.js')
+    .filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js')
+    .chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js')
     .publicPath(paths.publicPath);
 
   // babel
@@ -106,7 +106,7 @@ export default function (userConfig: any) {
 
   // resolves
   chain.resolve.extensions
-    .merge(['.web.js', '.web.jsx', '.web.ts', '.web.tsx', '.js', '.jsx', '.ts', '.tsx'])
+    .merge(['.js', '.jsx', '.ts', '.tsx'])
     .end()
     .mainFields.merge(['browser', 'module', 'main'])
     .end()
@@ -126,8 +126,17 @@ export default function (userConfig: any) {
       'process.env': JSON.stringify(defines),
     },
   ]);
+  
+  // dev 不使用 progress
+  // chain.plugin('progressPlugin').use(WebpackBar);
+  // chain.plugin('progressPlugin').use(
+  //   new webpack.ProgressPlugin((percentage, message, ...args) => {
+  //     process.stdout.clearLine(0);
+  //     process.stdout.cursorTo(0);
+  //     process.stdout.write(`${Math.round(percentage * 100)}% - ${message} ${args}`);
+  //   }),
+  // );
 
-  chain.plugin('progressPlugin').use(WebpackBar);
   chain.plugin('htmlPlugin').use(HtmlWebpackPlugin, [
     {
       filename: './index.html',
@@ -197,8 +206,8 @@ export default function (userConfig: any) {
 
       chain.plugin('miniCssPlugin').use(
         new MiniCssExtractPlugin({
-          filename: 'css/style.[contenthash].css',
-          chunkFilename: 'css/[name].[contenthash].css',
+          filename: 'css/style.[contenthash:10].css',
+          chunkFilename: 'css/[name].[contenthash:10].css',
           ignoreOrder: true,
         }) as any,
       );
@@ -220,17 +229,15 @@ export default function (userConfig: any) {
       // 重写优化配置
       chain.optimization.merge({
         minimize: true,
-        namedModules: false,
-        namedChunks: false,
         nodeEnv: 'production',
         flagIncludedChunks: true,
-        occurrenceOrder: true,
         sideEffects: true,
         usedExports: true,
         concatenateModules: true,
         runtimeChunk: 'single',
-        noEmitOnErrors: true,
+        emitOnErrors: false,
         checkWasmTypes: true,
+        realContentHash: true,
       });
 
       // 压缩

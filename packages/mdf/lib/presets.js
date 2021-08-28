@@ -18,7 +18,8 @@ function getPresets(only) {
   const cwd = process.cwd();
 
   try {
-    // builtin plugins
+    (0, _utils.shareModules)(); // builtin plugins
+
     const _getUserConfig = (0, _core.getUserConfig)(),
           plugins = _getUserConfig.plugins;
 

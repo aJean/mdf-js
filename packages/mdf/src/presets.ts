@@ -1,5 +1,5 @@
 import { getUserConfig } from '@mdfjs/core';
-import { getUserPkg, errorPrint } from '@mdfjs/utils';
+import { getUserPkg, errorPrint, shareModules } from '@mdfjs/utils';
 
 /**
  * @file 收集 presets
@@ -11,6 +11,7 @@ export default function getPresets(only?: boolean) {
   const cwd = process.cwd();
 
   try {
+    shareModules();
     // builtin plugins
     const { plugins } = getUserConfig();
     presets.push(
