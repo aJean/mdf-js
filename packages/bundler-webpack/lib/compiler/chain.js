@@ -19,6 +19,8 @@ var _copyWebpackPlugin = _interopRequireDefault(require("copy-webpack-plugin"));
 
 var _miniCssExtractPlugin = _interopRequireDefault(require("mini-css-extract-plugin"));
 
+var _tempWebpackbar = _interopRequireDefault(require("temp-webpackbar"));
+
 var _paths = _interopRequireDefault(require("../options/paths"));
 
 var _env = _interopRequireDefault(require("../options/env"));
@@ -117,8 +119,8 @@ function _default(userConfig) {
     'process.version': JSON.stringify(process.version),
     'process.env': JSON.stringify(defines)
   }]); // dev 不使用 progress
-  // chain.plugin('progressPlugin').use(WebpackBar);
-  // chain.plugin('progressPlugin').use(
+
+  chain.plugin('progressPlugin').use(_tempWebpackbar.default); // chain.plugin('progressPlugin').use(
   //   new webpack.ProgressPlugin((percentage, message, ...args) => {
   //     process.stdout.clearLine(0);
   //     process.stdout.cursorTo(0);

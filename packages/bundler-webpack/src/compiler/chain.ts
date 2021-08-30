@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import WebpackBar from 'webpackbar';
+import WebpackBar from 'temp-webpackbar';
 import resolvePaths from '../options/paths';
 import resolveEnv from '../options/env';
 import createCssRule from '../options/css';
@@ -128,7 +128,7 @@ export default function (userConfig: any) {
   ]);
   
   // dev 不使用 progress
-  // chain.plugin('progressPlugin').use(WebpackBar);
+  chain.plugin('progressPlugin').use(WebpackBar);
   // chain.plugin('progressPlugin').use(
   //   new webpack.ProgressPlugin((percentage, message, ...args) => {
   //     process.stdout.clearLine(0);

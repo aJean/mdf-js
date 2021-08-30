@@ -54,7 +54,7 @@ export default class BundlerWebpack implements IBundler {
             return reject(new Error('build failed'));
           }
 
-          resolve({ stats });
+          compiler.close(() => resolve({ stats }));
         });
       } catch (e: any) {
         return reject(new Error(e.toString('errors-only')));

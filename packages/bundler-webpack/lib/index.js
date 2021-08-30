@@ -51,9 +51,9 @@ class BundlerWebpack {
             return reject(new Error('build failed'));
           }
 
-          resolve({
+          compiler.close(() => resolve({
             stats
-          });
+          }));
         });
       } catch (e) {
         return reject(new Error(e.toString('errors-only')));
