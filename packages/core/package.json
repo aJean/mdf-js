@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/core",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "mdf core lib",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -11,9 +11,9 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/records": "^0.2.4",
-    "@mdfjs/runtime": "^0.2.4",
-    "@mdfjs/utils": "^0.2.4",
+    "@mdfjs/records": "^0.2.5",
+    "@mdfjs/runtime": "^0.2.5",
+    "@mdfjs/utils": "^0.2.5",
     "@types/mkdirp": "1.0.1",
     "@types/mustache": "4.0.1",
     "@types/webpack": "5.28.0",
