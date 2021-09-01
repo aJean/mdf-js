@@ -18,14 +18,12 @@ export default function getServerOpts(opts: any = {}) {
     static: {
       publicPath,
       directory: opts.static || resolvePath('./public'),
-      watch: {
-        ignored: /node_modules/,
-        aggregateTimeout: 300,
-      },
+      watch: false,
     },
 
+    // for browser router
     historyApiFallback: {
-      index: `${publicPath}/index.html`,
+      index: genIndex(publicPath),
     },
 
     open: false,
@@ -33,6 +31,15 @@ export default function getServerOpts(opts: any = {}) {
     client: {
       logging: 'warn',
       overlay: true,
+      progress: false,
+    },
+
+    watchFiles: {
+      options: {
+        ignored: /node_modules/,
+        interval: 300,
+        binaryInterval: 300,
+      },
     },
 
     onBeforeSetupMiddleware(server: any) {
@@ -54,4 +61,8 @@ export default function getServerOpts(opts: any = {}) {
       openBrowser(`http://${host}:${port}`);
     },
   };
+}
+
+function genIndex(path: string) {
+  return `${path == '/' ? '' : path}/index.html`;
 }

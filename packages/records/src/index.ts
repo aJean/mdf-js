@@ -31,6 +31,7 @@ const records = [
   { version: '0.2.3', change: 'mdf 命令执行逻辑优化' },
   { version: '0.2.4', change: '升级 mdf node 模板' },
   { version: '0.2.5', change: '升级 webpack5' },
+  { version: '0.2.6', change: '升级 webpack5' },
 ];
 
 /**

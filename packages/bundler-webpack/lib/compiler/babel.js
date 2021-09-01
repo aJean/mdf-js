@@ -43,6 +43,12 @@ function getBabelOpts(opts) {
   plugins.push([require.resolve('@babel/plugin-proposal-class-properties'), {
     loose: true
   }]);
+  plugins.push([require.resolve('@babel/plugin-proposal-private-methods'), {
+    loose: true
+  }]);
+  plugins.push([require.resolve('@babel/plugin-proposal-private-property-in-object'), {
+    loose: true
+  }]);
   return {
     cacheDirectory: true,
     presets,

@@ -118,16 +118,9 @@ function _default(userConfig) {
   chain.plugin('definePlugin').use(_webpack.default.DefinePlugin, [{
     'process.version': JSON.stringify(process.version),
     'process.env': JSON.stringify(defines)
-  }]); // dev 不使用 progress
+  }]); // show progress
 
-  chain.plugin('progressPlugin').use(_tempWebpackbar.default); // chain.plugin('progressPlugin').use(
-  //   new webpack.ProgressPlugin((percentage, message, ...args) => {
-  //     process.stdout.clearLine(0);
-  //     process.stdout.cursorTo(0);
-  //     process.stdout.write(`${Math.round(percentage * 100)}% - ${message} ${args}`);
-  //   }),
-  // );
-
+  chain.plugin('progressPlugin').use(_tempWebpackbar.default);
   chain.plugin('htmlPlugin').use(_htmlWebpackPlugin.default, [{
     filename: './index.html',
     template: paths.htmlTemplatePath,
@@ -162,8 +155,8 @@ function _default(userConfig) {
       }
     }
   });
-  chain.when(isDev, // webpack-dev-middleware 现在直接使用 webpack 的配置了
-  () => {
+  chain.when(isDev, () => {
+    // webpack-dev-middleware 现在直接使用 webpack 的配置了
     chain.plugin('hotPlugin').use(_webpack.default.HotModuleReplacementPlugin);
     chain.watchOptions({
       ignored: /node_modules/,
@@ -171,7 +164,7 @@ function _default(userConfig) {
     });
     chain.stats({
       all: false,
-      assets: true,
+      assets: false,
       warnings: true,
       errors: true,
       colors: true,

@@ -33,10 +33,7 @@ export default class BundlerWebpack implements IBundler {
             static: {
                 publicPath: any;
                 directory: any;
-                watch: {
-                    ignored: RegExp;
-                    aggregateTimeout: number;
-                };
+                watch: boolean;
             };
             historyApiFallback: {
                 index: string;
@@ -45,6 +42,14 @@ export default class BundlerWebpack implements IBundler {
             client: {
                 logging: string;
                 overlay: boolean;
+                progress: boolean;
+            };
+            watchFiles: {
+                options: {
+                    ignored: RegExp;
+                    interval: number;
+                    binaryInterval: number;
+                };
             };
             onBeforeSetupMiddleware(server: any): void;
             onAfterSetupMiddleware(): void;

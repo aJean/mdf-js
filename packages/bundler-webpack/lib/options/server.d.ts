@@ -9,10 +9,7 @@ export default function getServerOpts(opts?: any): {
     static: {
         publicPath: any;
         directory: any;
-        watch: {
-            ignored: RegExp;
-            aggregateTimeout: number;
-        };
+        watch: boolean;
     };
     historyApiFallback: {
         index: string;
@@ -21,6 +18,14 @@ export default function getServerOpts(opts?: any): {
     client: {
         logging: string;
         overlay: boolean;
+        progress: boolean;
+    };
+    watchFiles: {
+        options: {
+            ignored: RegExp;
+            interval: number;
+            binaryInterval: number;
+        };
     };
     onBeforeSetupMiddleware(server: any): void;
     onAfterSetupMiddleware(): void;
