@@ -46,6 +46,8 @@ export default function (userConfig: any) {
     .chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js')
     .publicPath(paths.publicPath);
 
+  chain.module.noParse(/lodash/);
+
   // babel
   chain.module
     .rule('babelJs')
@@ -126,7 +128,7 @@ export default function (userConfig: any) {
       'process.env': JSON.stringify(defines),
     },
   ]);
-  
+
   // show progress
   chain.plugin('progressPlugin').use(WebpackBar);
 
@@ -175,7 +177,7 @@ export default function (userConfig: any) {
       // webpack-dev-middleware 现在直接使用 webpack 的配置了
       chain.plugin('hotPlugin').use(webpack.HotModuleReplacementPlugin);
 
-      chain.watchOptions({ ignored: /node_modules/, aggregateTimeout: 300 });
+      chain.watchOptions({ ignored: /node_modules/, aggregateTimeout: 500 });
 
       chain.stats({
         all: false,
@@ -183,7 +185,7 @@ export default function (userConfig: any) {
         warnings: true,
         errors: true,
         colors: true,
-        modules: false,
+        moduleAssets: false,
         errorDetails: false,
       });
     },
@@ -213,7 +215,7 @@ export default function (userConfig: any) {
         builtAt: false,
         entrypoints: false,
         children: false,
-        modules: false,
+        moduleAssets: false,
         colors: true,
         timings: true,
         excludeAssets: (assetName: string) => assetName.endsWith('.map'),

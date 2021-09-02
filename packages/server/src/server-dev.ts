@@ -6,7 +6,7 @@ import { Compiler } from 'webpack';
  */
 
 export interface DevOpts {
-  webpackCompiler: Compiler;
+  compiler: Compiler;
   dev: any;
   onError?: Function;
   onListening?: Function;
@@ -16,8 +16,7 @@ export interface DevOpts {
 export class DevServer {
   // @ts-ignore
   opts: DevOpts;
-  httpServer: any;
-  host = '0.0.0.0';
+  server: any;
 
   constructor(opts: DevOpts) {
     this.createOpts(opts);
@@ -35,55 +34,57 @@ export class DevServer {
       dev.port = 3000;
     }
 
-    if (dev.host && dev.host !== 'localhost') {
-      this.host = dev.host;
+    if (!dev.host || dev.host == 'localhost') {
+      dev.host = '0.0.0.0';
     }
 
     this.opts = opts;
   }
 
   createServer() {
-    const { webpackCompiler, dev, onFinish } = this.opts;
-    // 会执行两次，可能是 dev-server 影响的还不知道原因
-    webpackCompiler.hooks.done.tap('devDone', function (stats: any) {
+    const { compiler, dev, onFinish } = this.opts;
+    // @ts-ignore
+    this.server = new WebpackDevServer(dev, compiler);
+
+    compiler.hooks.afterDone.tap('devDone', (stats: any) => {
       if (stats.hasErrors()) {
         console.log(stats.toString('errors-only'));
         // process.exit(1); 不中断进程比较好，否则会影响开发体验
       }
 
-      onFinish && onFinish();
+      this.server.middleware.waitUntilValid(() => onFinish && onFinish());
     });
-
-    // @ts-ignore
-    this.httpServer = new WebpackDevServer(dev, webpackCompiler);
   }
 
   start() {
-    const { dev, onError, onListening } = this.opts;
+    const { onError, onListening } = this.opts;
+    this.server
+      .start()
+      .then(() => onListening && onListening())
+      .catch((e: any) => (onError ? onError(e) : console.log(e)));
+  }
 
-    this.httpServer.start(dev.port, this.host, (err: any) => {
-      if (err) {
-        return onError ? onError(err) : console.log(err);
-      }
-
-      onListening && onListening();
-    });
+  /**
+   * 等待 middleware state = true
+   */
+  wait(callback: Function) {
+    this.server.middleware.waitUntilValid(() => callback());
   }
 
   close() {
-    this.httpServer.close();
+    this.server.close();
   }
 }
 
 /**
  * 服务启动 helper function
  */
-export function startDevServer(webpackCompiler: Compiler, dev: any) {
+export function startDevServer(compiler: Compiler, dev: any) {
   const internalIp = require('internal-ip');
 
   return new Promise(function (resolve, reject) {
     const server = new DevServer({
-      webpackCompiler,
+      compiler,
       dev,
       onFinish() {
         resolve({ server, msg: `dev-server is runing at ${internalIp.v4.sync()}:${dev.port}` });

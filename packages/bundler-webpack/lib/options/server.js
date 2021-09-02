@@ -40,7 +40,7 @@ function getServerOpts(opts = {}) {
     },
     open: false,
     client: {
-      logging: 'warn',
+      logging: 'info',
       overlay: true,
       progress: false
     },
@@ -62,13 +62,16 @@ function getServerOpts(opts = {}) {
         });
       }
 
-      compiler.hooks.watchRun.tap('clean-console', () => process.stdout.write('\x1B[2J\x1B[3J\x1B[H'));
+      compiler.hooks.watchRun.tap('clean', () => process.stdout.write('\x1B[2J\x1B[3J\x1B[H'));
     },
 
-    onAfterSetupMiddleware() {
-      (0, _openBrowser.default)(`http://${host}:${port}`);
-    }
+    onAfterSetupMiddleware(server) {
+      server.middleware.waitUntilValid(() => (0, _openBrowser.default)(`http://${host}:${port}`));
+    },
 
+    devMiddleware: {
+      stats: false
+    }
   };
 }
 

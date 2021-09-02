@@ -67,12 +67,12 @@ class BundlerWebpack {
 
   setupDev(isComplex) {
     const bundleImpl = this.bundleImpl;
-    const serverOpts = (0, _server.default)(this.userConfig);
-    const webpackCompiler = bundleImpl(this.config);
+    const opts = (0, _server.default)(this.userConfig);
+    const compiler = bundleImpl(this.config);
     let devMiddleware;
 
     if (isComplex) {
-      devMiddleware = (0, _webpackDevMiddleware.default)(webpackCompiler, {
+      devMiddleware = (0, _webpackDevMiddleware.default)(compiler, {
         publicPath: '/',
         headers: {
           'access-control-allow-origin': '*'
@@ -81,9 +81,9 @@ class BundlerWebpack {
     }
 
     return {
-      webpackCompiler,
+      compiler,
       devMiddleware,
-      serverOpts
+      opts
     };
   }
 

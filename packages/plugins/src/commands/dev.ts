@@ -60,26 +60,28 @@ export default function (api: IApi) {
       });
 
       // dev pipeline
-      const { webpackCompiler, serverOpts } = bundler.setupDev();
+      const { compiler, opts } = bundler.setupDev();
       const { workServer } = config;
       const reqs = Promise.all([
-        startDevServer(webpackCompiler, serverOpts),
-        workServer ? startWorkServer(workServer) : null,
+        startDevServer(compiler, opts),
+        workServer ? startWorkServer(compiler, workServer) : null,
       ]);
 
       return reqs.then((res) => {
         const devRes: any = res[0];
         const workRes: any = res[1];
-        // 必须加个延时，要在 webpack 之后输出
-        setTimeout(function () {
-          api.invokePlugin({ key: 'processDone', type: PluginType.flush });
+        // 要在 webpack stats 之后输出
+        setTimeout(() => {
+          devRes.server.wait(() => {
+            api.invokePlugin({ key: 'processDone', type: PluginType.flush });
 
-          chalkPrints([[`\nsuccess: `, 'green'], ` mdf server`]);
-          console.log(` - ${devRes.msg}`);
-          workRes.msg && console.log(` - ${workRes.msg}`);
+            chalkPrints([[`success: `, 'green'], ` mdf server`]);
+            console.log(` - ${devRes.msg}`);
+            workRes.msg && console.log(` - ${workRes.msg}\n`);
 
-          initWatchers(api, devRes.server, !!workRes);
-        }, 800);
+            initWatchers(api, devRes.server, !!workRes);
+          });
+        }, 500);
       });
     },
   });

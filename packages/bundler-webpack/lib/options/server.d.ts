@@ -28,5 +28,8 @@ export default function getServerOpts(opts?: any): {
         };
     };
     onBeforeSetupMiddleware(server: any): void;
-    onAfterSetupMiddleware(): void;
+    onAfterSetupMiddleware(server: any): void;
+    devMiddleware: {
+        stats: boolean;
+    };
 };

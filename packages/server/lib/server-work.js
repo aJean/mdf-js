@@ -23,38 +23,39 @@ class WorkServer {
   // @ts-ignore
   constructor(opts) {
     this.opts = void 0;
-    this.httpServer = void 0;
+    this.server = void 0;
+    this.logger = void 0;
     this.app = (0, _express.default)();
     this.createOpts(opts);
     this.createServer();
   }
 
   createOpts(opts) {
-    if (!opts.port) {
+    const port = opts.port,
+          compiler = opts.compiler;
+
+    if (!port) {
       opts.port = 9000;
     }
 
     this.opts = opts;
+    this.logger = compiler.getInfrastructureLogger('work-server');
   }
 
   createServer() {
-    this.middlewareSteps();
-    this.httpServer = _http.default.createServer(this.app);
+    this.steps();
+    this.server = _http.default.createServer(this.app);
   }
   /**
    * 流程化添加插件级中间件
    */
 
 
-  middlewareSteps() {
-    const opts = this.opts;
+  steps() {
+    const proxy = this.opts.proxy;
     this.corsMiddleware();
-
-    if (opts.proxy) {
-      this.proxyMiddleware();
-    } // this.wsMiddleware();
+    proxy && this.proxyMiddleware(); // ws && this.wsMiddleware();
     // this.uiMiddleware();
-
   }
   /**
    * 跨域中间件，可能需要支持 cookie
@@ -68,12 +69,7 @@ class WorkServer {
       res.header('Access-Control-Allow-Origin', req.headers.origin);
       res.header('Access-Control-Allow-Headers', (0, _utils.getCorsHeaders)());
       res.header('Access-Control-Allow-Credentials', 'true');
-
-      if (req.method == 'OPTIONS') {
-        res.sendStatus(200);
-      } else {
-        next();
-      }
+      req.method == 'OPTIONS' ? res.sendStatus(200) : next();
     });
   }
   /**
@@ -124,7 +120,7 @@ class WorkServer {
           onError = _this$opts.onError,
           onListening = _this$opts.onListening,
           port = _this$opts.port;
-    this.httpServer.listen(port, '0.0.0.0', 5, err => {
+    this.server.listen(port, '0.0.0.0', 5, err => {
       if (err) {
         return onError ? onError(err) : console.log(err);
       }
@@ -134,11 +130,15 @@ class WorkServer {
   }
 
   close() {
-    this.httpServer.close();
+    this.server.close();
   }
+  /**
+   * use webpack logger interface
+   */
+
 
   print(from, to) {
-    console.log(`[HPM] Proxy created: ${from}  -> ${to}`);
+    this.logger.status(`Proxy created: ${from}  -> ${to}`);
   }
 
 }
@@ -151,9 +151,9 @@ exports.WorkServer = WorkServer;
 
 function genProxyMiddleware(context, mapping) {
   if (!mapping) {
+    // logLevel: 'info'
     return (0, _httpProxyMiddleware.createProxyMiddleware)(genProxyOpts({
-      target: context,
-      logLevel: 'info'
+      target: context
     }));
   }
 
@@ -203,7 +203,8 @@ let serverOpts;
  * 首次创建服务传入外部参数使用这个方法
  */
 
-function startWorkServer(opts = {}, callback) {
+function startWorkServer(compiler, opts) {
+  opts.compiler = compiler;
   return new Promise(function (resolve, reject) {
     Object.assign(opts, {
       onListening() {

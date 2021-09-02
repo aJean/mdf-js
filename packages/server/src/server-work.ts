@@ -9,6 +9,7 @@ import { loadUserProxy, getYapiToken, getCorsHeaders } from './utils';
  */
 
 export interface WorkOpts {
+  compiler?: any;
   port?: number;
   proxy?: any;
   ws?: boolean;
@@ -21,7 +22,8 @@ export interface WorkOpts {
 export class WorkServer {
   // @ts-ignore
   opts: WorkOpts;
-  httpServer: any;
+  server: any;
+  logger: any;
   app = express();
 
   constructor(opts: WorkOpts) {
@@ -30,30 +32,29 @@ export class WorkServer {
   }
 
   createOpts(opts: WorkOpts) {
-    if (!opts.port) {
+    const { port, compiler } = opts;
+    if (!port) {
       opts.port = 9000;
     }
 
     this.opts = opts;
+    this.logger = compiler.getInfrastructureLogger('work-server');
   }
 
   createServer() {
-    this.middlewareSteps();
-    this.httpServer = http.createServer(this.app);
+    this.steps();
+    this.server = http.createServer(this.app);
   }
 
   /**
    * 流程化添加插件级中间件
    */
-  middlewareSteps() {
-    const opts = this.opts;
+  steps() {
+    const { proxy } = this.opts;
 
     this.corsMiddleware();
-
-    if (opts.proxy) {
-      this.proxyMiddleware();
-    }
-    // this.wsMiddleware();
+    proxy && this.proxyMiddleware();
+    // ws && this.wsMiddleware();
     // this.uiMiddleware();
   }
 
@@ -69,11 +70,7 @@ export class WorkServer {
       res.header('Access-Control-Allow-Headers', getCorsHeaders());
       res.header('Access-Control-Allow-Credentials', 'true');
 
-      if (req.method == 'OPTIONS') {
-        res.sendStatus(200);
-      } else {
-        next();
-      }
+      req.method == 'OPTIONS' ? res.sendStatus(200) : next();
     });
   }
 
@@ -105,6 +102,7 @@ export class WorkServer {
         if (new RegExp(path, 'i').test(requestPath)) {
           const fuzzyProxy = genProxyMiddleware(address)!;
           this.print(requestPath, address);
+
           return fuzzyProxy(req, res, next);
         }
       }
@@ -117,8 +115,7 @@ export class WorkServer {
 
   start() {
     const { onError, onListening, port } = this.opts;
-
-    this.httpServer.listen(port, '0.0.0.0', 5, (err: any) => {
+    this.server.listen(port, '0.0.0.0', 5, (err: any) => {
       if (err) {
         return onError ? onError(err) : console.log(err);
       }
@@ -128,11 +125,14 @@ export class WorkServer {
   }
 
   close() {
-    this.httpServer.close();
+    this.server.close();
   }
 
+  /**
+   * use webpack logger interface
+   */
   print(from: string, to: string) {
-    console.log(`[HPM] Proxy created: ${from}  -> ${to}`);
+    this.logger.status(`Proxy created: ${from}  -> ${to}`);
   }
 }
 
@@ -141,7 +141,8 @@ export class WorkServer {
  */
 function genProxyMiddleware(context: string, mapping?: string) {
   if (!mapping) {
-    return createProxyMiddleware(genProxyOpts({ target: context, logLevel: 'info' }));
+    // logLevel: 'info'
+    return createProxyMiddleware(genProxyOpts({ target: context }));
   }
 
   const data = url.parse(mapping);
@@ -190,7 +191,9 @@ let serverOpts: WorkOpts;
 /**
  * 首次创建服务传入外部参数使用这个方法
  */
-export function startWorkServer(opts: WorkOpts = {}, callback?: Function) {
+export function startWorkServer(compiler: any, opts: WorkOpts) {
+  opts.compiler = compiler;
+
   return new Promise(function (resolve, reject) {
     Object.assign(opts, {
       onListening() {

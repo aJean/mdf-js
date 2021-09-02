@@ -78,25 +78,27 @@ function _default(api) {
         }); // dev pipeline
 
         const _bundler$setupDev = bundler.setupDev(),
-              webpackCompiler = _bundler$setupDev.webpackCompiler,
-              serverOpts = _bundler$setupDev.serverOpts;
+              compiler = _bundler$setupDev.compiler,
+              opts = _bundler$setupDev.opts;
 
         const workServer = config.workServer;
-        const reqs = Promise.all([(0, _server.startDevServer)(webpackCompiler, serverOpts), workServer ? (0, _server.startWorkServer)(workServer) : null]);
+        const reqs = Promise.all([(0, _server.startDevServer)(compiler, opts), workServer ? (0, _server.startWorkServer)(compiler, workServer) : null]);
         return reqs.then(res => {
           const devRes = res[0];
-          const workRes = res[1]; // 必须加个延时，要在 webpack 之后输出
+          const workRes = res[1]; // 要在 webpack stats 之后输出
 
-          setTimeout(function () {
-            api.invokePlugin({
-              key: 'processDone',
-              type: PluginType.flush
+          setTimeout(() => {
+            devRes.server.wait(() => {
+              api.invokePlugin({
+                key: 'processDone',
+                type: PluginType.flush
+              });
+              (0, _utils.chalkPrints)([[`success: `, 'green'], ` mdf server`]);
+              console.log(` - ${devRes.msg}`);
+              workRes.msg && console.log(` - ${workRes.msg}\n`);
+              initWatchers(api, devRes.server, !!workRes);
             });
-            (0, _utils.chalkPrints)([[`\nsuccess: `, 'green'], ` mdf server`]);
-            console.log(` - ${devRes.msg}`);
-            workRes.msg && console.log(` - ${workRes.msg}`);
-            initWatchers(api, devRes.server, !!workRes);
-          }, 800);
+          }, 500);
         });
       })();
     }

@@ -23,9 +23,9 @@ export default class BundlerWebpack implements IBundler {
      * 启动本地构建模式
      */
     setupDev(isComplex?: boolean): {
-        webpackCompiler: webpack.Compiler;
+        compiler: webpack.Compiler;
         devMiddleware: (webpackDevMiddleware.WebpackDevMiddleware & import("connect").NextHandleFunction) | undefined;
-        serverOpts: {
+        opts: {
             port: any;
             host: any;
             compress: boolean;
@@ -52,7 +52,10 @@ export default class BundlerWebpack implements IBundler {
                 };
             };
             onBeforeSetupMiddleware(server: any): void;
-            onAfterSetupMiddleware(): void;
+            onAfterSetupMiddleware(server: any): void;
+            devMiddleware: {
+                stats: boolean;
+            };
         };
     };
     print(data: Object): void;

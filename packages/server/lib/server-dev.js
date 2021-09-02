@@ -14,8 +14,7 @@ class DevServer {
   // @ts-ignore
   constructor(opts) {
     this.opts = void 0;
-    this.httpServer = void 0;
-    this.host = '0.0.0.0';
+    this.server = void 0;
     this.createOpts(opts);
     this.createServer();
   }
@@ -31,8 +30,8 @@ class DevServer {
       dev.port = 3000;
     }
 
-    if (dev.host && dev.host !== 'localhost') {
-      this.host = dev.host;
+    if (!dev.host || dev.host == 'localhost') {
+      dev.host = '0.0.0.0';
     }
 
     this.opts = opts;
@@ -40,37 +39,37 @@ class DevServer {
 
   createServer() {
     const _this$opts = this.opts,
-          webpackCompiler = _this$opts.webpackCompiler,
+          compiler = _this$opts.compiler,
           dev = _this$opts.dev,
-          onFinish = _this$opts.onFinish; // 会执行两次，可能是 dev-server 影响的还不知道原因
+          onFinish = _this$opts.onFinish; // @ts-ignore
 
-    webpackCompiler.hooks.done.tap('devDone', function (stats) {
+    this.server = new _webpackDevServer.default(dev, compiler);
+    compiler.hooks.afterDone.tap('devDone', stats => {
       if (stats.hasErrors()) {
         console.log(stats.toString('errors-only')); // process.exit(1); 不中断进程比较好，否则会影响开发体验
       }
 
-      onFinish && onFinish();
-    }); // @ts-ignore
-
-    this.httpServer = new _webpackDevServer.default(dev, webpackCompiler);
+      this.server.middleware.waitUntilValid(() => onFinish && onFinish());
+    });
   }
 
   start() {
     const _this$opts2 = this.opts,
-          dev = _this$opts2.dev,
           onError = _this$opts2.onError,
           onListening = _this$opts2.onListening;
-    this.httpServer.start(dev.port, this.host, err => {
-      if (err) {
-        return onError ? onError(err) : console.log(err);
-      }
+    this.server.start().then(() => onListening && onListening()).catch(e => onError ? onError(e) : console.log(e));
+  }
+  /**
+   * 等待 middleware state = true
+   */
 
-      onListening && onListening();
-    });
+
+  wait(callback) {
+    this.server.middleware.waitUntilValid(() => callback());
   }
 
   close() {
-    this.httpServer.close();
+    this.server.close();
   }
 
 }
@@ -81,12 +80,12 @@ class DevServer {
 
 exports.DevServer = DevServer;
 
-function startDevServer(webpackCompiler, dev) {
+function startDevServer(compiler, dev) {
   const internalIp = require('internal-ip');
 
   return new Promise(function (resolve, reject) {
     const server = new DevServer({
-      webpackCompiler,
+      compiler,
       dev,
 
       onFinish() {

@@ -67,21 +67,21 @@ export default class BundlerWebpack implements IBundler {
    */
   setupDev(isComplex?: boolean) {
     const bundleImpl = this.bundleImpl;
-    const serverOpts = getServerOpts(this.userConfig);
-    const webpackCompiler = bundleImpl(this.config);
+    const opts = getServerOpts(this.userConfig);
+    const compiler = bundleImpl(this.config);
     let devMiddleware;
 
     if (isComplex) {
-      devMiddleware = webpackDevMiddleware(webpackCompiler, {
+      devMiddleware = webpackDevMiddleware(compiler, {
         publicPath: '/',
         headers: { 'access-control-allow-origin': '*' },
       });
     }
 
     return {
-      webpackCompiler,
+      compiler,
       devMiddleware,
-      serverOpts,
+      opts,
     };
   }
 

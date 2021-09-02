@@ -29,7 +29,7 @@ export default function getServerOpts(opts: any = {}) {
     open: false,
 
     client: {
-      logging: 'warn',
+      logging: 'info',
       overlay: true,
       progress: false,
     },
@@ -52,13 +52,15 @@ export default function getServerOpts(opts: any = {}) {
         });
       }
 
-      compiler.hooks.watchRun.tap('clean-console', () =>
-        process.stdout.write('\x1B[2J\x1B[3J\x1B[H'),
-      );
+      compiler.hooks.watchRun.tap('clean', () => process.stdout.write('\x1B[2J\x1B[3J\x1B[H'));
     },
 
-    onAfterSetupMiddleware() {
-      openBrowser(`http://${host}:${port}`);
+    onAfterSetupMiddleware(server: any) {
+      server.middleware.waitUntilValid(() => openBrowser(`http://${host}:${port}`));
+    },
+
+    devMiddleware: {
+      stats: false,
     },
   };
 }

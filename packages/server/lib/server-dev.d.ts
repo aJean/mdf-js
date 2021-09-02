@@ -3,7 +3,7 @@ import { Compiler } from 'webpack';
  * @file 封装 webpack-dev-server
  */
 export interface DevOpts {
-    webpackCompiler: Compiler;
+    compiler: Compiler;
     dev: any;
     onError?: Function;
     onListening?: Function;
@@ -11,15 +11,18 @@ export interface DevOpts {
 }
 export declare class DevServer {
     opts: DevOpts;
-    httpServer: any;
-    host: string;
+    server: any;
     constructor(opts: DevOpts);
     createOpts(opts: DevOpts): void;
     createServer(): void;
     start(): void;
+    /**
+     * 等待 middleware state = true
+     */
+    wait(callback: Function): void;
     close(): void;
 }
 /**
  * 服务启动 helper function
  */
-export declare function startDevServer(webpackCompiler: Compiler, dev: any): Promise<unknown>;
+export declare function startDevServer(compiler: Compiler, dev: any): Promise<unknown>;

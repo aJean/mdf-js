@@ -57,7 +57,8 @@ function _default(userConfig) {
     entry.add(paths.appEntry);
   }); // output
 
-  chain.output.path(paths.appDist).filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js').chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js').publicPath(paths.publicPath); // babel
+  chain.output.path(paths.appDist).filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js').chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js').publicPath(paths.publicPath);
+  chain.module.noParse(/lodash/); // babel
 
   chain.module.rule('babelJs').test(/\.(js|jsx|ts|tsx)$/).exclude.add(/node_modules/).end().use('babelLoader').loader(require.resolve('babel-loader')).options((0, _babel.default)({
     isDev
@@ -160,7 +161,7 @@ function _default(userConfig) {
     chain.plugin('hotPlugin').use(_webpack.default.HotModuleReplacementPlugin);
     chain.watchOptions({
       ignored: /node_modules/,
-      aggregateTimeout: 300
+      aggregateTimeout: 500
     });
     chain.stats({
       all: false,
@@ -168,7 +169,7 @@ function _default(userConfig) {
       warnings: true,
       errors: true,
       colors: true,
-      modules: false,
+      moduleAssets: false,
       errorDetails: false
     });
   }, // 生产环境配置
@@ -195,7 +196,7 @@ function _default(userConfig) {
       builtAt: false,
       entrypoints: false,
       children: false,
-      modules: false,
+      moduleAssets: false,
       colors: true,
       timings: true,
       excludeAssets: assetName => assetName.endsWith('.map')
