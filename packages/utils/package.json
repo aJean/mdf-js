@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/utils",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "mdf external utils",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/server",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "mdf node server",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

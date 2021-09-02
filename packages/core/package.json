@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/core",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "mdf core lib",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@mdfjs/records": "^0.2.6",
     "@mdfjs/runtime": "^0.2.6",
-    "@mdfjs/utils": "^0.2.6",
+    "@mdfjs/utils": "^0.2.7",
     "@types/mkdirp": "1.0.1",
     "@types/mustache": "4.0.1",
     "@types/webpack": "5.28.0",
