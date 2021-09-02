@@ -46,8 +46,6 @@ export default function (userConfig: any) {
     .chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js')
     .publicPath(paths.publicPath);
 
-  chain.module.noParse(/lodash/);
-
   // babel
   chain.module
     .rule('babelJs')

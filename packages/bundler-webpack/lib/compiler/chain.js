@@ -57,8 +57,7 @@ function _default(userConfig) {
     entry.add(paths.appEntry);
   }); // output
 
-  chain.output.path(paths.appDist).filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js').chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js').publicPath(paths.publicPath);
-  chain.module.noParse(/lodash/); // babel
+  chain.output.path(paths.appDist).filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js').chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js').publicPath(paths.publicPath); // babel
 
   chain.module.rule('babelJs').test(/\.(js|jsx|ts|tsx)$/).exclude.add(/node_modules/).end().use('babelLoader').loader(require.resolve('babel-loader')).options((0, _babel.default)({
     isDev
