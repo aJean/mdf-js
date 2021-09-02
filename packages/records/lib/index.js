@@ -98,6 +98,12 @@ const records = [{
 }, {
   version: '0.2.6',
   change: '升级 webpack5'
+}, {
+  version: '0.2.7',
+  change: '升级 webpack5'
+}, {
+  version: '0.2.8',
+  change: '升级 webpack5'
 }];
 /**
  * 取得所有发布过的版本
