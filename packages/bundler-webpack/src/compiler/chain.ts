@@ -193,9 +193,7 @@ export default function (userConfig: any) {
     () => {
       // webpack-dev-middleware 现在直接使用 webpack 的配置了
       chain.plugin('hotPlugin').use(webpack.HotModuleReplacementPlugin);
-      // 性能分析
-      project.smp && chain.plugin('smpPlugin').use(require('speed-measure-webpack-plugin'));
-
+      // 监听性能
       chain.watchOptions({ ignored: /node_modules/, aggregateTimeout: 500 });
 
       chain.stats({
@@ -225,6 +223,9 @@ export default function (userConfig: any) {
           ignoreOrder: true,
         }) as any,
       );
+
+      // 性能分析
+      project.smp && chain.plugin('smpPlugin').use(require('temp-smp'));
 
       // 输出 stats
       chain.stats({

@@ -173,9 +173,8 @@ function _default(userConfig) {
   });
   chain.when(isDev, () => {
     // webpack-dev-middleware 现在直接使用 webpack 的配置了
-    chain.plugin('hotPlugin').use(_webpack.default.HotModuleReplacementPlugin); // 性能分析
+    chain.plugin('hotPlugin').use(_webpack.default.HotModuleReplacementPlugin); // 监听性能
 
-    project.smp && chain.plugin('smpPlugin').use(require('speed-measure-webpack-plugin'));
     chain.watchOptions({
       ignored: /node_modules/,
       aggregateTimeout: 500
@@ -204,7 +203,9 @@ function _default(userConfig) {
       filename: 'css/style.[contenthash:10].css',
       chunkFilename: 'css/[name].[contenthash:10].css',
       ignoreOrder: true
-    })); // 输出 stats
+    })); // 性能分析
+
+    project.smp && chain.plugin('smpPlugin').use(require('temp-smp')); // 输出 stats
 
     chain.stats({
       assets: true,

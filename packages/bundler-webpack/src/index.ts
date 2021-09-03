@@ -72,7 +72,7 @@ export default class BundlerWebpack implements IBundler {
     let devMiddleware;
 
     if (isComplex) {
-      devMiddleware = webpackDevMiddleware(compiler, {
+      devMiddleware = webpackDevMiddleware(compiler as any, {
         publicPath: '/',
         headers: { 'access-control-allow-origin': '*' },
       });
