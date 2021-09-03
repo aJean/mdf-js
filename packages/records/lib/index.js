@@ -107,6 +107,9 @@ const records = [{
 }, {
   version: '0.2.9',
   change: '日常更新'
+}, {
+  version: '0.2.10',
+  change: '更新 loader'
 }];
 /**
  * 取得所有发布过的版本
