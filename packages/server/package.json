@@ -18,7 +18,8 @@
     "express": "4.17.1",
     "http-proxy-middleware": "2.0.1",
     "internal-ip": "6.2.0",
-    "webpack-dev-server": "4.0.0"
+    "webpack-dev-server": "4.0.0",
+    "webpack": "5.51.1"
   },
   "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
   "publishConfig": {

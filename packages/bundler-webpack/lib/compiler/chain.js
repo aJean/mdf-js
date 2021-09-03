@@ -41,7 +41,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @file create webpack config chain
  */
 function _default(userConfig) {
-  const isDev = userConfig.isDev;
+  const isDev = userConfig.isDev,
+        project = userConfig.project;
   const paths = (0, _paths.default)(userConfig);
   const defines = (0, _env.default)(userConfig);
   const chain = new _webpackChain.default();
@@ -57,7 +58,7 @@ function _default(userConfig) {
     entry.add(paths.appEntry);
   }); // output
 
-  chain.output.path(paths.appDist).filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js').chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js').publicPath(paths.publicPath); // babel
+  chain.output.path(paths.appDist).filename(`js/${isDev ? '[name].js' : '[name].[contenthash:10].js'}`).chunkFilename(`js/${isDev ? '[name].js' : '[name].[contenthash:10]..async.js'}`).publicPath(paths.publicPath); // babel
 
   chain.module.rule('babelJs').test(/\.(js|jsx|ts|tsx)$/).exclude.add(/node_modules/).end().use('babelLoader').loader(require.resolve('babel-loader')).options((0, _babel.default)({
     isDev
@@ -65,11 +66,30 @@ function _default(userConfig) {
   chain.module.rule('svg').test(/\.svg$/).use('svgLoader').loader(require.resolve('@svgr/webpack'));
   chain.module.rule('mdx').test(/\.mdx?$/).use('mdxLoader').loader(require.resolve('babel-loader')).options((0, _babel.default)({
     isDev
-  })).loader(require.resolve('@mdx-js/loader'));
-  chain.module.rule('static').test(/\.(ico|png|jpg|jpeg|gif|webp|woff|woff2|eot|ttf|otf|ogg|mp3|mp4|m4v)$/i).use('staticLoader').loader(require.resolve('url-loader')).options({
-    limit: 8096,
-    esModule: false,
-    name: 'static/[name].[contenthash:10].[ext]'
+  })).loader(require.resolve('@mdx-js/loader')); // 资源类
+
+  chain.module.rule('assets-img').test(/\.(ico|png|jpg|jpeg|gif|webp)$/i).merge({
+    type: 'asset',
+    generator: {
+      filename: 'img/[name].[contenthash:10].[ext]'
+    },
+    parser: {
+      dataUrlCondition: {
+        maxSize: 8 * 1024
+      }
+    }
+  });
+  chain.module.rule('assets-font').test(/\.(woff|woff2|eot|ttf|otf|ogg)$/i).merge({
+    type: 'asset/resource',
+    generator: {
+      filename: 'font/[name].[contenthash:10].[ext]'
+    }
+  });
+  chain.module.rule('assets-audio').test(/\.(mp3|mp4|m4v)$/i).merge({
+    type: 'asset/resource',
+    generator: {
+      filename: 'audio/[name].[contenthash:10].[ext]'
+    }
   }); // css
 
   (0, _css.default)(chain, {
@@ -108,12 +128,8 @@ function _default(userConfig) {
     }
   }); // resolves
 
-  chain.resolve.extensions.merge(['.js', '.jsx', '.ts', '.tsx']).end().mainFields.merge(['browser', 'module', 'main']).end().alias.merge(_objectSpread({
-    'react-native': 'react-native-web',
-    // 使用内置的 react 版本
-    'react-dom': require.resolve('react-dom'),
-    react: require.resolve('react')
-  }, paths.moduleAlias)); // plugins
+  chain.resolve.extensions.merge(['.js', '.jsx', '.ts', '.tsx', '.vue']).end().mainFields.merge(['browser', 'module', 'main']).end() // tsConfig paths，defineConfig 会使用
+  .alias.merge(_objectSpread({}, paths.moduleAlias)); // plugins
 
   chain.plugin('definePlugin').use(_webpack.default.DefinePlugin, [{
     'process.version': JSON.stringify(process.version),
@@ -157,7 +173,9 @@ function _default(userConfig) {
   });
   chain.when(isDev, () => {
     // webpack-dev-middleware 现在直接使用 webpack 的配置了
-    chain.plugin('hotPlugin').use(_webpack.default.HotModuleReplacementPlugin);
+    chain.plugin('hotPlugin').use(_webpack.default.HotModuleReplacementPlugin); // 性能分析
+
+    project.smp && chain.plugin('smpPlugin').use(require('speed-measure-webpack-plugin'));
     chain.watchOptions({
       ignored: /node_modules/,
       aggregateTimeout: 500
@@ -168,7 +186,7 @@ function _default(userConfig) {
       warnings: true,
       errors: true,
       colors: true,
-      moduleAssets: false,
+      modules: false,
       errorDetails: false
     });
   }, // 生产环境配置
@@ -195,7 +213,7 @@ function _default(userConfig) {
       builtAt: false,
       entrypoints: false,
       children: false,
-      moduleAssets: false,
+      modules: false,
       colors: true,
       timings: true,
       excludeAssets: assetName => assetName.endsWith('.map')

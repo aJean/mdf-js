@@ -16,7 +16,7 @@ import geBabelOpts from './babel';
  */
 
 export default function (userConfig: any) {
-  const { isDev } = userConfig;
+  const { isDev, project } = userConfig;
   const paths = resolvePaths(userConfig);
   const defines = resolveEnv(userConfig);
   const chain = new Chain();
@@ -42,8 +42,8 @@ export default function (userConfig: any) {
   // output
   chain.output
     .path(paths.appDist)
-    .filename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].js')
-    .chunkFilename(isDev ? 'js/[name].js' : 'js/[name].[contenthash:10].async.js')
+    .filename(`js/${isDev ? '[name].js' : '[name].[contenthash:10].js'}`)
+    .chunkFilename(`js/${isDev ? '[name].js' : '[name].[contenthash:10]..async.js'}`)
     .publicPath(paths.publicPath);
 
   // babel
@@ -70,15 +70,40 @@ export default function (userConfig: any) {
     .options(geBabelOpts({ isDev }))
     .loader(require.resolve('@mdx-js/loader'));
 
+  // 资源类
   chain.module
-    .rule('static')
-    .test(/\.(ico|png|jpg|jpeg|gif|webp|woff|woff2|eot|ttf|otf|ogg|mp3|mp4|m4v)$/i)
-    .use('staticLoader')
-    .loader(require.resolve('url-loader'))
-    .options({
-      limit: 8096,
-      esModule: false,
-      name: 'static/[name].[contenthash:10].[ext]',
+    .rule('assets-img')
+    .test(/\.(ico|png|jpg|jpeg|gif|webp)$/i)
+    .merge({
+      type: 'asset',
+      generator: {
+        filename: 'img/[name].[contenthash:10].[ext]',
+      },
+      parser: {
+        dataUrlCondition: {
+          maxSize: 8 * 1024,
+        },
+      },
+    });
+
+  chain.module
+    .rule('assets-font')
+    .test(/\.(woff|woff2|eot|ttf|otf|ogg)$/i)
+    .merge({
+      type: 'asset/resource',
+      generator: {
+        filename: 'font/[name].[contenthash:10].[ext]',
+      },
+    });
+
+  chain.module
+    .rule('assets-audio')
+    .test(/\.(mp3|mp4|m4v)$/i)
+    .merge({
+      type: 'asset/resource',
+      generator: {
+        filename: 'audio/[name].[contenthash:10].[ext]',
+      },
     });
 
   // css
@@ -106,18 +131,12 @@ export default function (userConfig: any) {
 
   // resolves
   chain.resolve.extensions
-    .merge(['.js', '.jsx', '.ts', '.tsx'])
+    .merge(['.js', '.jsx', '.ts', '.tsx', '.vue'])
     .end()
     .mainFields.merge(['browser', 'module', 'main'])
     .end()
-    .alias.merge({
-      'react-native': 'react-native-web',
-      // 使用内置的 react 版本
-      'react-dom': require.resolve('react-dom'),
-      react: require.resolve('react'),
-      // tsConfig paths，defineConfig 会使用
-      ...paths.moduleAlias,
-    });
+    // tsConfig paths，defineConfig 会使用
+    .alias.merge({ ...paths.moduleAlias });
 
   // plugins
   chain.plugin('definePlugin').use(webpack.DefinePlugin, [
@@ -174,6 +193,8 @@ export default function (userConfig: any) {
     () => {
       // webpack-dev-middleware 现在直接使用 webpack 的配置了
       chain.plugin('hotPlugin').use(webpack.HotModuleReplacementPlugin);
+      // 性能分析
+      project.smp && chain.plugin('smpPlugin').use(require('speed-measure-webpack-plugin'));
 
       chain.watchOptions({ ignored: /node_modules/, aggregateTimeout: 500 });
 
@@ -183,7 +204,7 @@ export default function (userConfig: any) {
         warnings: true,
         errors: true,
         colors: true,
-        moduleAssets: false,
+        modules: false,
         errorDetails: false,
       });
     },
@@ -213,7 +234,7 @@ export default function (userConfig: any) {
         builtAt: false,
         entrypoints: false,
         children: false,
-        moduleAssets: false,
+        modules: false,
         colors: true,
         timings: true,
         excludeAssets: (assetName: string) => assetName.endsWith('.map'),
