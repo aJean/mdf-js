@@ -110,6 +110,9 @@ const records = [{
 }, {
   version: '0.2.10',
   change: '更新 loader'
+}, {
+  version: '0.2.11',
+  change: '拆分 lint'
 }];
 /**
  * 取得所有发布过的版本

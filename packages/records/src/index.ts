@@ -36,6 +36,7 @@ const records = [
   { version: '0.2.8', change: '升级 webpack5' },
   { version: '0.2.9', change: '日常更新' },
   { version: '0.2.10', change: '更新 loader' },
+  { version: '0.2.11', change: '拆分 lint' },
 ];
 
 /**
