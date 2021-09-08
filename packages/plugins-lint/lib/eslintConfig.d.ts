@@ -5,6 +5,7 @@ declare const _default: {
     root: boolean;
     parser: string;
     parserOptions: {
+        parser: string;
         ecmaVersion: number;
         sourceType: string;
         ecmaFeatures: {
@@ -20,11 +21,7 @@ declare const _default: {
         node: boolean;
     };
     plugins: string[];
-    settings: {
-        react: {
-            version: string;
-        };
-    };
+    settings: {};
     rules: {
         semi: string[];
         'array-callback-return': string;
@@ -124,49 +121,17 @@ declare const _default: {
         })[];
         'no-with': string;
         'no-whitespace-before-property': string;
-        'react-hooks/exhaustive-deps': string;
         'require-yield': string;
         'rest-spread-spacing': string[];
         strict: string[];
         'unicode-bom': string[];
         'use-isnan': string;
         'valid-typeof': string;
-        'no-restricted-properties': (string | {
-            object: string;
-            property: string;
-            message: string;
-        })[];
         'getter-return': string;
         'import/first': string;
         'import/no-amd': string;
         'import/no-webpack-loader-syntax': string;
         'import/order': string[];
-        'react/forbid-foreign-prop-types': (string | {
-            allowInPropTypes: boolean;
-        })[];
-        'react/jsx-no-comment-textnodes': string;
-        'react/jsx-no-duplicate-props': string;
-        'react/jsx-no-target-blank': string;
-        'react/jsx-no-undef': string;
-        'react/jsx-pascal-case': (string | {
-            allowAllCaps: boolean;
-            ignore: never[];
-        })[];
-        'react/jsx-uses-react': string;
-        'react/jsx-uses-vars': string;
-        'react/no-danger-with-children': string;
-        'react/no-direct-mutation-state': string;
-        'react/no-is-mounted': string;
-        'react/no-typos': string;
-        'react/react-in-jsx-scope': string;
-        'react/require-render-return': string;
-        'react/style-prop-object': string;
-        'react/jsx-curly-brace-presence': (string | {
-            props: string;
-            children: string;
-        })[];
-        'react/sort-comp': string[];
-        'jsx-quotes': string[];
         quotes: (string | {
             allowTemplateLiterals: boolean;
         })[];

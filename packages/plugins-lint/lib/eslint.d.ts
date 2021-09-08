@@ -1,4 +1,5 @@
+import { IApi } from '@mdfjs/types';
 /**
  * @file eslint
  */
-export default function (files: any, cwd: string): void;
+export default function (api: IApi, files: any): void;

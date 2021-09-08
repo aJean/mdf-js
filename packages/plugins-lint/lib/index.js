@@ -23,7 +23,7 @@ function _default(api) {
       const files = opts.files;
 
       if (opts.es) {
-        (0, _eslint.default)(files, api.cwd);
+        (0, _eslint.default)(api, files);
       } else if (opts.css || opts.scss || opts.less) {
         (0, _stylelint.default)(files, config);
       } else {
