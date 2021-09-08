@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/types",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "mdf types for compile time",
   "main": "index.js",
   "types": "index.d.ts",
@@ -13,8 +13,8 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/core": "^0.2.10",
-    "@mdfjs/records": "^0.2.10"
+    "@mdfjs/core": "^0.2.11",
+    "@mdfjs/records": "^0.2.11"
   },
   "gitHead": "2001cf292b9cb3fe676229cd758d412e721a7a12",
   "publishConfig": {
