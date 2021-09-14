@@ -9,9 +9,7 @@ var _utils = require("@mdfjs/utils");
 
 var _eslint = require("eslint");
 
-var _eslintConfig = _interopRequireDefault(require("./eslintConfig"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _eslintConfig = require("./eslintConfig");
 
 /**
  * @file eslint
@@ -19,12 +17,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _default(api, files) {
   const cwd = api.cwd; // 加载必要的 work plugin
 
-  let config = _eslintConfig.default;
+  let config = _eslintConfig.base;
   const deps = (0, _utils.getUserPkg)(cwd, 'dependencies');
   ['@mdfjs/vue', '@mdfjs/react', '@mdfjs/node'].forEach(name => {
     if (deps[name] !== undefined) {
       try {
-        const plugin = require(`${cwd}/node_modules/${name}`);
+        const plugin = require(`${cwd}/node_modules/${name}`); // 切换 vue 配置
+
+
+        name == '@mdfjs/vue' && (config = _eslintConfig.vue); // 工程模块定制配置
 
         plugin.lint && (config = plugin.lint(config));
       } catch (e) {

@@ -1,7 +1,7 @@
 import { IApi } from '@mdfjs/types';
 import { errorPrint, getUserPkg } from '@mdfjs/utils';
 import { ESLint } from 'eslint';
-import lintConfig from './eslintConfig';
+import { base, vue } from './eslintConfig';
 
 /**
  * @file eslint
@@ -10,12 +10,15 @@ export default function (api: IApi, files: any) {
   const { cwd } = api;
 
   // 加载必要的 work plugin
-  let config = lintConfig;
+  let config = base;
   const deps = getUserPkg(cwd, 'dependencies');
   ['@mdfjs/vue', '@mdfjs/react', '@mdfjs/node'].forEach((name: string) => {
     if (deps[name] !== undefined) {
       try {
         const plugin: any = require(`${cwd}/node_modules/${name}`);
+        // 切换 vue 配置
+        name == '@mdfjs/vue' && (config = vue);
+        // 工程模块定制配置
         plugin.lint && (config = plugin.lint(config));
       } catch (e: any) {
         errorPrint({ name: 'error', message: e.message });

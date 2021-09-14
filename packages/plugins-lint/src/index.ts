@@ -22,7 +22,6 @@ export default function (api: IApi) {
     fn(opts: LintOpts) {
       const config = require('stylelint-config-standard');
       const files = opts.files;
-    
 
       if (opts.es) {
         eslint(api, files);

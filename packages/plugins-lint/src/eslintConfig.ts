@@ -2,40 +2,50 @@
  * @file eslint options
  */
 
-export default {
+const base = {
   root: true,
-  parser: require.resolve('vue-eslint-parser'),
+  parser: require.resolve('@typescript-eslint/parser'),
   parserOptions: {
-    parser: require.resolve('@typescript-eslint/parser'),
+    project: ['./tsconfig.json'],
     ecmaVersion: 2020,
     sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-
+    ecmaFeatures: { jsx: true },
     // typescript-eslint specific options
     warnOnUnsupportedTypeScriptVersion: true,
   },
   env: {
     browser: true,
     commonjs: true,
-    es6: true,
-    jest: true,
+    es2020: true,
     node: true,
   },
   plugins: ['@typescript-eslint', 'eslint-plugin-import'],
   settings: {},
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+  ],
   rules: {
-    // http://eslint.org/docs/rules/
     semi: ['error', 'always'],
-    'array-callback-return': 'warn',
-    'default-case': 'off',
-    'no-dupe-class-members': 'off',
-    'no-undef': 'off',
+    strict: ['warn', 'never'],
+    eqeqeq: ['warn', 'smart'],
+    quotes: ['error', 'single', { allowTemplateLiterals: true }],
+
+    // https://github.com/typescript-eslint/typescript-eslint/tree/master/docs/getting-started
+    '@typescript-eslint/no-explicit-any': 'off',
+    // promise 参数、await、异常处理等
+    '@typescript-eslint/no-floating-promises': 'warn',
+    // 运行参数 function
+    '@typescript-eslint/no-unsafe-call': 'warn',
+    '@typescript-eslint/no-unsafe-return': 'warn',
     '@typescript-eslint/consistent-type-assertions': 'warn',
-    'no-array-constructor': 'off',
+    // 给对象设置 any 属性
+    '@typescript-eslint/no-unsafe-assignment': 'warn',
+    // any 属性访问
+    '@typescript-eslint/no-unsafe-member-access': 'warn',
     '@typescript-eslint/no-array-constructor': 'warn',
-    'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': [
       'warn',
       {
@@ -45,7 +55,6 @@ export default {
         typedefs: false,
       },
     ],
-    'no-unused-expressions': 'off',
     '@typescript-eslint/no-unused-expressions': [
       'error',
       {
@@ -54,7 +63,6 @@ export default {
         allowTaggedTemplates: true,
       },
     ],
-    'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
@@ -62,30 +70,35 @@ export default {
         ignoreRestSiblings: true,
       },
     ],
-    'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'warn',
+    '@typescript-eslint/ban-types': [
+      'warn',
+      {
+        types: { Function: '' },
+      },
+    ],
+
+    // http://eslint.org/docs/rules/
+    'array-callback-return': 'warn',
+    // switch need default
+    'default-case': 'off',
+    'no-dupe-class-members': 'error',
+    // 未定义变量
+    'no-undef': 'error',
+    'no-array-constructor': 'off',
     'dot-location': ['warn', 'property'],
-    eqeqeq: ['warn', 'smart'],
     'new-parens': 'warn',
     'no-caller': 'warn',
     'no-cond-assign': ['warn', 'except-parens'],
-    'no-const-assign': 'warn',
+    'no-const-assign': 'error',
     'no-control-regex': 'warn',
     'no-delete-var': 'warn',
-    'no-dupe-args': 'warn',
-    'no-dupe-keys': 'warn',
-    'no-duplicate-case': 'warn',
+    'no-dupe-args': 'error',
+    'no-dupe-keys': 'error',
+    'no-duplicate-case': 'error',
     'no-empty-character-class': 'warn',
     'no-empty-pattern': 'warn',
     'no-eval': 'warn',
-    'no-ex-assign': 'warn',
-    'no-extend-native': 'warn',
-    'no-extra-bind': 'warn',
-    'no-extra-label': 'warn',
-    'no-fallthrough': 'warn',
-    'no-func-assign': 'warn',
-    'no-implied-eval': 'warn',
-    'no-invalid-regexp': 'warn',
     'no-iterator': 'warn',
     'no-label-var': 'warn',
     'no-labels': ['warn', { allowLoop: true, allowSwitch: false }],
@@ -103,16 +116,17 @@ export default {
         allowSamePrecedence: false,
       },
     ],
-    'no-multi-str': 'warn',
-    'no-native-reassign': 'warn',
-    'no-negated-in-lhs': 'warn',
-    'no-new-func': 'warn',
-    'no-new-object': 'warn',
-    'no-new-symbol': 'warn',
-    'no-new-wrappers': 'warn',
-    'no-obj-calls': 'warn',
-    'no-octal': 'warn',
-    'no-octal-escape': 'warn',
+    'no-multi-str': 'off',
+    'no-native-reassign': 'off',
+    'no-negated-in-lhs': 'off',
+    'no-new-func': 'off',
+    'no-new-object': 'off',
+    'no-new-symbol': 'off',
+    'no-new-wrappers': 'off',
+    'no-obj-calls': 'off',
+    'no-octal': 'off',
+    'no-octal-escape': 'off',
+
     // TODO: Remove this option in the next major release of CRA.
     // https://eslint.org/docs/user-guide/migrating-to-6.0.0#-the-no-redeclare-rule-is-now-more-strict-by-default
     'no-redeclare': ['warn', { builtinGlobals: false }],
@@ -127,7 +141,8 @@ export default {
     'no-template-curly-in-string': 'warn',
     'no-this-before-super': 'warn',
     'no-throw-literal': 'warn',
-    // 'no-restricted-globals': ['error'].concat(restrictedGlobals),
+
+    // 'no-restricted-globals': ["error", "event", "fdescribe"], 全局变量
     'no-unreachable': 'warn',
     'no-unused-labels': 'warn',
     'no-useless-computed-key': 'warn',
@@ -145,7 +160,6 @@ export default {
     'no-whitespace-before-property': 'warn',
     'require-yield': 'warn',
     'rest-spread-spacing': ['warn', 'never'],
-    strict: ['warn', 'never'],
     'unicode-bom': ['warn', 'never'],
     'use-isnan': 'warn',
     'valid-typeof': 'warn',
@@ -156,7 +170,22 @@ export default {
     'import/no-amd': 'error',
     'import/no-webpack-loader-syntax': 'error',
     'import/order': ['error'],
-
-    quotes: ['error', 'single', { allowTemplateLiterals: true }],
   },
 };
+
+// for vue project
+const vue = Object.assign({}, base, {
+  parser: require.resolve('vue-eslint-parser'),
+  parserOptions: {
+    parser: require.resolve('@typescript-eslint/parser'),
+    project: ['./tsconfig.json'],
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    // typescript-eslint specific options
+    warnOnUnsupportedTypeScriptVersion: true,
+    extraFileExtensions: ['.vue'],
+  },
+  plugins: ['@typescript-eslint', 'eslint-plugin-import', 'vue'],
+});
+
+export { base, vue };
