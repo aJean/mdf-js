@@ -35,7 +35,8 @@ export default function (api: IApi, files: any) {
 
     console.log(formatter.format(list));
     if (list.some((data) => data.errorCount)) {
-      process.exit(1);
+      // 等待 stdout flush
+      process.exitCode = 1;
     }
   });
 }

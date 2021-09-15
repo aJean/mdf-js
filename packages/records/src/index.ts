@@ -39,6 +39,7 @@ const records = [
   { version: '0.2.11', change: '拆分 lint' },
   { version: '0.2.12', change: '优化 lint' },
   { version: '0.2.13', change: '优化安装包' },
+  { version: '0.2.14', change: '优化 lint' },
 ];
 
 /**
