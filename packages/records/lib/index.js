@@ -116,6 +116,9 @@ const records = [{
 }, {
   version: '0.2.12',
   change: '优化 lint'
+}, {
+  version: '0.2.13',
+  change: '优化安装包'
 }];
 /**
  * 取得所有发布过的版本
