@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/server",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "mdf node server",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -11,7 +11,7 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/records": "^0.2.12",
+    "@mdfjs/records": "^0.2.13",
     "@types/express": "4.17.9",
     "@types/webpack": "5.28.0",
     "@types/webpack-dev-server": "4.1.0",
