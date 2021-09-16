@@ -71,8 +71,12 @@ export class DevServer {
     this.server.middleware.waitUntilValid(() => callback());
   }
 
+  /**
+   * 关闭 dev server
+   */
   close() {
-    this.server.close();
+    // close method is deprecated in favor async stop or stopCallback
+    this.server.stop();
   }
 }
 

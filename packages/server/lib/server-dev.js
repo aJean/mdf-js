@@ -67,9 +67,13 @@ class DevServer {
   wait(callback) {
     this.server.middleware.waitUntilValid(() => callback());
   }
+  /**
+   * 关闭 dev server
+   */
+
 
   close() {
-    this.server.close();
+    this.server.stop();
   }
 
 }

@@ -125,6 +125,9 @@ const records = [{
 }, {
   version: '0.2.15',
   change: '升级 vue template'
+}, {
+  version: '0.2.16',
+  change: '日次优化'
 }];
 /**
  * 取得所有发布过的版本

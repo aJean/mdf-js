@@ -20,6 +20,9 @@ export declare class DevServer {
      * 等待 middleware state = true
      */
     wait(callback: Function): void;
+    /**
+     * 关闭 dev server
+     */
     close(): void;
 }
 /**
