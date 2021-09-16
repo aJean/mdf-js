@@ -80,7 +80,7 @@ function _ref() {
       createPath: opts.p,
       prettierOpts: JSON.stringify(require('@mdfjs/utils/assets/prettierrc.json'), null, 2)
     }));
-    (0, _utils.chalkPrints)([['end:', 'yellow'], ' create project success']);
+    (0, _utils.chalkPrints)([['end:', 'yellow'], ` create project as ${opts.p}`]);
   });
   return _ref.apply(this, arguments);
 }

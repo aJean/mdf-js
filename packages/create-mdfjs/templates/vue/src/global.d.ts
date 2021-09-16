@@ -7,9 +7,9 @@ declare module '@vue/runtime-core' {
 }
 
 declare module '*.vue' {
-  import type { defineComponent } from 'vue';
-  const component: defineComponent<{}, {}, any>;
-  export default component;
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
 }
 
 declare module '*.css?module' {
@@ -55,10 +55,4 @@ declare module '*.sass' {
 declare module '*.png' {
   const value: any;
   export default value;
-}
-
-declare global {
-  interface Window {
-    __qs__: any;
-  }
 }

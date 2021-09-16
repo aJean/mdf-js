@@ -57,5 +57,5 @@ export default async function () {
     }),
   );
 
-  chalkPrints([['end:', 'yellow'], ' create project success']);
+  chalkPrints([['end:', 'yellow'], ` create project as ${opts.p}`]);
 }

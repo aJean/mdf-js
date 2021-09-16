@@ -1,7 +1,7 @@
 {
   "server": "https://fe.ai101test.com",
   "paths": {
-    "/qy/yapi": "http://yapi.int.medlinker.com/mock/219/assistant/questionnaire/scale-submit-logs",
+    "/qy/yapi": "http://yapi.ai101test.com/mock/11/v1/api/teach/codegen",
     "/v1": "https://8.131.116.34"
   }
 }
