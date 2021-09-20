@@ -1,6 +1,7 @@
 import joi2Types from 'joi2types';
 import Joi from 'joi';
 import { IApi } from '@mdfjs/types';
+import { prettierFormat } from '@mdfjs/utils';
 
 /**
  * @file 将插件 describe 的 config 导出
@@ -40,7 +41,7 @@ export default function (api: IApi) {
         bannerComment: '/** plugin interface **/',
       });
 
-      api.writeFile(`${paths.absTmpPath}/plugins/pluginConfig.d.ts`, data);
+      api.writeFile(`${paths.absTmpPath}/plugins/pluginConfig.d.ts`, prettierFormat(data));
     },
   });
 }

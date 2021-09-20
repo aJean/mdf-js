@@ -6,7 +6,7 @@ import { prettierFormat } from '@mdfjs/utils';
  * @file 运行时的插件处理
  */
 
-export const _runtimePluginKeys = ['appElement', 'beforeRender', 'render', 'mdfInfo', 'appOpts'];
+export const _runtimePluginKeys = ['appElement', 'beforeRender', 'render', 'kernal', 'appOpts'];
 
 export default function (api: IApi) {
   const { Mustache, paths } = api;

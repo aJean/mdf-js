@@ -13,7 +13,7 @@ var _utils = require("@mdfjs/utils");
 /**
  * @file 运行时的插件处理
  */
-const _runtimePluginKeys = ['appElement', 'beforeRender', 'render', 'mdfInfo', 'appOpts'];
+const _runtimePluginKeys = ['appElement', 'beforeRender', 'render', 'kernal', 'appOpts'];
 exports._runtimePluginKeys = _runtimePluginKeys;
 
 function _default(api) {

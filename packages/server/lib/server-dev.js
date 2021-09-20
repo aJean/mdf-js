@@ -73,6 +73,7 @@ class DevServer {
 
 
   close() {
+    // close method is deprecated in favor async stop or stopCallback
     this.server.stop();
   }
 

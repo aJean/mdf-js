@@ -9,6 +9,8 @@ var _joi2types = _interopRequireDefault(require("joi2types"));
 
 var _joi = _interopRequireDefault(require("joi"));
 
+var _utils = require("@mdfjs/utils");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -51,7 +53,7 @@ function _default(api) {
           interfaceName: 'IConfigPlugins',
           bannerComment: '/** plugin interface **/'
         });
-        api.writeFile(`${paths.absTmpPath}/plugins/pluginConfig.d.ts`, data);
+        api.writeFile(`${paths.absTmpPath}/plugins/pluginConfig.d.ts`, (0, _utils.prettierFormat)(data));
       })();
     }
 
