@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/records",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "description": "sync all packages",
   "main": "lib/index.js",
   "files": [
