@@ -42,6 +42,7 @@ const records = [
   { version: '0.2.14', change: '优化 lint' },
   { version: '0.2.15', change: '升级 vue template' },
   { version: '0.2.16', change: 'mdf-react' },
+  { version: '0.2.17', change: 'mdf-react' },
 ];
 
 /**

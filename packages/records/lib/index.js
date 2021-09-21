@@ -128,6 +128,9 @@ const records = [{
 }, {
   version: '0.2.16',
   change: 'mdf-react'
+}, {
+  version: '0.2.17',
+  change: 'mdf-react'
 }];
 /**
  * 取得所有发布过的版本
