@@ -6,5 +6,9 @@ import { http } from 'mdf';
 
 export default http.create({
   baseURL: process.env.MDF_API_HOST,
-  useProxy: true,
+  useProxy: false,
+
+  onSuccess(res) {
+    return res.data;
+  }
 });

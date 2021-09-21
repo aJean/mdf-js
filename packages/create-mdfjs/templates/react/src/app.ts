@@ -2,28 +2,32 @@ import React from 'react';
 import Wrapper from '@/components/wrapper';
 
 /**
- * @file 应用配置，并非入口文件
+ * @file 应用层框架配置
  */
 
 export default {
-  // config 只覆盖应用插件
+  // 这里的 args 只覆盖应用插件 config
   beforeRender(...args: any) {
-    console.log('参数：', args);
+    console.log('[内部插件]', args);
   },
 
   // wrap render function
-  // render(oldRender: Function) {
-  //   oldRender();
-  // },
+  render(oldRender: Function) {
+    oldRender();
+  },
 
   // add parent react root element
   appElement(Child: React.Component) {
     return React.createElement(Wrapper, null, Child);
   },
 
-  // config fundamental app
+  // config app
   appOpts(opts: any) {
-    opts.isStore = true;
+    opts.onError = function (e: any) {
+      alert(e.message);
+      e.preventDefault();
+    };
+
     return opts;
   },
 };

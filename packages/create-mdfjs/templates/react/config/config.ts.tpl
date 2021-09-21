@@ -13,11 +13,11 @@ export default defineConfig({
   // 工程配置
   project: {
     type: 'web',
-    framework: 'dva'
+    framework: 'rematch',
   },
 
   history: {
-    type: 'hash',
+    type: 'browser',
   },
 
   publicPath: '/',
@@ -44,33 +44,13 @@ export default defineConfig({
 
   // 响应式方案
   rem: {
-    enable: true,
-  },
-
-  // 统计
-  growingio: {
-    enable: MDF_ENV === 'prod',
-    // growingio 的 key
-    key: 'ad6251cfbfcc4d7c',
-    // 是否启用 hash 路由
-    hashtag: true,
-    // debug 模式
-    debug: false,
-  },
-
-  // @todo pwa
-  serviceWorker: {
     enable: false,
   },
 
-  // @todo 启动屏
-  splash: {
+  sentry: {
     enable: false,
-    autoClose: true,
-    style: '',
-    img: {
-      src: '/logo.png',
-      width: '50%',
-    },
+    dsn: 'https://2c4f83282da6474a8ad49097f1842991@sentry-int.mdf.com/11',
+    org: 'sentry',
+    project: 'xxx',
   },
 });

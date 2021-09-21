@@ -6,8 +6,6 @@ import request from '../api/request';
  */
 
 const ProxyModel: Model = {
-  namespace: 'proxy',
-
   state: {
     name: '乔岳',
     money: 100,

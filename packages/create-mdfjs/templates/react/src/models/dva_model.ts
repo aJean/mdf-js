@@ -9,8 +9,6 @@ interface State {
 };
 
 export default {
-  namespace: 'foo',
-
   state: {
     company: '好未来',
   },
