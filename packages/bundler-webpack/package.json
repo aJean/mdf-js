@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/bundler-webpack",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "webpack bundler",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -21,8 +21,8 @@
     "@babel/preset-env": "7.15.0",
     "@babel/preset-typescript": "7.15.0",
     "@babel/runtime": "7.15.3",
-    "@mdfjs/core": "^0.2.15",
-    "@mdfjs/records": "^0.2.15",
+    "@mdfjs/core": "^0.2.16",
+    "@mdfjs/records": "^0.2.16",
     "@mdx-js/loader": "1.6.21",
     "@svgr/webpack": "5.4.0",
     "@types/copy-webpack-plugin": "6.2.0",
