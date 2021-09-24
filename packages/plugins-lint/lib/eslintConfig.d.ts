@@ -35,6 +35,12 @@ declare const base: {
         '@typescript-eslint/no-unsafe-return': string;
         '@typescript-eslint/consistent-type-assertions': string;
         '@typescript-eslint/no-unsafe-assignment': string;
+        '@typescript-eslint/ban-ts-comment': (string | {
+            'ts-expect-error': string;
+            'ts-ignore': string;
+            'ts-nocheck': string;
+            'ts-check': string;
+        })[];
         '@typescript-eslint/no-unsafe-member-access': string;
         '@typescript-eslint/no-array-constructor': string;
         '@typescript-eslint/no-use-before-define': (string | {
@@ -170,6 +176,12 @@ declare const vue: {
         '@typescript-eslint/no-unsafe-return': string;
         '@typescript-eslint/consistent-type-assertions': string;
         '@typescript-eslint/no-unsafe-assignment': string;
+        '@typescript-eslint/ban-ts-comment': (string | {
+            'ts-expect-error': string;
+            'ts-ignore': string;
+            'ts-nocheck': string;
+            'ts-check': string;
+        })[];
         '@typescript-eslint/no-unsafe-member-access': string;
         '@typescript-eslint/no-array-constructor': string;
         '@typescript-eslint/no-use-before-define': (string | {

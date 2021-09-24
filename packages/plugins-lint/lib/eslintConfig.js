@@ -47,6 +47,13 @@ const base = {
     '@typescript-eslint/consistent-type-assertions': 'warn',
     // 给对象设置 any 属性
     '@typescript-eslint/no-unsafe-assignment': 'warn',
+    // 允许使用 ts 注释，但必须予以说明
+    '@typescript-eslint/ban-ts-comment': ['error', {
+      'ts-expect-error': 'allow-with-description',
+      'ts-ignore': 'allow-with-description',
+      'ts-nocheck': 'allow-with-description',
+      'ts-check': 'allow-with-description'
+    }],
     // any 属性访问
     '@typescript-eslint/no-unsafe-member-access': 'warn',
     '@typescript-eslint/no-array-constructor': 'warn',
