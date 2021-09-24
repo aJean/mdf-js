@@ -8,11 +8,28 @@ import glob from 'glob';
 
 const rimraf = require('rimraf');
 const prettierOpts = require('../assets/prettierrc.json');
+
 /**
  * 格式化输出
  */
 export function prettierFormat(data: string) {
   return prettier.format(data, { parser: 'typescript', ...prettierOpts });
+}
+
+/**
+ * 色彩化输出
+ */
+export function chalkOutputs(list: any[] = []) {
+  if (list && !Array.isArray(list)) {
+    list = [list];
+  }
+
+  return list
+    .map((item) => {
+      const chalkFn = chalk[item.color];
+      return chalkFn ? chalkFn(item.msg) : item.msg;
+    })
+    .join('');
 }
 
 /**
