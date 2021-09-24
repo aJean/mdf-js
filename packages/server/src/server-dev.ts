@@ -91,7 +91,7 @@ export function startDevServer(compiler: Compiler, dev: any) {
       compiler,
       dev,
       onFinish() {
-        resolve({ server, msg: `dev-server is runing at ${internalIp.v4.sync()}:${dev.port}` });
+        resolve({ server, msg: `dev-server is runing at localhost(${internalIp.v4.sync()}):${dev.port}` });
       },
       onError(err: any) {
         reject(err);
