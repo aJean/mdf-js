@@ -5,13 +5,14 @@ import { Table } from 'console-table-printer';
 import { tagPipeline } from './tag';
 
 /**
- * @file 内部命令 helper
+ * @file 内部辅助命令
  */
 
 type MdfOpts = {
   info?: boolean;
   config?: boolean;
   tag?: boolean;
+  branch?: boolean;
 };
 
 export default function (api: IApi) {
@@ -22,6 +23,9 @@ export default function (api: IApi) {
         doConfig(api);
       } else if (opts.tag) {
         tagPipeline(api);
+      } else if (opts.branch) {
+        // 分支管理: 删除、同步远程
+        // git remote prune origin
       } else {
         doInfo(api);
       }
