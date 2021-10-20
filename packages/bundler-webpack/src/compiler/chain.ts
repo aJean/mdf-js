@@ -43,7 +43,7 @@ export default function (userConfig: any) {
   chain.output
     .path(paths.appDist)
     .filename(`js/${isDev ? '[name].js' : '[name].[contenthash:10].js'}`)
-    .chunkFilename(`js/${isDev ? '[name].js' : '[name].[contenthash:10]..async.js'}`)
+    .chunkFilename(`js/${isDev ? '[name].js' : '[name].[contenthash:10].async.js'}`)
     .publicPath(paths.publicPath);
 
   // babel
