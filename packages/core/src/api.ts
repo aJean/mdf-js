@@ -1,9 +1,10 @@
 import joi from 'joi';
 import Mustache from 'mustache';
 import Chain from 'webpack-chain';
-import { watch } from '@mdfjs/utils';
-import { ICommand, PluginType } from './types';
+import { watch, fromMeta } from '@mdfjs/utils';
+import { MetaData } from '@mdfjs/types';
 import Service from './service';
+import { ICommand, PluginType } from './types';
 
 /**
  * @file api inject for plugins
@@ -47,6 +48,14 @@ export default class Api {
    */
   getConfig(): any {
     return this.service.config;
+  }
+
+  /**
+   * 迭代 meta 数据
+   */
+  fromMeta(callback: (data: MetaData) => void) {
+    const config = this.service.config!;
+    fromMeta<MetaData>(config.project.multi, callback);
   }
 
   /**

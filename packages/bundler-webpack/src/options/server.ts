@@ -1,3 +1,4 @@
+import { fromMeta } from '@mdfjs/utils';
 import { resolve as resolvePath } from 'path';
 import openBrowser from '../scripts/openBrowser';
 
@@ -5,7 +6,7 @@ import openBrowser from '../scripts/openBrowser';
  * @file 配置 webpack dev server 4.0
  */
 
-export default function getServerOpts(opts: any = {}) {
+export default function (opts: any = {}) {
   const { publicPath, devServer } = opts;
   const { port = 3000, host = 'localhost' } = devServer || {};
 
@@ -23,7 +24,7 @@ export default function getServerOpts(opts: any = {}) {
 
     // for browser router
     historyApiFallback: {
-      index: genIndex(publicPath),
+      rewrites: genRewrites(opts),
     },
 
     open: false,
@@ -65,6 +66,20 @@ export default function getServerOpts(opts: any = {}) {
   };
 }
 
-function genIndex(path: string) {
-  return `${path == '/' ? '' : path}/index.html`;
+function genRewrites(opts: any) {
+  const { publicPath, project } = opts;
+  const prefix = `${publicPath == '/' ? '' : publicPath}`;
+  const rules: any = [];
+
+  fromMeta(project.multi, (meta: any) => {
+    const name = meta.NAME;
+
+    if (name == 'index') {
+      rules.push({ from: /^\/$/, to: `${prefix}/index.html` });
+    } else {
+      rules.push({ from: new RegExp(`^/${name}`), to: `${prefix}/${name}.html` });
+    }
+  });
+
+  return rules;
 }

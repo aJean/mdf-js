@@ -24,7 +24,7 @@ export default class BundlerWebpack implements IBundler {
   }
 
   /**
-   * 通过用户配置 + 插件配置，生成 webpack 配置
+   * 用户配置 + 插件配置 -> webpack 配置
    */
   generateConfig(opts: IOpts) {
     const userConfig = (this.userConfig = opts.changeUserConfig(this.userConfig));

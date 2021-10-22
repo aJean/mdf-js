@@ -32,6 +32,15 @@ class Api {
     return this.service.config;
   }
   /**
+   * 迭代 meta 数据
+   */
+
+
+  fromMeta(callback) {
+    const config = this.service.config;
+    (0, _utils.fromMeta)(config.project.multi, callback);
+  }
+  /**
    * 描述该插件的配置项语法
    * @tutorial 不要放到事件里去执行，否则在 getConfig 验证时候拿不到 schema
    */

@@ -1,3 +1,4 @@
+import { fromMeta } from '@mdfjs/utils';
 import webpack from 'webpack';
 import Chain from 'webpack-chain';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -24,19 +25,21 @@ export default function (userConfig: any) {
   chain.target('web').mode(isDev ? 'development' : 'production');
   chain.devtool(isDev ? 'cheap-module-source-map' : 'hidden-source-map');
 
-  // entry
-  const entry = chain.entry('main');
+  // 入口配置，对应 webpack entry 属性
+  const genEntries = (runtimeEntry?: string) => {
+    fromMeta(project.multi, (meta: any) => {
+      const entry = chain.entry(meta.NAME);
+
+      runtimeEntry && entry.add(runtimeEntry);
+      entry.add(meta.FILE);
+    });
+  };
 
   chain.when(
     isDev,
-    () => {
-      entry.add(paths.appEntry);
-    },
-    () => {
-      // runtime public path
-      paths.rtEntry && entry.add(paths.rtEntry);
-      entry.add(paths.appEntry);
-    },
+    () => genEntries(),
+    // build need runtime public path
+    () => genEntries(paths.runtimeEntry),
   );
 
   // output
@@ -149,17 +152,23 @@ export default function (userConfig: any) {
   // show progress
   chain.plugin('progressPlugin').use(WebpackBar);
 
-  chain.plugin('htmlPlugin').use(HtmlWebpackPlugin, [
-    {
-      filename: './index.html',
-      template: paths.htmlTemplatePath,
-      templateParameters: {
-        ...defines,
-        MDF_SCRIPT: (!isDev && paths.rtScript) || '',
-        MDF_PUBLIC_URL: isDev ? '' : paths.publicPath.replace(/\/$/, ''),
+  // 多入口 -> 多页面
+  fromMeta(project.multi, (meta: any) => {
+    const NAME = meta.NAME;
+
+    chain.plugin(`htmlPlugin-${NAME}`).use(HtmlWebpackPlugin, [
+      {
+        filename: `./${NAME}.html`,
+        chunks: [NAME],
+        template: paths.htmlTemplatePath,
+        templateParameters: {
+          ...defines,
+          MDF_SCRIPT: (!isDev && paths.runtimeScript) || '',
+          MDF_PUBLIC_URL: isDev ? '' : paths.publicPath.replace(/\/$/, ''),
+        },
       },
-    },
-  ]);
+    ]);
+  });
 
   // 忽略语言包
   chain

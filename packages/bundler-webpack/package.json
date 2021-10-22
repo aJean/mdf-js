@@ -23,6 +23,7 @@
     "@babel/runtime": "7.15.3",
     "@mdfjs/core": "^0.2.17",
     "@mdfjs/records": "^0.2.17",
+    "@mdfjs/utils": "^0.2.17",
     "@mdx-js/loader": "1.6.21",
     "@svgr/webpack": "5.4.0",
     "@types/copy-webpack-plugin": "6.2.0",

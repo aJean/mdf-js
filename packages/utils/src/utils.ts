@@ -165,7 +165,7 @@ export function genStaticPath(api: any) {
 }
 
 /**
- * 路由目录 path
+ * @deprecated 路由目录 path
  */
 export function genRoutesPath(api: any) {
   return `${genStaticPath(api)}/pages`;
@@ -196,4 +196,11 @@ export function genServerPath(api: any) {
     default:
       return 'src';
   }
+}
+
+/**
+ * 迭代 meta 数据
+ */
+export function fromMeta<T>(metas: T[], callback: (data: T) => void) {
+  metas.forEach(callback);
 }

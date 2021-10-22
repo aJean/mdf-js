@@ -26,6 +26,8 @@ function _default(api) {
         doConfig(api);
       } else if (opts.tag) {
         (0, _tag.tagPipeline)(api);
+      } else if (opts.branch) {// 分支管理: 删除、同步远程
+        // git remote prune origin
       } else {
         doInfo(api);
       }

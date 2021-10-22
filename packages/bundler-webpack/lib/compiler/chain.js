@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
+var _utils = require("@mdfjs/utils");
+
 var _webpack = _interopRequireDefault(require("webpack"));
 
 var _webpackChain = _interopRequireDefault(require("webpack-chain"));
@@ -47,18 +49,20 @@ function _default(userConfig) {
   const defines = (0, _env.default)(userConfig);
   const chain = new _webpackChain.default();
   chain.target('web').mode(isDev ? 'development' : 'production');
-  chain.devtool(isDev ? 'cheap-module-source-map' : 'hidden-source-map'); // entry
+  chain.devtool(isDev ? 'cheap-module-source-map' : 'hidden-source-map'); // 入口配置，对应 webpack entry 属性
 
-  const entry = chain.entry('main');
-  chain.when(isDev, () => {
-    entry.add(paths.appEntry);
-  }, () => {
-    // runtime public path
-    paths.rtEntry && entry.add(paths.rtEntry);
-    entry.add(paths.appEntry);
-  }); // output
+  const genEntries = runtimeEntry => {
+    (0, _utils.fromMeta)(project.multi, meta => {
+      const entry = chain.entry(meta.NAME);
+      runtimeEntry && entry.add(runtimeEntry);
+      entry.add(meta.FILE);
+    });
+  };
 
-  chain.output.path(paths.appDist).filename(`js/${isDev ? '[name].js' : '[name].[contenthash:10].js'}`).chunkFilename(`js/${isDev ? '[name].js' : '[name].[contenthash:10]..async.js'}`).publicPath(paths.publicPath); // babel
+  chain.when(isDev, () => genEntries(), // build need runtime public path
+  () => genEntries(paths.runtimeEntry)); // output
+
+  chain.output.path(paths.appDist).filename(`js/${isDev ? '[name].js' : '[name].[contenthash:10].js'}`).chunkFilename(`js/${isDev ? '[name].js' : '[name].[contenthash:10].async.js'}`).publicPath(paths.publicPath); // babel
 
   chain.module.rule('babelJs').test(/\.(js|jsx|ts|tsx)$/).exclude.add(/node_modules/).end().use('babelLoader').loader(require.resolve('babel-loader')).options((0, _babel.default)({
     isDev
@@ -136,15 +140,20 @@ function _default(userConfig) {
     'process.env': JSON.stringify(defines)
   }]); // show progress
 
-  chain.plugin('progressPlugin').use(_tempWebpackbar.default);
-  chain.plugin('htmlPlugin').use(_htmlWebpackPlugin.default, [{
-    filename: './index.html',
-    template: paths.htmlTemplatePath,
-    templateParameters: _objectSpread(_objectSpread({}, defines), {}, {
-      MDF_SCRIPT: !isDev && paths.rtScript || '',
-      MDF_PUBLIC_URL: isDev ? '' : paths.publicPath.replace(/\/$/, '')
-    })
-  }]); // 忽略语言包
+  chain.plugin('progressPlugin').use(_tempWebpackbar.default); // 多入口 -> 多页面
+
+  (0, _utils.fromMeta)(project.multi, meta => {
+    const NAME = meta.NAME;
+    chain.plugin(`htmlPlugin-${NAME}`).use(_htmlWebpackPlugin.default, [{
+      filename: `./${NAME}.html`,
+      chunks: [NAME],
+      template: paths.htmlTemplatePath,
+      templateParameters: _objectSpread(_objectSpread({}, defines), {}, {
+        MDF_SCRIPT: !isDev && paths.runtimeScript || '',
+        MDF_PUBLIC_URL: isDev ? '' : paths.publicPath.replace(/\/$/, '')
+      })
+    }]);
+  }); // 忽略语言包
 
   chain.plugin('ignorePlugin').use(_webpack.default.IgnorePlugin, [{
     resourceRegExp: /^\.\/locale$/,

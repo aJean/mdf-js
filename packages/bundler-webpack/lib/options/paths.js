@@ -64,7 +64,6 @@ function _default(userConfig) {
 
   const paths = {
     publicPath: userConfig.publicPath || '/',
-    appEntry: userConfig.appEntry,
     appSrc: (0, _path.resolve)('./src'),
     appDist: (0, _path.resolve)('./dist'),
     appPublic: (0, _path.resolve)('./public'),
@@ -74,8 +73,8 @@ function _default(userConfig) {
   }; // 注意这个属性在 dev 模式是无效的，开发环境应该使用相对路径
 
   if (userConfig.runtimePublicPath) {
-    paths.rtEntry = (0, _path.join)(__dirname, './runtimeEntry');
-    paths.rtScript = `<script>window.webpackPublicPath = '${userConfig.runtimePublicPath}';</script>`;
+    paths.runtimeEntry = (0, _path.join)(__dirname, './runtimeEntry');
+    paths.runtimeScript = `<script>window.webpackPublicPath = '${userConfig.runtimePublicPath}';</script>`;
   }
 
   return paths;

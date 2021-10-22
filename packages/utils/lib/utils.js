@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.prettierFormat = prettierFormat;
+exports.chalkOutputs = chalkOutputs;
 exports.chalkPrint = chalkPrint;
 exports.chalkPrints = chalkPrints;
 exports.errorPrint = errorPrint;
@@ -18,6 +19,7 @@ exports.genRoutesPath = genRoutesPath;
 exports.genModelsPath = genModelsPath;
 exports.genAppPath = genAppPath;
 exports.genServerPath = genServerPath;
+exports.fromMeta = fromMeta;
 
 var _prettier = _interopRequireDefault(require("prettier"));
 
@@ -48,6 +50,21 @@ function prettierFormat(data) {
   return _prettier.default.format(data, _objectSpread({
     parser: 'typescript'
   }, prettierOpts));
+}
+/**
+ * 色彩化输出
+ */
+
+
+function chalkOutputs(list = []) {
+  if (list && !Array.isArray(list)) {
+    list = [list];
+  }
+
+  return list.map(item => {
+    const chalkFn = _chalk.default[item.color];
+    return chalkFn ? chalkFn(item.msg) : item.msg;
+  }).join('');
 }
 /**
  * 彩色打印
@@ -196,7 +213,7 @@ function genStaticPath(api) {
   }
 }
 /**
- * 路由目录 path
+ * @deprecated 路由目录 path
  */
 
 
@@ -234,4 +251,12 @@ function genServerPath(api) {
     default:
       return 'src';
   }
+}
+/**
+ * 迭代 meta 数据
+ */
+
+
+function fromMeta(metas, callback) {
+  metas.forEach(callback);
 }

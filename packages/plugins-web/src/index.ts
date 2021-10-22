@@ -83,9 +83,9 @@ export default function (api: IApi) {
           enable: joi.boolean(),
           stripPrefix: joi.array(),
           release: joi.string(),
-          dsn: joi.any().required(),
-          org: joi.string().required(),
-          project: joi.string().required(),
+          dsn: joi.any(),
+          org: joi.string(),
+          project: joi.string(),
         });
       },
 

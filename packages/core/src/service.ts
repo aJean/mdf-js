@@ -169,6 +169,7 @@ export default class Service {
             });
         };
 
+        // sync 调用
         fns.forEach((plugin: any) => {
           try {
             Utils.runInContext(plugin.fn, args);

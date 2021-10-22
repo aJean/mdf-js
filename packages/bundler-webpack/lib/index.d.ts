@@ -15,7 +15,7 @@ export default class BundlerWebpack implements IBundler {
     userConfig: any;
     constructor(userConfig: any);
     /**
-     * 通过用户配置 + 插件配置，生成 webpack 配置
+     * 用户配置 + 插件配置 -> webpack 配置
      */
     generateConfig(opts: IOpts): void;
     build(): Promise<unknown>;
@@ -36,7 +36,7 @@ export default class BundlerWebpack implements IBundler {
                 watch: boolean;
             };
             historyApiFallback: {
-                index: string;
+                rewrites: any;
             };
             open: boolean;
             client: {

@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = getServerOpts;
+exports.default = _default;
+
+var _utils = require("@mdfjs/utils");
 
 var _path = require("path");
 
@@ -14,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * @file 配置 webpack dev server 4.0
  */
-function getServerOpts(opts = {}) {
+function _default(opts = {}) {
   const publicPath = opts.publicPath,
         devServer = opts.devServer;
 
@@ -36,7 +38,7 @@ function getServerOpts(opts = {}) {
     },
     // for browser router
     historyApiFallback: {
-      index: genIndex(publicPath)
+      rewrites: genRewrites(opts)
     },
     open: false,
     client: {
@@ -75,6 +77,25 @@ function getServerOpts(opts = {}) {
   };
 }
 
-function genIndex(path) {
-  return `${path == '/' ? '' : path}/index.html`;
+function genRewrites(opts) {
+  const publicPath = opts.publicPath,
+        project = opts.project;
+  const prefix = `${publicPath == '/' ? '' : publicPath}`;
+  const rules = [];
+  (0, _utils.fromMeta)(project.multi, meta => {
+    const name = meta.NAME;
+
+    if (name == 'index') {
+      rules.push({
+        from: /^\/$/,
+        to: `${prefix}/index.html`
+      });
+    } else {
+      rules.push({
+        from: new RegExp(`^/${name}`),
+        to: `${prefix}/${name}.html`
+      });
+    }
+  });
+  return rules;
 }

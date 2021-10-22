@@ -42,7 +42,7 @@ function resolveJestAlias() {
   return jestAlias;
 }
 
-export default function(userConfig: any) {
+export default function (userConfig: any) {
   let htmlTemplatePath = join(resolvePath('./public'), 'index.html');
 
   if (!fs.existsSync(htmlTemplatePath)) {
@@ -52,7 +52,6 @@ export default function(userConfig: any) {
   // publicPath、entry、alias 留给插件取修改
   const paths: any = {
     publicPath: userConfig.publicPath || '/',
-    appEntry: userConfig.appEntry,
     appSrc: resolvePath('./src'),
     appDist: resolvePath('./dist'),
     appPublic: resolvePath('./public'),
@@ -63,8 +62,8 @@ export default function(userConfig: any) {
 
   // 注意这个属性在 dev 模式是无效的，开发环境应该使用相对路径
   if (userConfig.runtimePublicPath) {
-    paths.rtEntry = join(__dirname, './runtimeEntry');
-    paths.rtScript = `<script>window.webpackPublicPath = '${userConfig.runtimePublicPath}';</script>`;
+    paths.runtimeEntry = join(__dirname, './runtimeEntry');
+    paths.runtimeScript = `<script>window.webpackPublicPath = '${userConfig.runtimePublicPath}';</script>`;
   }
 
   return paths;

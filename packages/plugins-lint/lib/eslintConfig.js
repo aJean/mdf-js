@@ -45,6 +45,8 @@ const base = {
     '@typescript-eslint/no-unsafe-call': 'warn',
     '@typescript-eslint/no-unsafe-return': 'warn',
     '@typescript-eslint/consistent-type-assertions': 'warn',
+    // 关闭加运算符严格校验
+    '@typescript-eslint/restrict-plus-operands': 'warn',
     // 给对象设置 any 属性
     '@typescript-eslint/no-unsafe-assignment': 'warn',
     // 允许使用 ts 注释，但必须予以说明

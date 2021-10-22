@@ -1,6 +1,7 @@
 import Chain from 'webpack-chain';
-import { ICommand, PluginType } from './types';
+import { MetaData } from '@mdfjs/types';
 import Service from './service';
+import { ICommand, PluginType } from './types';
 /**
  * @file api inject for plugins
  */
@@ -33,6 +34,10 @@ export default class Api {
      * 获取用户配置，拿到的应该是经过 merge 和验证的结果
      */
     getConfig(): any;
+    /**
+     * 迭代 meta 数据
+     */
+    fromMeta(callback: (data: MetaData) => void): void;
     /**
      * 描述该插件的配置项语法
      * @tutorial 不要放到事件里去执行，否则在 getConfig 验证时候拿不到 schema

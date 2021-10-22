@@ -1,7 +1,7 @@
 /**
  * @file 配置 webpack dev server 4.0
  */
-export default function getServerOpts(opts?: any): {
+export default function (opts?: any): {
     port: any;
     host: any;
     compress: boolean;
@@ -12,7 +12,7 @@ export default function getServerOpts(opts?: any): {
         watch: boolean;
     };
     historyApiFallback: {
-        index: string;
+        rewrites: any;
     };
     open: boolean;
     client: {

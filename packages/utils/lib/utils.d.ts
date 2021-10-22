@@ -4,6 +4,10 @@ import glob from 'glob';
  */
 export declare function prettierFormat(data: string): string;
 /**
+ * 色彩化输出
+ */
+export declare function chalkOutputs(list?: any[]): string;
+/**
  * 彩色打印
  */
 export declare function chalkPrint(msg: string, color: string): void;
@@ -45,7 +49,7 @@ export declare function getUserPkg(path: string, prop?: string): any;
  */
 export declare function genStaticPath(api: any): "src/client" | "src";
 /**
- * 路由目录 path
+ * @deprecated 路由目录 path
  */
 export declare function genRoutesPath(api: any): string;
 /**
@@ -57,3 +61,7 @@ export declare function genModelsPath(api: any): string;
  */
 export declare function genAppPath(api: any): string;
 export declare function genServerPath(api: any): "src" | "src/server";
+/**
+ * 迭代 meta 数据
+ */
+export declare function fromMeta<T>(metas: T[], callback: (data: T) => void): void;

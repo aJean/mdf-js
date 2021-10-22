@@ -34,6 +34,7 @@ declare const base: {
         '@typescript-eslint/no-unsafe-call': string;
         '@typescript-eslint/no-unsafe-return': string;
         '@typescript-eslint/consistent-type-assertions': string;
+        '@typescript-eslint/restrict-plus-operands': string;
         '@typescript-eslint/no-unsafe-assignment': string;
         '@typescript-eslint/ban-ts-comment': (string | {
             'ts-expect-error': string;
@@ -175,6 +176,7 @@ declare const vue: {
         '@typescript-eslint/no-unsafe-call': string;
         '@typescript-eslint/no-unsafe-return': string;
         '@typescript-eslint/consistent-type-assertions': string;
+        '@typescript-eslint/restrict-plus-operands': string;
         '@typescript-eslint/no-unsafe-assignment': string;
         '@typescript-eslint/ban-ts-comment': (string | {
             'ts-expect-error': string;

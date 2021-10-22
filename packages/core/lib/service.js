@@ -206,7 +206,8 @@ class Service {
           return Utils.runPlugin(plugin, 'resolve').then(() => next()).catch(e => {
             throw new Error(`[plugin ${plugin.name}] ${e.message}`);
           });
-        };
+        }; // sync 调用
+
 
         fns.forEach(plugin => {
           try {

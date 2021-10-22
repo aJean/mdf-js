@@ -127,10 +127,13 @@ const records = [{
   change: '升级 vue template'
 }, {
   version: '0.2.16',
-  change: 'mdf-react'
+  change: 'mdf-react 日常优化'
 }, {
   version: '0.2.17',
-  change: 'mdf-react'
+  change: 'mdf-react 日常优化'
+}, {
+  version: '0.2.18',
+  change: '多入口支持'
 }];
 /**
  * 取得所有发布过的版本
