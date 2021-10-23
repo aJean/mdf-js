@@ -62,7 +62,8 @@ function _default(opts = {}) {
         app.get('/', function (req, res) {
           res.redirect(publicPath);
         });
-      }
+      } // clean terminal
+
 
       compiler.hooks.watchRun.tap('clean', () => process.stdout.write('\x1B[2J\x1B[3J\x1B[H'));
     },
@@ -76,6 +77,10 @@ function _default(opts = {}) {
     }
   };
 }
+/**
+ * 多入口页面规则配置，默认都进 index.html
+ */
+
 
 function genRewrites(opts) {
   const publicPath = opts.publicPath,

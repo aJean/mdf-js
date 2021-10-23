@@ -52,7 +52,8 @@ export default function (opts: any = {}) {
           res.redirect(publicPath);
         });
       }
-
+      
+      // clean terminal
       compiler.hooks.watchRun.tap('clean', () => process.stdout.write('\x1B[2J\x1B[3J\x1B[H'));
     },
 
@@ -66,6 +67,9 @@ export default function (opts: any = {}) {
   };
 }
 
+/**
+ * 多入口页面规则配置，默认都进 index.html
+ */
 function genRewrites(opts: any) {
   const { publicPath, project } = opts;
   const prefix = `${publicPath == '/' ? '' : publicPath}`;
