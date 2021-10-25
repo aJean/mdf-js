@@ -80,6 +80,8 @@ const base = {
         Function: ''
       }
     }],
+    // 字符串模板属性相关检查不需要了
+    '@typescript-eslint/restrict-template-expressions': 'off',
     // http://eslint.org/docs/rules/
     'array-callback-return': 'warn',
     // switch need default

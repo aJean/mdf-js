@@ -65,6 +65,7 @@ declare const base: {
                 Function: string;
             };
         })[];
+        '@typescript-eslint/restrict-template-expressions': string;
         'array-callback-return': string;
         'default-case': string;
         'no-dupe-class-members': string;
@@ -207,6 +208,7 @@ declare const vue: {
                 Function: string;
             };
         })[];
+        '@typescript-eslint/restrict-template-expressions': string;
         'array-callback-return': string;
         'default-case': string;
         'no-dupe-class-members': string;
