@@ -15,7 +15,7 @@ export default function (api: IApi) {
       const config = api.getConfig();
       const spinner = new Spinner({ text: 'generate mdf\n', graph: 'dots' }).start();
 
-      rmrf('dist');
+      rmrf('.tmp', 'dist');
       api.makeDir(paths.absTmpPath);
 
       await api.codeGenerate();
