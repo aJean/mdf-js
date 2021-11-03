@@ -1,7 +1,7 @@
 import { Plugin } from '{{{ runtimePath }}}';
 
 /**
- * @file 运行时插件注册
+ * @file runtime common plugins
  */
 
 const plugin = new Plugin({
@@ -14,11 +14,6 @@ plugin.register({
   path: '{{{ . }}}',
 });
 {{/plugins}}
-
-// app 增强配置
-{{#projectPlugin}}
-plugin.registerPlugin(require('{{{ path }}}').default);
-{{/projectPlugin}}
 
 export { plugin };
 

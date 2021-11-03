@@ -20,7 +20,8 @@ function _default(api) {
   const Mustache = api.Mustache,
         paths = api.paths;
   api.addRuntimePluginKey(_runtimePluginKeys);
-  api.addRuntimePlugin(() => require.resolve('./enhance')); // 这个事件需要最后执行，否则插件的 runtimePlugin 都无法生效
+  api.addRuntimePlugin(() => require.resolve('./enhance')); // 需要在 code-gen 队列中最后执行，否则插件的 runtimePlugin 都无法生效
+  // TODO: api.fromMeta 多入口判断
 
   api.onCodeGenerate({
     name: 'genPlugin',
@@ -38,18 +39,7 @@ function _default(api) {
         runtimePath: (0, _path.dirname)(require.resolve('@mdfjs/runtime/package.json')),
         plugins: plugins,
         config: JSON.stringify(pluginConfig, null, 2)
-      }; // 项目 app 配置文件，为了兼容 node 先这么写
-
-      if (api.isExist(`${paths.absSrcPath}/app.ts`)) {
-        data.projectPlugin = {
-          path: `${paths.absSrcPath}/app.ts`
-        };
-      } else if (api.isExist(`${paths.absSrcPath}/client/app.ts`)) {
-        data.projectPlugin = {
-          path: `${paths.absSrcPath}/client/app.ts`
-        };
-      }
-
+      };
       const content = Mustache.render(tpl, data);
       api.writeFile(`${paths.absTmpPath}/plugins/plugin.ts`, (0, _utils.prettierFormat)(content));
     }

@@ -6,7 +6,7 @@ import axios, {
 } from '{{{ axiosPath }}}';
 
 /**
- * @file 封装 axios，为工程模块提供网络基础库支持
+ * @file mdf network lib
  */
 
 export type InterceptorPlugin = {
@@ -54,29 +54,31 @@ function create(opts: HttpOpts): HttpInstance {
   const instance = axios.create(opts);
 
   // 请求前
-  instance.interceptors.request.use((config) => {
+  instance.interceptors.request.use(async (config: any) => {
+    const { onBefore } = opts;
     const actuator = genActuator(interceptors, 'before');
 
-    return actuator(config).then((config) => {
-      if (opts.onBefore) {
-        opts.onBefore(config);
-      }
+    try {
+      await actuator(config);
+    } catch (e: any) {
+      console.error(e);
+    }
 
-      return config;
-    });
+    return onBefore ? onBefore(config) : config;
   });
 
   // 请求结束
-  instance.interceptors.response.use((res) => {
+  instance.interceptors.response.use(async (res) => {
+    const { onSuccess } = opts;
     const actuator = genActuator(interceptors, 'after');
 
-    return actuator(res).then((res) => {
-      if (opts.onSuccess) {
-        res = opts.onSuccess(res);
-      }
+    try {
+      await actuator(res);
+    } catch (e: any) {
+      console.error(e);
+    }
 
-      return res;
-    });
+    return onSuccess ? onSuccess(res) : res;
   }, (err) => {
     if (opts.onError) {
       opts.onError(err);
@@ -124,7 +126,7 @@ function genActuator(list: Array<InterceptorPlugin>, type: string) {
 
   return function (data: any) {
     const reqs = list.map((plugin) => plugin.fn(data));
-    return Promise.allSettled(reqs).then(() => data);
+    return Promise.all(reqs);
   };
 }
 
