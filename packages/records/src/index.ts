@@ -23,6 +23,7 @@ const records = [
   { version: '0.2.17', change: 'mdf-react 日常优化' },
   { version: '0.2.18', change: 'vue 多入口支持' },
   { version: '0.2.19', change: 'vue 多入口优化' },
+  { version: '0.2.20', change: 'helper 优化' },
 ];
 
 /**

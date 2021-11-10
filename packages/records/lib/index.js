@@ -71,6 +71,9 @@ const records = [{
 }, {
   version: '0.2.19',
   change: 'vue 多入口优化'
+}, {
+  version: '0.2.20',
+  change: 'helper 优化'
 }];
 /**
  * 取得所有发布过的版本

@@ -1,13 +1,13 @@
 import { Controller, Get, Header, Query } from '@mdfjs/node';
-import OneService from './one.service';
+import ExampleService from './example.service';
 
 /**
  * @file 请求路由
  */
 
-@Controller('/one')
-export default class OneController {
-  constructor(private server: OneService) {}
+@Controller('/example')
+export default class ExampleController {
+  constructor(private server: ExampleService) {}
 
   @Get('/data')
   index(@Query() query: any) {

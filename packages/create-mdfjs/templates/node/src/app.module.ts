@@ -1,13 +1,13 @@
 import { Helper } from '@mdfjs/node';
-import OneModule from './one/one.module';
+import ExampleModule from './example/example.module';
 
 /**
  * @file 启动模块
  */
 
 export default Helper.createAppModule({
-  imports: [OneModule],
-  
+  imports: [ExampleModule],
+
   /**
    * 自定义 http 异常处理
    */

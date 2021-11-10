@@ -1,13 +1,13 @@
-import inquirer from 'inquirer';
 import { IApi } from '@mdfjs/types';
 import { getUserPkg, chalkPrint } from '@mdfjs/utils';
 import { execSync } from 'child_process';
+import Prompt from './prompt';
 
 /**
- * @file git tag 相关
+ * @file git tag 管理
  */
 
-export async function tagPipeline(api: IApi) {
+export default async function pipiTag(api: IApi) {
   const prompt = new Prompt();
 
   prompt.register('mode', {
@@ -18,7 +18,7 @@ export async function tagPipeline(api: IApi) {
       { name: '新建', value: 'add' },
       { name: '同步', value: 'sync' },
       { name: '删除', value: 'del' },
-      { name: '查看', value: 'query'}
+      { name: '查看', value: 'query' },
     ],
   });
 
@@ -88,27 +88,5 @@ export async function tagPipeline(api: IApi) {
 
   function query() {
     console.log(execSync(`git tag`).toString());
-  }
-}
-
-type PromptOpts = {
-  type: string;
-  message: string;
-  name: string;
-  default?: any;
-  choices?: any;
-};
-
-class Prompt {
-  prompts = {};
-  runPrompt = inquirer.prompt;
-
-  register(name: string, opts: PromptOpts) {
-    this.prompts[name] = opts;
-  }
-
-  run(name: string, opts?: PromptOpts): any {
-    const config = this.prompts[name];
-    return this.runPrompt(Object.assign({}, config, opts));
   }
 }

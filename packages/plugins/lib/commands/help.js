@@ -11,7 +11,11 @@ var _boxen = _interopRequireWildcard(require("boxen"));
 
 var _consoleTablePrinter = require("console-table-printer");
 
-var _tag = require("./tag");
+var _helpTag = _interopRequireDefault(require("./help-tag"));
+
+var _helpBranch = _interopRequireDefault(require("./help-branch"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -23,13 +27,13 @@ function _default(api) {
 
     fn(opts) {
       if (opts.config) {
-        doConfig(api);
+        getConfig(api);
       } else if (opts.tag) {
-        (0, _tag.tagPipeline)(api);
-      } else if (opts.branch) {// 分支管理: 删除、同步远程
-        // git remote prune origin
+        (0, _helpTag.default)(api);
+      } else if (opts.branch) {
+        (0, _helpBranch.default)(api);
       } else {
-        doInfo(api);
+        getInfo(api);
       }
     }
 
@@ -40,7 +44,7 @@ function _default(api) {
  */
 
 
-function doInfo(api) {
+function getInfo(api) {
   const _api$getConfig = api.getConfig(),
         MDF_VERSION = _api$getConfig.MDF_VERSION;
 
@@ -66,7 +70,7 @@ function doInfo(api) {
  */
 
 
-function doConfig(api) {
+function getConfig(api) {
   function toTable(data) {
     const table = new _consoleTablePrinter.Table({
       columns: [{

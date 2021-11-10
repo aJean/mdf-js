@@ -2,7 +2,8 @@ import { getUserConfig } from '@mdfjs/core';
 import { IApi } from '@mdfjs/types';
 import boxen, { BorderStyle } from 'boxen';
 import { Table } from 'console-table-printer';
-import { tagPipeline } from './tag';
+import pipiTag from './help-tag';
+import pipeBranch from './help-branch';
 
 /**
  * @file 内部辅助命令
@@ -20,14 +21,13 @@ export default function (api: IApi) {
     name: 'help',
     fn(opts: MdfOpts) {
       if (opts.config) {
-        doConfig(api);
+        getConfig(api);
       } else if (opts.tag) {
-        tagPipeline(api);
+        pipiTag(api);
       } else if (opts.branch) {
-        // 分支管理: 删除、同步远程
-        // git remote prune origin
+        pipeBranch(api);
       } else {
-        doInfo(api);
+        getInfo(api);
       }
     },
   });
@@ -36,7 +36,7 @@ export default function (api: IApi) {
 /**
  * mdf 框架信息
  */
-function doInfo(api: IApi) {
+function getInfo(api: IApi) {
   const { MDF_VERSION } = api.getConfig();
   const padding = { top: 1, left: 20, right: 20, bottom: 1 };
   const data = boxen(`mdf-js\nversion: ${MDF_VERSION}`, {
@@ -53,7 +53,7 @@ function doInfo(api: IApi) {
 /**
  * 用户配置
  */
-function doConfig(api: IApi) {
+function getConfig(api: IApi) {
   function toTable(data: Object): Table {
     const table = new Table({
       columns: [

@@ -8,7 +8,7 @@ const { Command } = require('commander');
 const { errorPrint } = require('@mdfjs/utils');
 const cli = require('../lib/cli').default;
 
-// 内部 _exit 逻辑
+// 内部 _exit 逻辑
 Command.prototype._exit = function (exitCode, code, message) {
   if (this._exitCallback) {
     this._exitCallback(new CommanderError(exitCode, code, message));
@@ -21,6 +21,7 @@ program
   .option('-i, --info', 'get mdf info')
   .option('-c, --config', 'get project configs')
   .option('-t, --tag', 'sync git tags')
+  .option('-b, --branch', 'sync git branchs')
   .description('welcome to mdf cli')
   .action((params) => cli('help', params));
 

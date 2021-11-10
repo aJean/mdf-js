@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tagPipeline = tagPipeline;
-
-var _inquirer = _interopRequireDefault(require("inquirer"));
+exports.default = pipiTag;
 
 var _utils = require("@mdfjs/utils");
 
 var _child_process = require("child_process");
+
+var _prompt = _interopRequireDefault(require("./prompt"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,15 +18,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 /**
- * @file git tag 相关
+ * @file git tag 管理
  */
-function tagPipeline(_x) {
-  return _tagPipeline.apply(this, arguments);
+function pipiTag(_x) {
+  return _pipiTag.apply(this, arguments);
 }
 
-function _tagPipeline() {
-  _tagPipeline = _asyncToGenerator(function* (api) {
-    const prompt = new Prompt();
+function _pipiTag() {
+  _pipiTag = _asyncToGenerator(function* (api) {
+    const prompt = new _prompt.default();
     prompt.register('mode', {
       type: 'list',
       message: 'tag 管理',
@@ -135,22 +135,5 @@ function _tagPipeline() {
       console.log((0, _child_process.execSync)(`git tag`).toString());
     }
   });
-  return _tagPipeline.apply(this, arguments);
-}
-
-class Prompt {
-  constructor() {
-    this.prompts = {};
-    this.runPrompt = _inquirer.default.prompt;
-  }
-
-  register(name, opts) {
-    this.prompts[name] = opts;
-  }
-
-  run(name, opts) {
-    const config = this.prompts[name];
-    return this.runPrompt(Object.assign({}, config, opts));
-  }
-
+  return _pipiTag.apply(this, arguments);
 }
