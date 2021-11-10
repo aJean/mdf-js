@@ -17,4 +17,9 @@ export default Helper.createAppModule({
       msg: err.message,
     });
   },
+
+  /**
+   * 自定义日志
+   */
+  handleLog(req, res) {},
 });
