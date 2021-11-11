@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/plugins-web",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -11,10 +11,10 @@
   "author": "qy",
   "license": "MIT",
   "dependencies": {
-    "@mdfjs/records": "^0.2.19",
-    "@mdfjs/runtime": "^0.2.19",
-    "@mdfjs/types": "^0.2.19",
-    "@mdfjs/utils": "^0.2.19",
+    "@mdfjs/records": "^0.2.20",
+    "@mdfjs/runtime": "^0.2.20",
+    "@mdfjs/types": "^0.2.20",
+    "@mdfjs/utils": "^0.2.20",
     "@sentry/cli": "1.68.0",
     "@sentry/webpack-plugin": "1.17.1",
     "axios": "0.21.1",
