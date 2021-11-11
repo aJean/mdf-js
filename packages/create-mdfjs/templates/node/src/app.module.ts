@@ -21,5 +21,5 @@ export default Helper.createAppModule({
   /**
    * 自定义日志
    */
-  handleLog(req, res) {},
+  handleLog(result, req, res) {},
 });
