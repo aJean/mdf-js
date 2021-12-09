@@ -76,7 +76,10 @@ export default async function pipiTag(api: IApi) {
     if (pkg) {
       const v = execSync(`npm version ${cmd}`).toString();
       console.log(v);
-      v && execSync(`git push origin ${v}`, { stdio: [0, 1, 2] });
+      if (v) {
+        execSync(`git push origin ${v}`, { stdio: [0, 1, 2] });
+        execSync(`git push`, { stdio: [0, 1, 2] });
+      }
     } else {
       throw new Error(`no package.json found in ${api.cwd}`);
     }
