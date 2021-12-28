@@ -20,8 +20,8 @@ const program = new Command();
 program
   .option('-i, --info', 'get mdf info')
   .option('-c, --config', 'get project configs')
-  .option('-t, --tag', 'sync git tags')
-  .option('-b, --branch', 'sync git branchs')
+  .option('-t, --tag', 'manage git tags')
+  .option('-b, --branch', 'manage git branchs')
   .description('welcome to mdf cli')
   .action((params) => cli('help', params));
 
